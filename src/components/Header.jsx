@@ -95,12 +95,19 @@ export default function Header({
         <button
           type="button"
           onClick={onToggleMute}
-          className="header-btn"
+          className={`header-btn ${!isMuted ? 'active-audio' : ''}`}
           title={isMuted ? 'Unmute Sound' : 'Mute Sound'}
           aria-label="Sound Toggle"
         >
           <span>{isMuted ? '🔇' : '🔊'}</span>
           <span className="btn-label-desktop">{isMuted ? 'MUTE' : 'SOUND'}</span>
+          {!isMuted && (
+            <span className="audio-equalizer-bars">
+              <span />
+              <span />
+              <span />
+            </span>
+          )}
         </button>
 
         {/* Fullscreen Button */}

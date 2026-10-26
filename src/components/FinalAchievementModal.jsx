@@ -133,19 +133,49 @@ export default function FinalAchievementModal({ onPlayAgain = () => {} }) {
         </div>
 
         {/* Grand Golden Trophy Visual */}
-        <div style={{ position: 'relative', width: '160px', height: '160px', margin: '4px 0 12px 0' }}>
+        <div style={{ position: 'relative', width: '180px', height: '180px', margin: '4px 0 12px 0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {/* Rotating Radiant Sunburst */}
+          <div
+            className="sunburst-spin"
+            style={{
+              position: 'absolute',
+              width: '280px',
+              height: '280px',
+              opacity: 0.35,
+              pointerEvents: 'none'
+            }}
+          >
+            <svg viewBox="0 0 200 200" width="100%" height="100%">
+              {[0, 22.5, 45, 67.5, 90, 112.5, 135, 157.5, 180, 202.5, 225, 247.5, 270, 292.5, 315, 337.5].map((deg) => (
+                <polygon
+                  key={deg}
+                  points="100,100 92,0 108,0"
+                  fill="url(#trophySunburstGradient)"
+                  transform={`rotate(${deg} 100 100)`}
+                />
+              ))}
+              <defs>
+                <linearGradient id="trophySunburstGradient" x1="0" y1="1" x2="0" y2="0">
+                  <stop offset="0%" stopColor="#ffd700" stopOpacity="0" />
+                  <stop offset="60%" stopColor="#ffd700" stopOpacity="0.4" />
+                  <stop offset="100%" stopColor="#f59e0b" stopOpacity="0.9" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+
           <div
             style={{
               position: 'absolute',
               inset: 0,
               borderRadius: '50%',
-              background: 'rgba(251, 191, 36, 0.25)',
-              filter: 'blur(20px)'
+              background: 'radial-gradient(circle, rgba(251, 191, 36, 0.4) 0%, rgba(245, 158, 11, 0.15) 50%, transparent 70%)',
+              filter: 'blur(24px)'
             }}
             className="animate-pulse"
           />
 
-          <svg viewBox="0 0 160 160" width="100%" height="100%" className="animate-bounce-subtle">
+          <svg viewBox="0 0 160 160" width="100%" height="100%" style={{ position: 'relative', zIndex: 2 }} className="animate-bounce-subtle">
             <defs>
               <linearGradient id="trophyGold" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stopColor="#fffbeb" />

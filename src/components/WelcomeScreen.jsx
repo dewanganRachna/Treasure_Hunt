@@ -28,25 +28,39 @@ export default function WelcomeScreen({ onStartGame = () => {} }) {
       <div className="welcome-content-container" style={{ zIndex: 10 }}>
         {/* Animated Central Holographic Seal with Treasure Chest */}
         <div style={{ position: 'relative', margin: '14px 0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {/* Outer Counter-Rotating Ring with Tech Ticks */}
+          <div
+            style={{
+              position: 'absolute',
+              width: '240px',
+              height: '240px',
+              borderRadius: '50%',
+              border: '1.5px dashed rgba(0, 242, 254, 0.35)',
+              animation: 'spinSlow 16s linear infinite reverse',
+              pointerEvents: 'none'
+            }}
+          />
           {/* Rotating Cybernetic Ring */}
           <div
             className="animate-spin-slow"
             style={{
               position: 'absolute',
-              width: '180px',
-              height: '180px',
+              width: '190px',
+              height: '190px',
               borderRadius: '50%',
-              border: '2px dashed rgba(0, 242, 254, 0.4)',
+              border: '2px dotted rgba(251, 191, 36, 0.45)',
               pointerEvents: 'none'
             }}
           />
+          {/* Inner Glowing Hexagon Radar Grid */}
           <div
             style={{
               position: 'absolute',
-              width: '220px',
-              height: '220px',
+              width: '160px',
+              height: '160px',
               borderRadius: '50%',
-              border: '1px solid rgba(0, 242, 254, 0.2)',
+              border: '1px solid rgba(0, 242, 254, 0.3)',
+              boxShadow: '0 0 25px rgba(0, 242, 254, 0.25)',
               pointerEvents: 'none'
             }}
           />
@@ -57,12 +71,12 @@ export default function WelcomeScreen({ onStartGame = () => {} }) {
               width: '140px',
               height: '140px',
               borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(0, 242, 254, 0.25) 0%, rgba(251, 191, 36, 0.2) 60%, transparent 100%)',
+              background: 'radial-gradient(circle, rgba(0, 242, 254, 0.3) 0%, rgba(251, 191, 36, 0.25) 55%, transparent 100%)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              border: '1.5px solid rgba(0, 242, 254, 0.5)',
-              boxShadow: '0 0 35px rgba(0, 242, 254, 0.35)'
+              border: '1.5px solid rgba(0, 242, 254, 0.6)',
+              boxShadow: '0 0 45px rgba(0, 242, 254, 0.45)'
             }}
           >
             <TreasureChestIcon state="active" size={88} />

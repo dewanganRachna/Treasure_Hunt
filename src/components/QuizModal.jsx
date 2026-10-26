@@ -26,6 +26,12 @@ export default function QuizModal({
   return (
     <div className="quiz-overlay">
       <div className="quiz-card">
+        {/* Cyber Tech Corner Brackets */}
+        <div className="tech-corner-accent tech-corner-tl" />
+        <div className="tech-corner-accent tech-corner-tr" />
+        <div className="tech-corner-accent tech-corner-bl" />
+        <div className="tech-corner-accent tech-corner-br" />
+
         {/* Glowing Top Beam */}
         <div
           style={{

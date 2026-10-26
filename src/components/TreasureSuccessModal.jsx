@@ -65,6 +65,28 @@ export default function TreasureSuccessModal({
               transition: 'all 0.8s ease'
             }}
           />
+          {/* Rotating Sunburst Rays */}
+          <div
+            className="sunburst-spin"
+            style={{
+              position: 'absolute',
+              width: '420px',
+              height: '420px',
+              opacity: chestOpened ? 0.28 : 0.08,
+              transition: 'opacity 0.8s ease'
+            }}
+          >
+            <svg viewBox="0 0 200 200" width="100%" height="100%">
+              {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((deg) => (
+                <polygon
+                  key={deg}
+                  points="100,100 92,0 108,0"
+                  fill="#ffd700"
+                  transform={`rotate(${deg} 100 100)`}
+                />
+              ))}
+            </svg>
+          </div>
         </div>
 
         {/* Top Progress Badge */}

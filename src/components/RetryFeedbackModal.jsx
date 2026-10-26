@@ -14,6 +14,12 @@ export default function RetryFeedbackModal({ onRetry = () => {} }) {
   return (
     <div className="retry-modal-overlay">
       <div className="retry-card">
+        {/* Cyber Tech Corner Brackets */}
+        <div className="tech-corner-accent tech-corner-tl" style={{ borderColor: '#fbbf24' }} />
+        <div className="tech-corner-accent tech-corner-tr" style={{ borderColor: '#fbbf24' }} />
+        <div className="tech-corner-accent tech-corner-bl" style={{ borderColor: '#fbbf24' }} />
+        <div className="tech-corner-accent tech-corner-br" style={{ borderColor: '#fbbf24' }} />
+
         {/* Pulsing Warning Hologram Icon */}
         <div
           style={{

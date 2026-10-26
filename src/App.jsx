@@ -9,6 +9,7 @@ import GameOverModal from './components/GameOverModal';
 import TreasureSuccessModal from './components/TreasureSuccessModal';
 import FinalAchievementModal from './components/FinalAchievementModal';
 import TreasureChestIcon from './components/TreasureChestIcon';
+import CyberParticles from './components/CyberParticles';
 import { sound } from './utils/audio';
 import './App.css';
 
@@ -125,6 +126,9 @@ export default function App() {
     <div className="app-viewport select-none font-outfit">
       {/* Scanline CRT Kiosk overlay */}
       <div className="scanlines-overlay" />
+
+      {/* Ambient Cyber Particles Canvas */}
+      <CyberParticles />
 
       {/* Persistent Header */}
       <Header

@@ -113,12 +113,24 @@ export default function ChhattisgarhMap({
         </defs>
 
         {/* Ambient Radar Sweep over map */}
-        <g className="radar-group pointer-events-none" opacity="0.22">
+        <g className="radar-group pointer-events-none" opacity="0.25">
           <circle cx="210" cy="350" r="280" fill="none" stroke="#00f2fe" strokeWidth="0.8" strokeDasharray="5 5" />
           <circle cx="210" cy="350" r="180" fill="none" stroke="#00f2fe" strokeWidth="0.6" strokeDasharray="3 3" />
           <circle cx="210" cy="350" r="80" fill="none" stroke="#00f2fe" strokeWidth="0.8" />
           <line x1="210" y1="50" x2="210" y2="650" stroke="#00f2fe" strokeWidth="0.4" strokeDasharray="3 3" />
           <line x1="30" y1="350" x2="390" y2="350" stroke="#00f2fe" strokeWidth="0.4" strokeDasharray="3 3" />
+
+          {/* Rotating Radar Scanner Beam */}
+          <line x1="210" y1="350" x2="210" y2="70" stroke="#00f2fe" strokeWidth="1.8" opacity="0.75" filter="url(#neonGlowCyan)">
+            <animateTransform
+              attributeName="transform"
+              type="rotate"
+              from="0 210 350"
+              to="360 210 350"
+              dur="7.5s"
+              repeatCount="indefinite"
+            />
+          </line>
         </g>
 
         {/* Chhattisgarh Districts Layer */}
@@ -153,15 +165,15 @@ export default function ChhattisgarhMap({
         </g>
 
         {/* CONNECTING ROUTES */}
-        {/* Route 1 -> 2: Digital Seva to AI Explorer */}
+        {/* Route 1 -> 2: Digital Seva to AI Explorer (Staggered Multi-Particle Stream) */}
         {isT1Unlocked && (
           <g className="animated-route-group route-1-2">
             <path
               d={routes.route1to2}
               fill="none"
               stroke="#00f2fe"
-              strokeWidth="6"
-              strokeOpacity="0.3"
+              strokeWidth="7"
+              strokeOpacity="0.25"
               filter="url(#routeGlow)"
             />
             <path
@@ -173,25 +185,28 @@ export default function ChhattisgarhMap({
               className="route-pulse-dash"
               markerEnd="url(#routeArrow)"
             />
+            {/* Sequential fiber-optic data pulses */}
             <circle r="4.5" fill="#ffd700" filter="url(#neonGlowCyan)">
-              <animateMotion
-                path={routes.route1to2}
-                dur="2.2s"
-                repeatCount="indefinite"
-              />
+              <animateMotion path={routes.route1to2} dur="2.4s" begin="0s" repeatCount="indefinite" />
+            </circle>
+            <circle r="3.5" fill="#00f2fe" filter="url(#neonGlowCyan)">
+              <animateMotion path={routes.route1to2} dur="2.4s" begin="0.8s" repeatCount="indefinite" />
+            </circle>
+            <circle r="3" fill="#38ef7d" filter="url(#neonGlowCyan)">
+              <animateMotion path={routes.route1to2} dur="2.4s" begin="1.6s" repeatCount="indefinite" />
             </circle>
           </g>
         )}
 
-        {/* Route 2 -> 3: AI Explorer to Smart Chhattisgarh */}
+        {/* Route 2 -> 3: AI Explorer to Smart Chhattisgarh (Staggered Multi-Particle Stream) */}
         {isT2Unlocked && (
           <g className="animated-route-group route-2-3">
             <path
               d={routes.route2to3}
               fill="none"
               stroke="#38ef7d"
-              strokeWidth="6"
-              strokeOpacity="0.3"
+              strokeWidth="7"
+              strokeOpacity="0.25"
               filter="url(#routeGlow)"
             />
             <path
@@ -203,12 +218,15 @@ export default function ChhattisgarhMap({
               className="route-pulse-dash-reverse"
               markerEnd="url(#routeArrow)"
             />
+            {/* Sequential fiber-optic data pulses */}
             <circle r="4.5" fill="#00f2fe" filter="url(#neonGlowCyan)">
-              <animateMotion
-                path={routes.route2to3}
-                dur="2.8s"
-                repeatCount="indefinite"
-              />
+              <animateMotion path={routes.route2to3} dur="2.8s" begin="0s" repeatCount="indefinite" />
+            </circle>
+            <circle r="3.5" fill="#ffd700" filter="url(#neonGlowCyan)">
+              <animateMotion path={routes.route2to3} dur="2.8s" begin="0.95s" repeatCount="indefinite" />
+            </circle>
+            <circle r="3" fill="#38ef7d" filter="url(#neonGlowCyan)">
+              <animateMotion path={routes.route2to3} dur="2.8s" begin="1.9s" repeatCount="indefinite" />
             </circle>
           </g>
         )}
@@ -227,9 +245,10 @@ export default function ChhattisgarhMap({
               className={`treasure-marker-group ${state} ${isClickable ? 'clickable-marker' : ''}`}
               onClick={() => handleMarkerClick(treasure)}
             >
-              {/* Outer pulsing radar ring for current active marker */}
+              {/* Outer pulsing radar ring and rotating reticle for current active marker */}
               {isCurrent && (
                 <g className="marker-sonar pointer-events-none">
+                  {/* Expanding Sonar Rings */}
                   <circle cx="0" cy="0" r="34" fill="none" stroke="#00f2fe" strokeWidth="2" opacity="0.8">
                     <animate attributeName="r" values="20;58" dur="1.8s" repeatCount="indefinite" />
                     <animate attributeName="opacity" values="0.9;0" dur="1.8s" repeatCount="indefinite" />
@@ -237,6 +256,14 @@ export default function ChhattisgarhMap({
                   <circle cx="0" cy="0" r="28" fill="none" stroke="#ffd700" strokeWidth="1.5" opacity="0.6">
                     <animate attributeName="r" values="18;46" dur="1.8s" begin="0.6s" repeatCount="indefinite" />
                     <animate attributeName="opacity" values="0.8;0" dur="1.8s" begin="0.6s" repeatCount="indefinite" />
+                  </circle>
+
+                  {/* High-Tech Rotating Reticle Rings */}
+                  <circle cx="0" cy="0" r="32" fill="none" stroke="#00f2fe" strokeWidth="1" strokeDasharray="8 12" opacity="0.85">
+                    <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="12s" repeatCount="indefinite" />
+                  </circle>
+                  <circle cx="0" cy="0" r="42" fill="none" stroke="#ffd700" strokeWidth="0.8" strokeDasharray="16 28" opacity="0.5">
+                    <animateTransform attributeName="transform" type="rotate" from="360" to="0" dur="18s" repeatCount="indefinite" />
                   </circle>
                 </g>
               )}

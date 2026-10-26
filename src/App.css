@@ -555,7 +555,39 @@
   flex-shrink: 0;
 }
 
-/* Kiosk Big Touch Action Buttons */
+/* Kiosk Big Touch Action Buttons with Light Sweep Shimmer */
+.kiosk-primary-btn,
+.kiosk-gold-btn,
+.kiosk-danger-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.kiosk-primary-btn::after,
+.kiosk-gold-btn::after,
+.kiosk-danger-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.45) 50%,
+    transparent 100%
+  );
+  transform: skewX(-25deg);
+  animation: buttonLightSweep 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes buttonLightSweep {
+  0% { left: -120%; }
+  30%, 100% { left: 220%; }
+}
+
 .kiosk-primary-btn {
   width: 100%;
   padding: 16px 28px;
@@ -869,6 +901,86 @@
   animation: routePulse 1.4s linear infinite reverse;
 }
 
+/* Cyber Hologram Modal Entrance */
+@keyframes cyberHologramIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.92) translateY(14px);
+    filter: brightness(1.3) drop-shadow(0 0 25px rgba(0, 242, 254, 0.7));
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: brightness(1) drop-shadow(0 0 0px transparent);
+  }
+}
+
+.quiz-card,
+.retry-card,
+.game-over-card,
+.success-card,
+.victory-card {
+  animation: cyberHologramIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Sunburst Light Rays Spin */
+@keyframes sunburstSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.sunburst-spin {
+  animation: sunburstSpin 35s linear infinite;
+  transform-origin: 100px 90px;
+}
+
+/* Shimmering Text Gradient */
+@keyframes textGradientShimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.welcome-title-hindi {
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #a5f3fc 25%,
+    #00f2fe 50%,
+    #ffd700 75%,
+    #ffffff 100%
+  ) !important;
+  background-size: 250% auto !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  animation: textGradientShimmer 6s ease infinite !important;
+}
+
+/* Interactive Quest Card Hover */
+.quest-teaser-card {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.quest-teaser-card:hover {
+  transform: translateY(-4px);
+  border-color: #00f2fe !important;
+  background: rgba(15, 30, 65, 0.9) !important;
+  box-shadow: 0 8px 25px rgba(0, 242, 254, 0.25) !important;
+}
+
+/* Interactive District Hover Glow */
+.district-path {
+  transition: fill 0.25s ease, stroke 0.25s ease, stroke-width 0.25s ease;
+}
+
+.district-path:hover {
+  fill: #0d2c5e !important;
+  stroke: #00f2fe !important;
+  stroke-width: 1.8px !important;
+  stroke-opacity: 0.95 !important;
+  filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.7));
+}
+
 .mobile-quick-status-bar {
   display: none;
 }
@@ -904,4 +1016,123 @@
     backdrop-filter: blur(8px);
   }
 }
+
+/* =========================================================================
+   HIGH-TECH AUDIO EQUALIZER & CYBER POLISH ANIMATIONS
+   ========================================================================= */
+
+/* Animated Audio Equalizer Bars */
+.audio-equalizer-bars {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 14px;
+  margin-left: 2px;
+}
+
+.audio-equalizer-bars span {
+  display: block;
+  width: 2.5px;
+  background: #00f2fe;
+  border-radius: 1px;
+  animation: audioEqWave 0.9s ease-in-out infinite alternate;
+}
+
+.audio-equalizer-bars span:nth-child(1) { height: 35%; animation-delay: 0s; }
+.audio-equalizer-bars span:nth-child(2) { height: 95%; animation-delay: 0.2s; }
+.audio-equalizer-bars span:nth-child(3) { height: 60%; animation-delay: 0.4s; }
+
+@keyframes audioEqWave {
+  0% { height: 20%; opacity: 0.5; }
+  50% { height: 100%; opacity: 1; }
+  100% { height: 30%; opacity: 0.6; }
+}
+
+/* Crest Emblem subtle breath */
+.header-emblem-crest {
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.header-emblem-crest:hover {
+  transform: rotate(15deg) scale(1.08);
+  box-shadow: 0 0 25px rgba(0, 242, 254, 0.6);
+}
+
+/* Tech Bracket Corners for High-Tech Exhibition Modals */
+.tech-corner-accent {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: #00f2fe;
+  pointer-events: none;
+}
+
+.tech-corner-tl {
+  top: 0;
+  left: 0;
+  border-top: 2.5px solid #00f2fe;
+  border-left: 2.5px solid #00f2fe;
+  border-top-left-radius: 20px;
+}
+
+.tech-corner-tr {
+  top: 0;
+  right: 0;
+  border-top: 2.5px solid #00f2fe;
+  border-right: 2.5px solid #00f2fe;
+  border-top-right-radius: 20px;
+}
+
+.tech-corner-bl {
+  bottom: 0;
+  left: 0;
+  border-bottom: 2.5px solid #00f2fe;
+  border-left: 2.5px solid #00f2fe;
+  border-bottom-left-radius: 20px;
+}
+
+.tech-corner-br {
+  bottom: 0;
+  right: 0;
+  border-bottom: 2.5px solid #00f2fe;
+  border-right: 2.5px solid #00f2fe;
+  border-bottom-right-radius: 20px;
+}
+
+/* Quiz Option Interactive Lighting */
+.quiz-option-button {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.quiz-option-button:hover:not(:disabled) {
+  transform: translateX(6px) !important;
+  border-color: #00f2fe !important;
+  background: rgba(14, 42, 85, 0.95) !important;
+  box-shadow: 0 0 20px rgba(0, 242, 254, 0.3) !important;
+}
+
+.quiz-option-button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 242, 254, 0.2) 50%,
+    transparent 100%
+  );
+  transform: skewX(-20deg);
+  transition: left 0.45s ease;
+  pointer-events: none;
+}
+
+.quiz-option-button:hover::after {
+  left: 200%;
+}
+
 

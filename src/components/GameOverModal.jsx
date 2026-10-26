@@ -14,6 +14,12 @@ export default function GameOverModal({ onPlayAgain = () => {} }) {
   return (
     <div className="game-over-overlay">
       <div className="game-over-card">
+        {/* Cyber Tech Corner Brackets */}
+        <div className="tech-corner-accent tech-corner-tl" style={{ borderColor: '#f43f5e' }} />
+        <div className="tech-corner-accent tech-corner-tr" style={{ borderColor: '#f43f5e' }} />
+        <div className="tech-corner-accent tech-corner-bl" style={{ borderColor: '#f43f5e' }} />
+        <div className="tech-corner-accent tech-corner-br" style={{ borderColor: '#f43f5e' }} />
+
         {/* Skull / Terminal Failure Hologram */}
         <div
           style={{
