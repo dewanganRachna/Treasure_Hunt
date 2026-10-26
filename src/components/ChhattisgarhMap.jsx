@@ -7,7 +7,8 @@ export default function ChhattisgarhMap({
   unlockedTreasures = [],
   currentTreasureId = 1,
   onSelectTreasure = () => {},
-  isInteractive = true
+  isInteractive = true,
+  lang = 'hi'
 }) {
   const { viewBox, districts, routes, treasures } = MAP_CONFIG;
 
@@ -59,7 +60,8 @@ export default function ChhattisgarhMap({
       {/* SVG Map of Chhattisgarh */}
       <svg
         viewBox={viewBox}
-        className="cg-svg-canvas"
+        className="cg-svg-canvas notranslate"
+        translate="no"
         preserveAspectRatio="xMidYMid meet"
       >
         <defs>
@@ -368,9 +370,10 @@ export default function ChhattisgarhMap({
                         fontSize="11.5"
                         fontWeight="800"
                         fontFamily="'Outfit', sans-serif"
-                        className="tracking-wide"
+                        className="tracking-wide notranslate"
+                        translate="no"
                       >
-                        ✨ {treasure.popupText}
+                        ✨ {lang === 'en' ? treasure.popupText : (treasure.popupHindi || treasure.popupText)}
                       </text>
                     </>
                   ) : (
@@ -400,9 +403,10 @@ export default function ChhattisgarhMap({
                         fontSize="11.5"
                         fontWeight="800"
                         fontFamily="'Outfit', sans-serif"
-                        className="tracking-wide"
+                        className="tracking-wide notranslate"
+                        translate="no"
                       >
-                        ✨ {treasure.popupText}
+                        ✨ {lang === 'en' ? treasure.popupText : (treasure.popupHindi || treasure.popupText)}
                       </text>
                     </>
                   )}

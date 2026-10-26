@@ -13,30 +13,37 @@ export const MAP_CONFIG = {
       "name": "Digital Seva",
       "hindiName": "डिजिटल सेवा",
       "tagline": "नागरिक सेवाएं एवं डिजिटल पोर्टल",
+      "taglineEn": "Citizen Services & Digital Portal",
       "region": "रायपुर (केन्द्रीय हब)",
+      "regionEn": "Raipur (Central Hub)",
       "x": 195.2,
       "y": 336.6,
       "popupText": "Unlock First Treasure!",
       "popupHindi": "पहला खज़ाना अनलॉक करें!",
       "question": "लोग सरकारी सेवाओं के Online Portal का उपयोग क्यों करते हैं?",
+      "questionEn": "Why do citizens use online government service portals?",
       "options": [
         {
           "id": "A",
           "text": "सरकारी सेवाओं का लाभ लेने के लिए",
+          "textEn": "To easily access government services and schemes",
           "isCorrect": true
         },
         {
           "id": "B",
           "text": "केवल Game खेलने के लिए",
+          "textEn": "Only to play video games",
           "isCorrect": false
         },
         {
           "id": "C",
           "text": "फिल्में देखने के लिए",
+          "textEn": "To stream movies",
           "isCorrect": false
         }
       ],
-      "hint": "नागरिक सशक्तिकरण और पारदर्शी ई-गवर्नेंस"
+      "hint": "नागरिक सशक्तिकरण और पारदर्शी ई-गवर्नेंस",
+      "hintEn": "Citizen empowerment and transparent e-governance"
     },
     {
       "id": 2,
@@ -44,30 +51,37 @@ export const MAP_CONFIG = {
       "name": "AI Explorer",
       "hindiName": "एआई एक्सप्लोरर",
       "tagline": "कृत्रिम बुद्धिमत्ता और भविष्य की तकनीक",
+      "taglineEn": "Artificial Intelligence & Future Tech",
       "region": "बिलासपुर (टेक्नोलॉजी ज़ोन)",
+      "regionEn": "Bilaspur (Technology Zone)",
       "x": 225,
       "y": 217.3,
       "popupText": "Unlock Your Next Treasure — AI Explorer!",
       "popupHindi": "अगला खज़ाना अनलॉक करें — एआई एक्सप्लोरर!",
       "question": "निम्नलिखित में से AI का उदाहरण कौन-सा है?",
+      "questionEn": "Which of the following is an example of Artificial Intelligence (AI)?",
       "options": [
         {
           "id": "A",
           "text": "सवाल समझकर जवाब देने वाला Voice Assistant",
+          "textEn": "Voice Assistant that understands and answers queries",
           "isCorrect": true
         },
         {
           "id": "B",
           "text": "एक साधारण कुर्सी",
+          "textEn": "A standard wooden chair",
           "isCorrect": false
         },
         {
           "id": "C",
           "text": "कागज़ की Notebook",
+          "textEn": "A paper notebook",
           "isCorrect": false
         }
       ],
-      "hint": "स्मार्ट सिस्टम जो मानव बुद्धिमत्ता की तरह कार्य करते हैं"
+      "hint": "स्मार्ट सिस्टम जो मानव बुद्धिमत्ता की तरह कार्य करते हैं",
+      "hintEn": "Smart systems that simulate human intelligence"
     },
     {
       "id": 3,
@@ -75,30 +89,37 @@ export const MAP_CONFIG = {
       "name": "Smart Chhattisgarh",
       "hindiName": "स्मार्ट छत्तीसगढ़",
       "tagline": "डिजिटल मैपिंग और जीआईएस कनेक्टिविटी",
+      "taglineEn": "Digital Mapping & GIS Connectivity",
       "region": "बस्तर (हेरिटेज एवं स्मार्ट कनेक्ट)",
+      "regionEn": "Bastar (Heritage & Smart Connect)",
       "x": 204.4,
       "y": 583.8,
       "popupText": "One Last Treasure — Smart Chhattisgarh!",
       "popupHindi": "अंतिम खज़ाना — स्मार्ट छत्तीसगढ़!",
       "question": "Digital Map की मदद से हम क्या पता लगा सकते हैं?",
+      "questionEn": "What can we explore and find using a Digital Map?",
       "options": [
         {
           "id": "A",
           "text": "स्थानों और जगहों की जानकारी",
+          "textEn": "Information and navigation for places and locations",
           "isCorrect": true
         },
         {
           "id": "B",
           "text": "Mobile की Battery का प्रतिशत",
+          "textEn": "Mobile phone battery percentage",
           "isCorrect": false
         },
         {
           "id": "C",
           "text": "दूसरे लोगों के Password",
+          "textEn": "Other people's personal passwords",
           "isCorrect": false
         }
       ],
-      "hint": "भू-स्थानिक तकनीक और नेविगेशन प्रणाली"
+      "hint": "भू-स्थानिक तकनीक और नेविगेशन प्रणाली",
+      "hintEn": "Geospatial mapping and smart navigation systems"
     }
   ],
   "districts": [

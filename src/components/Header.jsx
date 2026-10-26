@@ -7,7 +7,9 @@ export default function Header({
   retryUsed = false,
   onReset = () => {},
   isMuted = false,
-  onToggleMute = () => {}
+  onToggleMute = () => {},
+  lang = 'hi',
+  onToggleLang = () => {}
 }) {
   const [isFullscreen, setIsFullscreen] = useState(false);
 
@@ -40,14 +42,14 @@ export default function Header({
         <div className="header-brand-text">
           <div className="header-tag-row">
             <span className="chips-state-badge">
-              CHiPS • छत्तीसगढ़ शासन
+              {lang === 'en' ? 'CHiPS • GOVT OF CHHATTISGARH' : 'CHiPS • छत्तीसगढ़ शासन'}
             </span>
             <span className="rajyotsav-badge">
-              राज्य उत्सव विशेष
+              {lang === 'en' ? 'RAJYOTSAV SPECIAL' : 'राज्य उत्सव विशेष'}
             </span>
           </div>
           <h1 className="header-main-title">
-            छत्तीसगढ़ डिजिटल एक्सप्लोरर
+            {lang === 'en' ? 'Chhattisgarh Digital Explorer' : 'छत्तीसगढ़ डिजिटल एक्सप्लोरर'}
           </h1>
         </div>
       </div>
@@ -89,8 +91,26 @@ export default function Header({
         </div>
       </div>
 
-      {/* Right: Audio Toggle, Fullscreen, and Reset */}
+      {/* Right: Language Toggle, Audio Toggle, Fullscreen, and Reset */}
       <div className="header-controls-group">
+        {/* Language Switch Button (HI / EN) */}
+        <button
+          type="button"
+          onClick={() => {
+            sound.playClick();
+            onToggleLang();
+          }}
+          className="header-btn header-btn-lang"
+          title={lang === 'hi' ? 'Play in English' : 'हिंदी में खेलें'}
+          aria-label="Language Toggle"
+          style={{ borderColor: '#00f2fe' }}
+        >
+          <span style={{ fontSize: '13px' }}>🌐</span>
+          <span className="btn-label-desktop" style={{ color: '#ffd700', fontWeight: 800 }}>
+            {lang === 'hi' ? 'ENG' : 'हिंदी'}
+          </span>
+        </button>
+
         {/* Mute / Unmute Button */}
         <button
           type="button"

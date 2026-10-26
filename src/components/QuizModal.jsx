@@ -5,7 +5,8 @@ export default function QuizModal({
   treasure,
   retryUsed = false,
   onAnswer = () => {},
-  onClose = () => {}
+  onClose = () => {},
+  lang = 'hi'
 }) {
   const [selectedOptionId, setSelectedOptionId] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -129,17 +130,22 @@ export default function QuizModal({
               marginBottom: '6px'
             }}
           >
-            SECTOR: {treasure.region}
+            SECTOR: {lang === 'en' ? (treasure.regionEn || treasure.region) : treasure.region}
           </div>
-          <h2 className="quiz-question-heading">
-            {treasure.question}
+          <h2 className="quiz-question-heading" style={{ margin: '0 0 4px 0' }}>
+            {lang === 'en' ? (treasure.questionEn || treasure.question) : treasure.question}
           </h2>
+          <div style={{ fontSize: '13px', color: '#94a3b8', fontStyle: 'italic' }}>
+            {lang === 'en' ? treasure.question : (treasure.questionEn || '')}
+          </div>
         </div>
 
         {/* Options List */}
         <div className="quiz-options-list">
           {treasure.options.map((option) => {
             const isSelected = selectedOptionId === option.id;
+            const primaryText = lang === 'en' ? (option.textEn || option.text) : option.text;
+            const subText = lang === 'en' ? option.text : (option.textEn || '');
 
             return (
               <button
@@ -152,9 +158,16 @@ export default function QuizModal({
                 <div className="quiz-opt-badge">
                   {option.id}
                 </div>
-                <span className="quiz-opt-text">
-                  {option.text}
-                </span>
+                <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0, textAlign: 'left' }}>
+                  <span className="quiz-opt-text" style={{ fontSize: '15px', fontWeight: 700, color: '#ffffff' }}>
+                    {primaryText}
+                  </span>
+                  {subText && (
+                    <span style={{ fontSize: '12px', color: '#94a3b8' }}>
+                      {subText}
+                    </span>
+                  )}
+                </div>
                 <div
                   style={{
                     width: '20px',

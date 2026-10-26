@@ -4,7 +4,8 @@ import { sound } from '../utils/audio';
 
 export default function TreasureSuccessModal({
   treasureId = 1,
-  onContinue = () => {}
+  onContinue = () => {},
+  lang = 'hi'
 }) {
   const [chestOpened, setChestOpened] = useState(false);
 
@@ -224,13 +225,14 @@ export default function TreasureSuccessModal({
         </h3>
 
         {/* CONTINUE Button */}
-        <div style={{ zIndex: 10, width: '100%', maxWidth: '300px' }}>
+        <div style={{ zIndex: 10, width: '100%', maxWidth: '320px' }}>
           <button
             type="button"
             onClick={handleContinueClick}
             className="kiosk-primary-btn"
+            id="continue-treasure-btn"
           >
-            <span>CONTINUE</span>
+            <span>{lang === 'en' ? 'CONTINUE TO NEXT TREASURE' : 'अगला खज़ाना खोजें (CONTINUE)'}</span>
             <span>➔</span>
           </button>
         </div>

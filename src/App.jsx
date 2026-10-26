@@ -29,6 +29,13 @@ export default function App() {
   const [successTreasureId, setSuccessTreasureId] = useState(null); // 1 or 2
   const [showVictory, setShowVictory] = useState(false);
 
+  // Language state ('hi' for Hindi, 'en' for English)
+  const [lang, setLang] = useState('hi');
+
+  const toggleLang = () => {
+    setLang((prev) => (prev === 'hi' ? 'en' : 'hi'));
+  };
+
   // Audio mute state
   const [isMuted, setIsMuted] = useState(false);
 
@@ -138,6 +145,8 @@ export default function App() {
         onReset={handleResetGame}
         isMuted={isMuted}
         onToggleMute={toggleMute}
+        lang={lang}
+        onToggleLang={toggleLang}
       />
 
       {/* Main Exhibition Stage */}
@@ -178,25 +187,25 @@ export default function App() {
                     marginBottom: '4px'
                   }}
                 >
-                  SECTOR: {activeMission?.region}
+                  SECTOR: {lang === 'en' ? (activeMission?.regionEn || activeMission?.region) : activeMission?.region}
                 </div>
                 <div
                   style={{
                     fontSize: '18px',
                     fontWeight: 900,
                     color: '#ffffff',
-                    fontFamily: "'Noto Sans Devanagari', sans-serif",
+                    fontFamily: lang === 'en' ? "'Outfit', sans-serif" : "'Noto Sans Devanagari', sans-serif",
                     marginBottom: '4px'
                   }}
                 >
-                  {currentTreasureId === 1 && 'पहला खज़ाना: डिजिटल सेवा'}
-                  {currentTreasureId === 2 && 'दूसरा खज़ाना: एआई एक्सप्लोरर'}
-                  {currentTreasureId === 3 && 'अंतिम खज़ाना: स्मार्ट छत्तीसगढ़'}
+                  {currentTreasureId === 1 && <span key="m1">{lang === 'en' ? 'Treasure 1: Digital Seva' : 'पहला खज़ाना: डिजिटल सेवा'}</span>}
+                  {currentTreasureId === 2 && <span key="m2">{lang === 'en' ? 'Treasure 2: AI Explorer' : 'दूसरा खज़ाना: एआई एक्सप्लोरर'}</span>}
+                  {currentTreasureId === 3 && <span key="m3">{lang === 'en' ? 'Final Treasure: Smart Chhattisgarh' : 'अंतिम खज़ाना: स्मार्ट छत्तीसगढ़'}</span>}
                 </div>
                 <div style={{ fontSize: '12px', color: '#cbd5e1', lineHeight: 1.4 }}>
-                  {currentTreasureId === 1 && 'मानचित्र पर हाइलाइट किए गए मार्कर #1 को स्पर्श करें।'}
-                  {currentTreasureId === 2 && 'ग्लॉइंग रूट का अनुसरण कर मार्कर #2 को स्पर्श करें।'}
-                  {currentTreasureId === 3 && 'अंतिम खज़ाना अनलॉक कर डिजिटल एक्सप्लोरर बनें!'}
+                  {currentTreasureId === 1 && <span key="d1">{lang === 'en' ? 'Touch highlighted Marker #1 on the map to begin.' : 'मानचित्र पर हाइलाइट किए गए मार्कर #1 को स्पर्श करें।'}</span>}
+                  {currentTreasureId === 2 && <span key="d2">{lang === 'en' ? 'Follow the glowing route to Marker #2.' : 'ग्लॉइंग रूट का अनुसरण कर मार्कर #2 को स्पर्श करें।'}</span>}
+                  {currentTreasureId === 3 && <span key="d3">{lang === 'en' ? 'Unlock the final treasure to become a Digital Explorer!' : 'अंतिम खज़ाना अनलॉक कर डिजिटल एक्सप्लोरर बनें!'}</span>}
                 </div>
               </div>
 
@@ -304,9 +313,9 @@ export default function App() {
             {/* Top Mission Floating Callout Banner */}
             <div className={`hud-mission-banner ${currentTreasureId === 3 ? 'gold' : ''}`}>
               <span style={{ color: currentTreasureId === 3 ? '#fbbf24' : '#00f2fe', fontSize: '14px', fontWeight: 800, fontFamily: "'Rajdhani', monospace", letterSpacing: '0.5px' }}>
-                {currentTreasureId === 1 && '🎯 MISSION 1: रायपुर — अनलॉक करें डिजिटल सेवा'}
-                {currentTreasureId === 2 && '🚀 MISSION 2: बिलासपुर — अनलॉक करें AI Explorer'}
-                {currentTreasureId === 3 && '👑 FINAL MISSION: बस्तर — अनलॉक करें Smart Chhattisgarh'}
+                {currentTreasureId === 1 && <span key="hb1">{lang === 'en' ? '🎯 MISSION 1: Raipur — Unlock Digital Seva' : '🎯 MISSION 1: रायपुर — अनलॉक करें डिजिटल सेवा'}</span>}
+                {currentTreasureId === 2 && <span key="hb2">{lang === 'en' ? '🚀 MISSION 2: Bilaspur — Unlock AI Explorer' : '🚀 MISSION 2: बिलासपुर — अनलॉक करें AI Explorer'}</span>}
+                {currentTreasureId === 3 && <span key="hb3">{lang === 'en' ? '👑 FINAL MISSION: Bastar — Unlock Smart Chhattisgarh' : '👑 FINAL MISSION: बस्तर — अनलॉक करें Smart Chhattisgarh'}</span>}
               </span>
             </div>
 
@@ -316,6 +325,7 @@ export default function App() {
               currentTreasureId={currentTreasureId}
               onSelectTreasure={handleSelectTreasure}
               isInteractive={!activeQuizTreasure && !showRetryFeedback && !showGameOver && !successTreasureId && !showVictory}
+              lang={lang}
             />
 
             {/* Mobile Bottom Quick Status Bar */}
@@ -338,6 +348,7 @@ export default function App() {
           retryUsed={retryUsed}
           onAnswer={handleAnswer}
           onClose={() => setActiveQuizTreasure(null)}
+          lang={lang}
         />
       )}
 
@@ -356,6 +367,7 @@ export default function App() {
         <TreasureSuccessModal
           treasureId={successTreasureId}
           onContinue={handleContinue}
+          lang={lang}
         />
       )}
 
