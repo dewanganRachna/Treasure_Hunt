@@ -277,7 +277,7 @@ export default function FinalAchievementModal({ onPlayAgain = () => {} }) {
               <div style={{ fontSize: '10px', color: '#6ee7b7', fontWeight: 700, textTransform: 'uppercase', fontFamily: "'Rajdhani', monospace" }}>
                 Treasure 1
               </div>
-              <div style={{ fontSize: '12px', fontWeight: 700, color: '#ffffff' }}>Digital Seva</div>
+              <div style={{ fontSize: '12px', fontWeight: 700, color: '#ffffff' }}>Cyber Safety</div>
             </div>
           </div>
 
@@ -319,7 +319,7 @@ export default function FinalAchievementModal({ onPlayAgain = () => {} }) {
               <div style={{ fontSize: '10px', color: '#6ee7b7', fontWeight: 700, textTransform: 'uppercase', fontFamily: "'Rajdhani', monospace" }}>
                 Treasure 3
               </div>
-              <div style={{ fontSize: '12px', fontWeight: 700, color: '#ffffff' }}>Smart Chhattisgarh</div>
+              <div style={{ fontSize: '12px', fontWeight: 700, color: '#ffffff' }}>Digital Seva</div>
             </div>
           </div>
         </div>

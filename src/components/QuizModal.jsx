@@ -135,9 +135,11 @@ export default function QuizModal({
           <h2 className="quiz-question-heading" style={{ margin: '0 0 4px 0' }}>
             {lang === 'en' ? (treasure.questionEn || treasure.question) : treasure.question}
           </h2>
-          <div style={{ fontSize: '13px', color: '#94a3b8', fontStyle: 'italic' }}>
-            {lang === 'en' ? treasure.question : (treasure.questionEn || '')}
-          </div>
+          {treasure.questionEn && treasure.questionEn !== treasure.question && (
+            <div style={{ fontSize: '13px', color: '#94a3b8', fontStyle: 'italic' }}>
+              {lang === 'en' ? treasure.question : treasure.questionEn}
+            </div>
+          )}
         </div>
 
         {/* Options List */}
@@ -145,7 +147,7 @@ export default function QuizModal({
           {treasure.options.map((option) => {
             const isSelected = selectedOptionId === option.id;
             const primaryText = lang === 'en' ? (option.textEn || option.text) : option.text;
-            const subText = lang === 'en' ? option.text : (option.textEn || '');
+            const subText = lang === 'en' ? (option.textEn ? option.text : '') : (option.textEn || '');
 
             return (
               <button
@@ -162,7 +164,7 @@ export default function QuizModal({
                   <span className="quiz-opt-text" style={{ fontSize: '15px', fontWeight: 700, color: '#ffffff' }}>
                     {primaryText}
                   </span>
-                  {subText && (
+                  {subText && subText !== primaryText && (
                     <span style={{ fontSize: '12px', color: '#94a3b8' }}>
                       {subText}
                     </span>

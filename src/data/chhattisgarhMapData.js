@@ -9,45 +9,53 @@ export const MAP_CONFIG = {
   "treasures": [
     {
       "id": 1,
-      "key": "digital-seva",
-      "name": "Digital Seva",
-      "hindiName": "डिजिटल सेवा",
-      "tagline": "नागरिक सेवाएं एवं डिजिटल पोर्टल",
-      "taglineEn": "Citizen Services & Digital Portal",
+      "key": "cyber-safety",
+      "categoryId": "cyber_safety",
+      "name": "Cyber Safety",
+      "hindiName": "साइबर सुरक्षा",
+      "tagline": "ऑनलाइन सुरक्षा एवं डिजिटल जागरूकता",
+      "taglineEn": "Online Safety & Cyber Awareness",
       "region": "रायपुर (केन्द्रीय हब)",
       "regionEn": "Raipur (Central Hub)",
       "x": 195.2,
       "y": 336.6,
-      "popupText": "Unlock First Treasure!",
-      "popupHindi": "पहला खज़ाना अनलॉक करें!",
-      "question": "लोग सरकारी सेवाओं के Online Portal का उपयोग क्यों करते हैं?",
-      "questionEn": "Why do citizens use online government service portals?",
+      "popupText": "Unlock First Treasure — Cyber Safety!",
+      "popupHindi": "पहला खज़ाना अनलॉक करें — साइबर सुरक्षा!",
+      "question": "अपने Online Accounts को सुरक्षित रखने के लिए सबसे अच्छा तरीका कौन-सा है?",
+      "questionEn": "What is the best way to keep your online accounts secure?",
       "options": [
         {
           "id": "A",
-          "text": "सरकारी सेवाओं का लाभ लेने के लिए",
-          "textEn": "To easily access government services and schemes",
-          "isCorrect": true
+          "text": "सभी Accounts में एक ही Password रखना",
+          "textEn": "Keep the same password for all accounts",
+          "isCorrect": false
         },
         {
           "id": "B",
-          "text": "केवल Game खेलने के लिए",
-          "textEn": "Only to play video games",
-          "isCorrect": false
+          "text": "Strong और अलग-अलग Password रखना",
+          "textEn": "Use strong and unique passwords",
+          "isCorrect": true
         },
         {
           "id": "C",
-          "text": "फिल्में देखने के लिए",
-          "textEn": "To stream movies",
+          "text": "Password दोस्तों के साथ Share करना",
+          "textEn": "Share passwords with friends",
+          "isCorrect": false
+        },
+        {
+          "id": "D",
+          "text": "Password को Social Media पर लिखना",
+          "textEn": "Write password on social media",
           "isCorrect": false
         }
       ],
-      "hint": "नागरिक सशक्तिकरण और पारदर्शी ई-गवर्नेंस",
-      "hintEn": "Citizen empowerment and transparent e-governance"
+      "hint": "सुरक्षित पासवर्ड और साइबर सतर्कता",
+      "hintEn": "Strong passwords and cyber awareness"
     },
     {
       "id": 2,
       "key": "ai-explorer",
+      "categoryId": "ai_explorer",
       "name": "AI Explorer",
       "hindiName": "एआई एक्सप्लोरर",
       "tagline": "कृत्रिम बुद्धिमत्ता और भविष्य की तकनीक",
@@ -63,20 +71,26 @@ export const MAP_CONFIG = {
       "options": [
         {
           "id": "A",
-          "text": "सवाल समझकर जवाब देने वाला Voice Assistant",
-          "textEn": "Voice Assistant that understands and answers queries",
-          "isCorrect": true
-        },
-        {
-          "id": "B",
           "text": "एक साधारण कुर्सी",
           "textEn": "A standard wooden chair",
           "isCorrect": false
         },
         {
+          "id": "B",
+          "text": "सवाल समझकर जवाब देने वाला Voice Assistant",
+          "textEn": "Voice Assistant that understands and answers queries",
+          "isCorrect": true
+        },
+        {
           "id": "C",
-          "text": "कागज़ की Notebook",
-          "textEn": "A paper notebook",
+          "text": "एक खाली Notebook",
+          "textEn": "A blank paper notebook",
+          "isCorrect": false
+        },
+        {
+          "id": "D",
+          "text": "एक सामान्य पेन",
+          "textEn": "A normal ballpoint pen",
           "isCorrect": false
         }
       ],
@@ -85,41 +99,48 @@ export const MAP_CONFIG = {
     },
     {
       "id": 3,
-      "key": "smart-cg",
-      "name": "Smart Chhattisgarh",
-      "hindiName": "स्मार्ट छत्तीसगढ़",
-      "tagline": "डिजिटल मैपिंग और जीआईएस कनेक्टिविटी",
-      "taglineEn": "Digital Mapping & GIS Connectivity",
+      "key": "digital-seva",
+      "categoryId": "digital_seva",
+      "name": "Digital Seva",
+      "hindiName": "डिजिटल सेवा",
+      "tagline": "नागरिक सेवाएं एवं ई-गवर्नेंस",
+      "taglineEn": "Citizen Services & Digital Portal",
       "region": "बस्तर (हेरिटेज एवं स्मार्ट कनेक्ट)",
       "regionEn": "Bastar (Heritage & Smart Connect)",
       "x": 204.4,
       "y": 583.8,
-      "popupText": "One Last Treasure — Smart Chhattisgarh!",
-      "popupHindi": "अंतिम खज़ाना — स्मार्ट छत्तीसगढ़!",
-      "question": "Digital Map की मदद से हम क्या पता लगा सकते हैं?",
-      "questionEn": "What can we explore and find using a Digital Map?",
+      "popupText": "One Last Treasure — Digital Seva!",
+      "popupHindi": "अंतिम खज़ाना — डिजिटल सेवा!",
+      "question": "Digital Government Service Portal का मुख्य उद्देश्य क्या है?",
+      "questionEn": "What is the primary purpose of a Digital Government Service Portal?",
       "options": [
         {
           "id": "A",
-          "text": "स्थानों और जगहों की जानकारी",
-          "textEn": "Information and navigation for places and locations",
-          "isCorrect": true
+          "text": "केवल Entertainment देना",
+          "textEn": "Only to provide entertainment",
+          "isCorrect": false
         },
         {
           "id": "B",
-          "text": "Mobile की Battery का प्रतिशत",
-          "textEn": "Mobile phone battery percentage",
-          "isCorrect": false
+          "text": "नागरिकों को Online Government Services तक पहुँच प्रदान करना",
+          "textEn": "To provide citizens easy online access to government services",
+          "isCorrect": true
         },
         {
           "id": "C",
-          "text": "दूसरे लोगों के Password",
-          "textEn": "Other people's personal passwords",
+          "text": "केवल Games चलाना",
+          "textEn": "Only to play computer games",
+          "isCorrect": false
+        },
+        {
+          "id": "D",
+          "text": "केवल Videos दिखाना",
+          "textEn": "Only to display online videos",
           "isCorrect": false
         }
       ],
-      "hint": "भू-स्थानिक तकनीक और नेविगेशन प्रणाली",
-      "hintEn": "Geospatial mapping and smart navigation systems"
+      "hint": "नागरिक सशक्तिकरण और पारदर्शी ई-गवर्नेंस",
+      "hintEn": "Citizen empowerment and transparent e-governance"
     }
   ],
   "districts": [

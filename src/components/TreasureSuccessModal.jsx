@@ -37,7 +37,7 @@ export default function TreasureSuccessModal({
 
   const isTreasure1 = treasureId === 1;
   const title = isTreasure1 ? 'Congratulations! Treasure 1 Unlocked!' : 'Amazing! Treasure 2 Unlocked!';
-  const hindiTitle = isTreasure1 ? 'बधाई! खज़ाना 1 (डिजिटल सेवा) अनलॉक हुआ!' : 'शानदार! खज़ाना 2 (एआई एक्सप्लोरर) अनलॉक हुआ!';
+  const hindiTitle = isTreasure1 ? 'बधाई! खज़ाना 1 (साइबर सुरक्षा) अनलॉक हुआ!' : 'शानदार! खज़ाना 2 (एआई एक्सप्लोरर) अनलॉक हुआ!';
   const progressText = isTreasure1 ? '1/3' : '2/3';
 
   return (

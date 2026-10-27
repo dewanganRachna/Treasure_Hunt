@@ -1,0 +1,565 @@
+{
+  "categories": [
+    {
+      "id": "cyber_safety",
+      "name": "Cyber Safety",
+      "hindiName": "साइबर सुरक्षा",
+      "questions": [
+        {
+          "id": "CS001",
+          "question": "अपने Online Accounts को सुरक्षित रखने के लिए सबसे अच्छा तरीका कौन-सा है?",
+          "options": [
+            "सभी Accounts में एक ही Password रखना",
+            "Strong और अलग-अलग Password रखना",
+            "Password दोस्तों के साथ Share करना",
+            "Password को Social Media पर लिखना"
+          ],
+          "correctAnswer": 1,
+          "difficulty": "easy"
+        },
+        {
+          "id": "CS002",
+          "question": "OTP का उपयोग करते समय क्या ध्यान रखना चाहिए?",
+          "options": [
+            "इसे अनजान व्यक्ति के साथ Share करना",
+            "इसे Social Media पर Post करना",
+            "इसे गोपनीय रखना और अनजान व्यक्ति को न बताना",
+            "इसे सभी Contacts को भेजना"
+          ],
+          "correctAnswer": 2,
+          "difficulty": "easy"
+        },
+        {
+          "id": "CS003",
+          "question": "किसी अनजान व्यक्ति से संदिग्ध Link मिलने पर क्या करना चाहिए?",
+          "options": [
+            "तुरंत Link खोलना",
+            "Link सभी दोस्तों को भेजना",
+            "Link पर अपनी Personal Details भरना",
+            "Link की जाँच किए बिना उसे नहीं खोलना"
+          ],
+          "correctAnswer": 3,
+          "difficulty": "easy"
+        },
+        {
+          "id": "CS004",
+          "question": "Two-Factor Authentication (2FA) का मुख्य उद्देश्य क्या है?",
+          "options": [
+            "Internet की Speed बढ़ाना",
+            "Login के लिए अतिरिक्त Security Layer देना",
+            "Mobile का Storage बढ़ाना",
+            "सभी Passwords हटाना"
+          ],
+          "correctAnswer": 1,
+          "difficulty": "medium"
+        },
+        {
+          "id": "CS005",
+          "question": "यदि किसी अनजान व्यक्ति का Phone Call आए और वह Bank OTP माँगे, तो क्या करना चाहिए?",
+          "options": [
+            "OTP बता देना",
+            "Bank Account Number और PIN भी बता देना",
+            "OTP Share न करना और Call को संदिग्ध मानना",
+            "Call करने वाले को अपना Password भेजना"
+          ],
+          "correctAnswer": 2,
+          "difficulty": "easy"
+        },
+        {
+          "id": "CS006",
+          "question": "Social Media पर अपनी Profile को Private करने का क्या फायदा है?",
+          "options": [
+            "आपकी Posts और जानकारी कौन देख सकता है, इसे नियंत्रित करने में मदद मिलती है",
+            "Internet अपने आप तेज़ हो जाता है",
+            "सभी Online Frauds समाप्त हो जाते हैं",
+            "Mobile की Battery कभी खत्म नहीं होती"
+          ],
+          "correctAnswer": 0,
+          "difficulty": "easy"
+        },
+        {
+          "id": "CS007",
+          "question": "Social Media पर किसी अनजान व्यक्ति की Friend Request आने पर क्या करना चाहिए?",
+          "options": [
+            "बिना जाँच Accept करना",
+            "अपनी सभी Personal Details भेजना",
+            "अपना Password Share करना",
+            "Profile की जाँच करके ही निर्णय लेना"
+          ],
+          "correctAnswer": 3,
+          "difficulty": "easy"
+        },
+        {
+          "id": "CS008",
+          "question": "यदि कोई Fake Social Media Account बनाकर आपकी पहचान का उपयोग करे, तो क्या करना चाहिए?",
+          "options": [
+            "उसे अपना Password देना",
+            "Account को Report करना और आवश्यक होने पर Cyber Crime में शिकायत करना",
+            "उसे अपनी सभी Photos भेजना",
+            "उसे अनदेखा करके अपनी जानकारी भी Share करते रहना"
+          ],
+          "correctAnswer": 1,
+          "difficulty": "medium"
+        },
+        {
+          "id": "CS009",
+          "question": "Public Wi-Fi का उपयोग करते समय कौन-सी सावधानी उचित है?",
+          "options": [
+            "हर Website पर Bank Details डालना",
+            "सभी Security Warnings को अनदेखा करना",
+            "Sensitive Transactions से बचना और सुरक्षित Connection का उपयोग करना",
+            "अपना Password सार्वजनिक रूप से लिखना"
+          ],
+          "correctAnswer": 2,
+          "difficulty": "medium"
+        },
+        {
+          "id": "CS010",
+          "question": "Cyberbullying का क्या अर्थ है?",
+          "options": [
+            "Internet पर किसी को परेशान करना, धमकाना या अपमानित करना",
+            "Online पढ़ाई करना",
+            "सुरक्षित तरीके से Video Call करना",
+            "सरकारी Website खोलना"
+          ],
+          "correctAnswer": 0,
+          "difficulty": "easy"
+        },
+        {
+          "id": "CS011",
+          "question": "यदि किसी व्यक्ति को Online Payment Fraud का सामना करना पड़े, तो सबसे उचित कदम क्या है?",
+          "options": [
+            "Fraud करने वाले को और पैसे भेजना",
+            "अपनी घटना की जानकारी छिपाना",
+            "संदिग्ध व्यक्ति को OTP देना",
+            "तुरंत Bank को सूचित करना और Cyber Fraud Helpline 1930 पर संपर्क करना"
+          ],
+          "correctAnswer": 3,
+          "difficulty": "easy"
+        },
+        {
+          "id": "CS012",
+          "question": "Social Media पर किसी News को Share करने से पहले क्या करना चाहिए?",
+          "options": [
+            "केवल Headline पढ़कर Share करना",
+            "बिना जाँच के सभी Groups में भेजना",
+            "विश्वसनीय Sources से जानकारी Verify करना",
+            "केवल Likes की संख्या देखकर उसे सही मानना"
+          ],
+          "correctAnswer": 2,
+          "difficulty": "easy"
+        },
+        {
+          "id": "CS013",
+          "question": "यदि आपको Social Media पर कोई Message मिले जिसमें कहा जाए कि आपने Prize जीता है और Prize पाने के लिए पैसे भेजने होंगे, तो क्या करना चाहिए?",
+          "options": [
+            "तुरंत पैसे भेज देना",
+            "अपनी Bank Details Share करना",
+            "Message की सच्चाई जाँचना और बिना Verify किए पैसे न भेजना",
+            "अपना OTP भेज देना"
+          ],
+          "correctAnswer": 2,
+          "difficulty": "easy"
+        },
+        {
+          "id": "CS014",
+          "question": "अगर कोई व्यक्ति आपकी अनुमति के बिना आपकी Photo Social Media पर डाल दे, तो आप क्या कर सकते हैं?",
+          "options": [
+            "उस Post या Account को Report कर सकते हैं",
+            "अपना Password उसे दे सकते हैं",
+            "अपनी सभी Personal Details Share कर सकते हैं",
+            "उसके कहने पर पैसे भेज सकते हैं"
+          ],
+          "correctAnswer": 0,
+          "difficulty": "easy"
+        }
+      ]
+    },
+    {
+      "id": "ai_explorer",
+      "name": "AI Explorer",
+      "hindiName": "एआई एक्सप्लोरर",
+      "questions": [
+        {
+          "id": "AI001",
+          "question": "AI का Full Form क्या है?",
+          "options": [
+            "Automated Internet",
+            "Advanced Information",
+            "Artificial Intelligence",
+            "Automatic Interface"
+          ],
+          "correctAnswer": 2,
+          "difficulty": "easy"
+        },
+        {
+          "id": "AI002",
+          "question": "निम्नलिखित में से AI का उदाहरण कौन-सा है?",
+          "options": [
+            "एक साधारण कुर्सी",
+            "सवाल समझकर जवाब देने वाला Voice Assistant",
+            "एक खाली Notebook",
+            "एक सामान्य पेन"
+          ],
+          "correctAnswer": 1,
+          "difficulty": "easy"
+        },
+        {
+          "id": "AI003",
+          "question": "AI Chatbot का मुख्य काम क्या है?",
+          "options": [
+            "केवल Computer बंद करना",
+            "बिजली पैदा करना",
+            "केवल Photos Print करना",
+            "सवालों के आधार पर जानकारी या सहायता देना"
+          ],
+          "correctAnswer": 3,
+          "difficulty": "easy"
+        },
+        {
+          "id": "AI004",
+          "question": "AI को बेहतर उत्तर देने में किस चीज़ से मदद मिलती है?",
+          "options": [
+            "स्पष्ट प्रश्न और प्रासंगिक जानकारी",
+            "बिना Context के कोई भी शब्द लिखना",
+            "Computer बंद करना",
+            "केवल Keyboard बदलना"
+          ],
+          "correctAnswer": 0,
+          "difficulty": "medium"
+        },
+        {
+          "id": "AI005",
+          "question": "क्या AI से मिली जानकारी हमेशा सही होती है?",
+          "options": [
+            "हाँ, हर स्थिति में",
+            "केवल रात में",
+            "नहीं, महत्वपूर्ण जानकारी Verify करनी चाहिए",
+            "AI कभी कोई उत्तर नहीं दे सकता"
+          ],
+          "correctAnswer": 2,
+          "difficulty": "easy"
+        },
+        {
+          "id": "AI006",
+          "question": "Voice Recognition Technology का उपयोग किसलिए किया जाता है?",
+          "options": [
+            "Screen का आकार बदलने के लिए",
+            "बोली गई आवाज़ को पहचानने के लिए",
+            "Battery Charge करने के लिए",
+            "Computer का रंग बदलने के लिए"
+          ],
+          "correctAnswer": 1,
+          "difficulty": "easy"
+        },
+        {
+          "id": "AI007",
+          "question": "AI-Based Translation Tool का उपयोग किसलिए किया जाता है?",
+          "options": [
+            "एक भाषा के Text को दूसरी भाषा में बदलने के लिए",
+            "Mobile की Battery बदलने के लिए",
+            "Computer को Repair करने के लिए",
+            "Internet Connection हटाने के लिए"
+          ],
+          "correctAnswer": 0,
+          "difficulty": "easy"
+        },
+        {
+          "id": "AI008",
+          "question": "AI की मदद से किसी सवाल का जवाब मिलने पर आपको क्या करना चाहिए, यदि जवाब गलत लगता है?",
+          "options": [
+            "उत्तर को बिना जाँच Share करना",
+            "उसे हमेशा सही मानना",
+            "अपना Password भेजना",
+            "उत्तर को भरोसेमंद Source से Verify करना"
+          ],
+          "correctAnswer": 3,
+          "difficulty": "easy"
+        },
+        {
+          "id": "AI009",
+          "question": "AI का उपयोग Government Services में किस प्रकार मदद कर सकता है?",
+          "options": [
+            "सभी सरकारी प्रक्रियाएँ बिना जाँच के Approve करके",
+            "जानकारी खोजने, Documents से Data निकालने और कुछ कार्यों को आसान बनाने में",
+            "सभी Records अपने आप मिटाकर",
+            "सभी अधिकारियों की भूमिका समाप्त करके"
+          ],
+          "correctAnswer": 1,
+          "difficulty": "medium"
+        },
+        {
+          "id": "AI010",
+          "question": "Responsible AI का मुख्य उद्देश्य क्या है?",
+          "options": [
+            "AI से हर निर्णय बिना जाँच के लेना",
+            "Personal Data को सार्वजनिक करना",
+            "AI का सुरक्षित, निष्पक्ष और जिम्मेदारी से उपयोग करना",
+            "AI के उत्तरों को हमेशा सही मानना"
+          ],
+          "correctAnswer": 2,
+          "difficulty": "medium"
+        },
+        {
+          "id": "AI011",
+          "question": "AI की मदद से हम कौन-सा काम कर सकते हैं?",
+          "options": [
+            "किसी सवाल का जवाब खोजने में मदद लेना",
+            "बिना बिजली के किसी भी Device को चलाना",
+            "हर बीमारी का पक्का इलाज जानना",
+            "हर भविष्य की घटना को निश्चित रूप से जानना"
+          ],
+          "correctAnswer": 0,
+          "difficulty": "easy"
+        }
+      ]
+    },
+    {
+      "id": "digital_seva",
+      "name": "Digital Seva",
+      "hindiName": "डिजिटल सेवा",
+      "questions": [
+        {
+          "id": "DS001",
+          "question": "Digital Government Service Portal का मुख्य उद्देश्य क्या है?",
+          "options": [
+            "केवल Entertainment देना",
+            "नागरिकों को Online Government Services तक पहुँच प्रदान करना",
+            "केवल Games चलाना",
+            "केवल Videos दिखाना"
+          ],
+          "correctAnswer": 1,
+          "difficulty": "easy"
+        },
+        {
+          "id": "DS002",
+          "question": "Online Government Service के लिए Application करने के बाद क्या सुरक्षित रखना उपयोगी है?",
+          "options": [
+            "केवल Website का Colour",
+            "दूसरे व्यक्ति का Password",
+            "Application Reference Number",
+            "किसी अनजान व्यक्ति का OTP"
+          ],
+          "correctAnswer": 2,
+          "difficulty": "easy"
+        },
+        {
+          "id": "DS003",
+          "question": "Online Application की Status Check करने से क्या पता चलता है?",
+          "options": [
+            "Application की वर्तमान स्थिति या Progress",
+            "Mobile की Battery",
+            "Internet का Password",
+            "दूसरे लोगों के Documents"
+          ],
+          "correctAnswer": 0,
+          "difficulty": "easy"
+        },
+        {
+          "id": "DS004",
+          "question": "Digital Services का एक प्रमुख लाभ क्या है?",
+          "options": [
+            "हर सेवा के लिए अनिवार्य रूप से कार्यालय जाना",
+            "सभी Documents हमेशा खो जाना",
+            "Internet की जरूरत हर स्थिति में समाप्त हो जाना",
+            "उपलब्ध सेवाओं तक आसान और सुविधाजनक पहुँच"
+          ],
+          "correctAnswer": 3,
+          "difficulty": "easy"
+        },
+        {
+          "id": "DS005",
+          "question": "Digital Payment करते समय UPI PIN कब दर्ज करना चाहिए?",
+          "options": [
+            "पैसे Receive करने के लिए हर बार",
+            "जब आप स्वयं किसी Payment को Authorize कर रहे हों",
+            "किसी अनजान व्यक्ति के कहने पर",
+            "हर Incoming Message के बाद"
+          ],
+          "correctAnswer": 1,
+          "difficulty": "easy"
+        },
+        {
+          "id": "DS006",
+          "question": "क्या पैसे Receive करने के लिए सामान्यतः UPI PIN दर्ज करना जरूरी होता है?",
+          "options": [
+            "हाँ, हर बार",
+            "केवल रात में",
+            "नहीं, पैसे भेजने या Payment Authorize करने के लिए PIN की जरूरत हो सकती है",
+            "केवल ATM में"
+          ],
+          "correctAnswer": 2,
+          "difficulty": "easy"
+        },
+        {
+          "id": "DS007",
+          "question": "किसी सरकारी Portal पर Identity Verification क्यों किया जाता है?",
+          "options": [
+            "सही व्यक्ति की पहचान सुनिश्चित करने के लिए",
+            "Website का Font बदलने के लिए",
+            "Internet Speed बढ़ाने के लिए",
+            "Mobile Storage बढ़ाने के लिए"
+          ],
+          "correctAnswer": 0,
+          "difficulty": "easy"
+        },
+        {
+          "id": "DS008",
+          "question": "यदि Online Form भरते समय कोई गलती हो जाए, तो क्या करना चाहिए?",
+          "options": [
+            "बिना जाँच के कई बार Form Submit करना",
+            "OTP सार्वजनिक करना",
+            "गलत जानकारी को हमेशा रहने देना",
+            "Portal के Correction Instructions या Help Section को देखना"
+          ],
+          "correctAnswer": 3,
+          "difficulty": "medium"
+        },
+        {
+          "id": "DS009",
+          "question": "किसी Digital Service Portal पर Documents Upload करते समय क्या करना चाहिए?",
+          "options": [
+            "किसी दूसरे व्यक्ति का Document Upload करना",
+            "सही और मांगे गए Documents Upload करना",
+            "सभी Documents को बिना पढ़े Share करना",
+            "खाली File Upload करना"
+          ],
+          "correctAnswer": 1,
+          "difficulty": "easy"
+        },
+        {
+          "id": "DS010",
+          "question": "यदि किसी Online Government Service में सहायता चाहिए, तो सबसे उचित कदम क्या है?",
+          "options": [
+            "अनजान व्यक्ति को Password देना",
+            "Social Media पर OTP Post करना",
+            "Official Helpdesk या Portal पर दिए गए सहायता विकल्प का उपयोग करना",
+            "Bank PIN साझा करना"
+          ],
+          "correctAnswer": 2,
+          "difficulty": "easy"
+        },
+        {
+          "id": "DS011",
+          "question": "DigiLocker जैसी Digital Document Service का उपयोग किसलिए किया जाता है?",
+          "options": [
+            "उपलब्ध Digital Documents को सुरक्षित रूप से Access और Share करने के लिए",
+            "केवल Online Games खेलने के लिए",
+            "Phone की Battery बदलने के लिए",
+            "Internet की Speed मापने के लिए"
+          ],
+          "correctAnswer": 0,
+          "difficulty": "easy"
+        },
+        {
+          "id": "DS012",
+          "question": "Digital Signature का उपयोग किसलिए किया जा सकता है?",
+          "options": [
+            "Mobile का Wallpaper बदलने के लिए",
+            "Internet Connection बंद करने के लिए",
+            "केवल Photo Edit करने के लिए",
+            "Electronic Documents पर हस्ताक्षर और Authentication के लिए"
+          ],
+          "correctAnswer": 3,
+          "difficulty": "medium"
+        },
+        {
+          "id": "DS013",
+          "question": "सरकारी सेवाओं के लिए Official Website का उपयोग करना क्यों महत्वपूर्ण है?",
+          "options": [
+            "क्योंकि हर Unofficial Website सुरक्षित होती है",
+            "सही जानकारी और अधिकृत सेवा तक पहुँचने के लिए",
+            "क्योंकि किसी भी Website पर OTP साझा करना सुरक्षित है",
+            "क्योंकि Official Website पर कभी Verification नहीं होता"
+          ],
+          "correctAnswer": 1,
+          "difficulty": "easy"
+        },
+        {
+          "id": "DS014",
+          "question": "यदि किसी Online Service के लिए निर्धारित Application Fee हो, तो Payment करने से पहले क्या करना चाहिए?",
+          "options": [
+            "अनजान व्यक्ति के Personal Account में पैसे भेजना",
+            "बिना जाँच के किसी भी Link पर Payment करना",
+            "Official Portal पर Fee और Payment Details Verify करना",
+            "OTP सभी के साथ Share करना"
+          ],
+          "correctAnswer": 2,
+          "difficulty": "medium"
+        },
+        {
+          "id": "DS015",
+          "question": "अगर आपको छत्तीसगढ़ सरकार की किसी सेवा या शिकायत के बारे में सहायता चाहिए, तो CM Helpline का कौन-सा नंबर उपयोग कर सकते हैं?",
+          "options": [
+            "100",
+            "1076",
+            "1098",
+            "139"
+          ],
+          "correctAnswer": 1,
+          "difficulty": "easy"
+        },
+        {
+          "id": "DS016",
+          "question": "अगर किसी व्यक्ति के साथ Online Financial Fraud हो जाए, तो शिकायत दर्ज कराने के लिए किस Helpline Number पर संपर्क करना चाहिए?",
+          "options": [
+            "1930",
+            "1076",
+            "1098",
+            "139"
+          ],
+          "correctAnswer": 0,
+          "difficulty": "easy"
+        },
+        {
+          "id": "DS017",
+          "question": "छत्तीसगढ़ में CM Helpline 1076 का मुख्य उद्देश्य क्या है?",
+          "options": [
+            "फ़िल्में दिखाना",
+            "Online Shopping कराना",
+            "नागरिकों की सरकारी शिकायतों में सहायता करना",
+            "Mobile Recharge करना"
+          ],
+          "correctAnswer": 2,
+          "difficulty": "easy"
+        },
+        {
+          "id": "DS018",
+          "question": "अगर किसी बच्चे को सहायता या सुरक्षा की जरूरत हो, तो भारत में किस Helpline Number पर संपर्क किया जा सकता है?",
+          "options": [
+            "1098",
+            "139",
+            "1912",
+            "1076"
+          ],
+          "correctAnswer": 0,
+          "difficulty": "easy"
+        },
+        {
+          "id": "DS019",
+          "question": "अगर किसी व्यक्ति को तुरंत Police, Fire या Medical Emergency में सहायता चाहिए, तो भारत का कौन-सा Emergency Number उपयोग किया जा सकता है?",
+          "options": [
+            "1076",
+            "1930",
+            "112",
+            "139"
+          ],
+          "correctAnswer": 2,
+          "difficulty": "easy"
+        },
+        {
+          "id": "DS020",
+          "question": "अगर किसी नागरिक को छत्तीसगढ़ में सरकारी शिकायत दर्ज करनी है और उसकी स्थिति जाननी है, तो CM Helpline के माध्यम से क्या किया जा सकता है?",
+          "options": [
+            "शिकायत दर्ज करना और उसकी स्थिति जानना",
+            "केवल Online Games खेलना",
+            "किसी दूसरे व्यक्ति का Bank Account खोलना",
+            "बिना आवेदन के हर सरकारी सेवा प्राप्त करना"
+          ],
+          "correctAnswer": 0,
+          "difficulty": "easy"
+        }
+      ]
+    }
+  ]
+}

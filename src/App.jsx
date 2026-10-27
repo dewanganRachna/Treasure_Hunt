@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { MAP_CONFIG } from './data/chhattisgarhMapData';
+import { getDynamicQuestion } from './data/questionService';
 import Header from './components/Header';
 import ChhattisgarhMap from './components/ChhattisgarhMap';
 import WelcomeScreen from './components/WelcomeScreen';
@@ -21,6 +22,10 @@ export default function App() {
 
   // Shared Global Retry Rule State
   const [retryUsed, setRetryUsed] = useState(false);
+
+  // Dynamic Question Bank session tracking
+  const [usedQuestionIds, setUsedQuestionIds] = useState([]);
+  const [currentTreasureQuizData, setCurrentTreasureQuizData] = useState(null);
 
   // Active Modals & Overlays
   const [activeQuizTreasure, setActiveQuizTreasure] = useState(null);
@@ -50,6 +55,8 @@ export default function App() {
     setCurrentTreasureId(1);
     setUnlockedTreasures([]);
     setRetryUsed(false);
+    setUsedQuestionIds([]);
+    setCurrentTreasureQuizData(null);
   };
 
   // Completely reset the game
@@ -63,13 +70,27 @@ export default function App() {
     setShowGameOver(false);
     setSuccessTreasureId(null);
     setShowVictory(false);
+    setUsedQuestionIds([]);
+    setCurrentTreasureQuizData(null);
   };
 
   // When a visitor touches the current active treasure on the map or sidebar
   const handleSelectTreasure = (treasure) => {
     // Only current active treasure can be opened
     if (treasure.id === currentTreasureId) {
-      setActiveQuizTreasure(treasure);
+      let quizPayload = currentTreasureQuizData;
+      if (!quizPayload || quizPayload.id !== treasure.id) {
+        // Load dynamically from the external question bank for the current category
+        const dynamicQ = getDynamicQuestion(treasure.id, usedQuestionIds);
+        setUsedQuestionIds((prev) => [...prev, dynamicQ.id]);
+        quizPayload = {
+          ...treasure,
+          ...dynamicQ,
+          id: treasure.id // Preserve numeric treasure sequence ID
+        };
+        setCurrentTreasureQuizData(quizPayload);
+      }
+      setActiveQuizTreasure(quizPayload);
     }
   };
 
@@ -78,6 +99,7 @@ export default function App() {
     if (isCorrect) {
       // Correct answer!
       setActiveQuizTreasure(null);
+      setCurrentTreasureQuizData(null); // Clear for next treasure step
 
       if (currentTreasureId === 1) {
         setUnlockedTreasures([1]);
@@ -111,12 +133,17 @@ export default function App() {
     setShowRetryFeedback(false);
 
     // Reopen the exact same question
-    const currentTreasure = MAP_CONFIG.treasures.find((t) => t.id === currentTreasureId);
-    setActiveQuizTreasure(currentTreasure);
+    if (currentTreasureQuizData) {
+      setActiveQuizTreasure(currentTreasureQuizData);
+    } else {
+      const currentTreasure = MAP_CONFIG.treasures.find((t) => t.id === currentTreasureId);
+      handleSelectTreasure(currentTreasure);
+    }
   };
 
   // When visitor clicks CONTINUE on Treasure 1 or 2 Success screen
   const handleContinue = () => {
+    setCurrentTreasureQuizData(null);
     if (successTreasureId === 1) {
       setCurrentTreasureId(2);
       setSuccessTreasureId(null);
@@ -198,9 +225,9 @@ export default function App() {
                     marginBottom: '4px'
                   }}
                 >
-                  {currentTreasureId === 1 && <span key="m1">{lang === 'en' ? 'Treasure 1: Digital Seva' : 'पहला खज़ाना: डिजिटल सेवा'}</span>}
+                  {currentTreasureId === 1 && <span key="m1">{lang === 'en' ? 'Treasure 1: Cyber Safety' : 'पहला खज़ाना: साइबर सुरक्षा'}</span>}
                   {currentTreasureId === 2 && <span key="m2">{lang === 'en' ? 'Treasure 2: AI Explorer' : 'दूसरा खज़ाना: एआई एक्सप्लोरर'}</span>}
-                  {currentTreasureId === 3 && <span key="m3">{lang === 'en' ? 'Final Treasure: Smart Chhattisgarh' : 'अंतिम खज़ाना: स्मार्ट छत्तीसगढ़'}</span>}
+                  {currentTreasureId === 3 && <span key="m3">{lang === 'en' ? 'Final Treasure: Digital Seva' : 'अंतिम खज़ाना: डिजिटल सेवा'}</span>}
                 </div>
                 <div style={{ fontSize: '12px', color: '#cbd5e1', lineHeight: 1.4 }}>
                   {currentTreasureId === 1 && <span key="d1">{lang === 'en' ? 'Touch highlighted Marker #1 on the map to begin.' : 'मानचित्र पर हाइलाइट किए गए मार्कर #1 को स्पर्श करें।'}</span>}
@@ -313,9 +340,9 @@ export default function App() {
             {/* Top Mission Floating Callout Banner */}
             <div className={`hud-mission-banner ${currentTreasureId === 3 ? 'gold' : ''}`}>
               <span style={{ color: currentTreasureId === 3 ? '#fbbf24' : '#00f2fe', fontSize: '14px', fontWeight: 800, fontFamily: "'Rajdhani', monospace", letterSpacing: '0.5px' }}>
-                {currentTreasureId === 1 && <span key="hb1">{lang === 'en' ? '🎯 MISSION 1: Raipur — Unlock Digital Seva' : '🎯 MISSION 1: रायपुर — अनलॉक करें डिजिटल सेवा'}</span>}
+                {currentTreasureId === 1 && <span key="hb1">{lang === 'en' ? '🎯 MISSION 1: Raipur — Unlock Cyber Safety' : '🎯 MISSION 1: रायपुर — अनलॉक करें साइबर सुरक्षा'}</span>}
                 {currentTreasureId === 2 && <span key="hb2">{lang === 'en' ? '🚀 MISSION 2: Bilaspur — Unlock AI Explorer' : '🚀 MISSION 2: बिलासपुर — अनलॉक करें AI Explorer'}</span>}
-                {currentTreasureId === 3 && <span key="hb3">{lang === 'en' ? '👑 FINAL MISSION: Bastar — Unlock Smart Chhattisgarh' : '👑 FINAL MISSION: बस्तर — अनलॉक करें Smart Chhattisgarh'}</span>}
+                {currentTreasureId === 3 && <span key="hb3">{lang === 'en' ? '👑 FINAL MISSION: Bastar — Unlock Digital Seva' : '👑 FINAL MISSION: बस्तर — अनलॉक करें Digital Seva'}</span>}
               </span>
             </div>
 
