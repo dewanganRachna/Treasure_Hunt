@@ -19,8 +19,7 @@ export default function WelcomeScreen({ onStartGame = () => {} }) {
       <div className="welcome-content-container">
         {/* Sleek Exhibition Category Pill */}
         <div className="welcome-tag-pill">
-          <span className="telemetry-ping-dot" />
-          <span>राज्योत्सव 2024 • डिजिटल खोज अभियान</span>
+          <span>🏛️ राज्योत्सव विशेष • डिजिटल खोज अभियान</span>
         </div>
 
         {/* Central Holographic Treasure Seal */}
@@ -57,7 +56,7 @@ export default function WelcomeScreen({ onStartGame = () => {} }) {
             <div className="quest-num-box">01</div>
             <div className="quest-info-box">
               <div className="quest-step-label">TREASURE 1 • रायपुर</div>
-              <div className="quest-name-text">साइबर सुरक्षा</div>
+              <div className="quest-name-text">डिजिटल सेवा</div>
             </div>
           </div>
 
@@ -73,7 +72,7 @@ export default function WelcomeScreen({ onStartGame = () => {} }) {
             <div className="quest-num-box">03</div>
             <div className="quest-info-box">
               <div className="quest-step-label">TREASURE 3 • बस्तर</div>
-              <div className="quest-name-text">डिजिटल सेवा</div>
+              <div className="quest-name-text">स्मार्ट छत्तीसगढ़</div>
             </div>
           </div>
         </div>

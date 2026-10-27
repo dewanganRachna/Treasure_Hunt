@@ -29,11 +29,11 @@ export default function CyberParticles() {
     const particleCount = 45;
     const particles = [];
     const colors = [
-      'rgba(0, 242, 254, 0.7)',
-      'rgba(0, 242, 254, 0.4)',
-      'rgba(56, 239, 125, 0.5)',
-      'rgba(255, 215, 0, 0.6)',
-      'rgba(251, 191, 36, 0.4)'
+      'rgba(2, 132, 199, 0.35)',
+      'rgba(14, 165, 233, 0.25)',
+      'rgba(16, 185, 129, 0.3)',
+      'rgba(245, 158, 11, 0.35)',
+      'rgba(251, 191, 36, 0.25)'
     ];
 
     for (let i = 0; i < particleCount; i++) {

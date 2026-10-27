@@ -48,12 +48,11 @@ export default function GameOverModal({ onPlayAgain = () => {} }) {
           style={{
             fontSize: '40px',
             fontWeight: 900,
-            color: '#fb7185',
+            color: '#e11d48',
             fontFamily: "'Outfit', sans-serif",
             textTransform: 'uppercase',
             letterSpacing: '2px',
-            margin: '0 0 4px 0',
-            textShadow: '0 2px 15px rgba(244, 63, 94, 0.7)'
+            margin: '0 0 4px 0'
           }}
         >
           GAME OVER
@@ -62,7 +61,7 @@ export default function GameOverModal({ onPlayAgain = () => {} }) {
           style={{
             fontSize: '22px',
             fontWeight: 800,
-            color: '#ffffff',
+            color: '#0f172a',
             fontFamily: "'Noto Sans Devanagari', sans-serif",
             margin: '0 0 14px 0'
           }}
@@ -75,19 +74,19 @@ export default function GameOverModal({ onPlayAgain = () => {} }) {
           style={{
             padding: '16px 20px',
             borderRadius: '14px',
-            background: 'rgba(15, 23, 42, 0.85)',
-            border: '1px solid rgba(244, 63, 94, 0.35)',
+            background: '#fef2f2',
+            border: '1px solid #fecaca',
             fontSize: '14px',
-            color: '#cbd5e1',
+            color: '#475569',
             lineHeight: 1.5,
             maxWidth: '380px',
             marginBottom: '24px'
           }}
         >
-          <p style={{ fontWeight: 700, color: '#fecdd3', marginBottom: '8px' }}>
+          <p style={{ fontWeight: 700, color: '#991b1b', marginBottom: '8px' }}>
             आपके सभी अवसर (Single Retry) समाप्त हो चुके हैं।
           </p>
-          <p style={{ fontSize: '13px', color: '#94a3b8', margin: 0 }}>
+          <p style={{ fontSize: '13px', color: '#64748b', margin: 0 }}>
             चिंता न करें! डिजिटल एक्सप्लोरर बनने के लिए फिर से खेलें और सभी 3 खजाने अनलॉक करें।
           </p>
         </div>

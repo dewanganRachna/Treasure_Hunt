@@ -187,51 +187,51 @@ export default function App() {
               {/* Mission Objective Header */}
               <div
                 style={{
-                  fontSize: '11px',
+                  fontSize: '12px',
                   textTransform: 'uppercase',
                   fontFamily: "'Rajdhani', monospace",
                   fontWeight: 800,
                   letterSpacing: '1px',
-                  color: '#00f2fe',
+                  color: '#0284c7',
                   marginBottom: '8px',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '6px'
                 }}
               >
-                <span className="telemetry-ping-dot" />
-                ACTIVE MISSION OBJECTIVE
+                <span>🎯</span>
+                <span>{lang === 'en' ? 'CURRENT MISSION' : 'वर्तमान मिशन'}</span>
               </div>
 
               {/* Dynamic Mission Box */}
               <div className="mission-card">
                 <div
                   style={{
-                    fontSize: '11px',
+                    fontSize: '12px',
                     fontFamily: "'Rajdhani', monospace",
-                    color: '#67e8f9',
+                    color: '#0284c7',
                     fontWeight: 700,
                     marginBottom: '4px'
                   }}
                 >
-                  SECTOR: {lang === 'en' ? (activeMission?.regionEn || activeMission?.region) : activeMission?.region}
+                  📍 {lang === 'en' ? (activeMission?.regionEn || activeMission?.region) : activeMission?.region}
                 </div>
                 <div
                   style={{
                     fontSize: '18px',
                     fontWeight: 900,
-                    color: '#ffffff',
+                    color: '#0f172a',
                     fontFamily: lang === 'en' ? "'Outfit', sans-serif" : "'Noto Sans Devanagari', sans-serif",
                     marginBottom: '4px'
                   }}
                 >
-                  {currentTreasureId === 1 && <span key="m1">{lang === 'en' ? 'Treasure 1: Cyber Safety' : 'पहला खज़ाना: साइबर सुरक्षा'}</span>}
-                  {currentTreasureId === 2 && <span key="m2">{lang === 'en' ? 'Treasure 2: AI Explorer' : 'दूसरा खज़ाना: एआई एक्सप्लोरर'}</span>}
-                  {currentTreasureId === 3 && <span key="m3">{lang === 'en' ? 'Final Treasure: Digital Seva' : 'अंतिम खज़ाना: डिजिटल सेवा'}</span>}
+                  {currentTreasureId === 1 && <span key="m1">{lang === 'en' ? `Treasure 1: ${activeMission?.name || 'Cyber Safety'}` : `पहला खज़ाना: ${activeMission?.hindiName || 'साइबर सुरक्षा'}`}</span>}
+                  {currentTreasureId === 2 && <span key="m2">{lang === 'en' ? `Treasure 2: ${activeMission?.name || 'AI Explorer'}` : `दूसरा खज़ाना: ${activeMission?.hindiName || 'एआई एक्सप्लोरर'}`}</span>}
+                  {currentTreasureId === 3 && <span key="m3">{lang === 'en' ? `Final Treasure: ${activeMission?.name || 'Digital Seva'}` : `अंतिम खज़ाना: ${activeMission?.hindiName || 'डिजिटल सेवा'}`}</span>}
                 </div>
-                <div style={{ fontSize: '12px', color: '#cbd5e1', lineHeight: 1.4 }}>
+                <div style={{ fontSize: '13px', color: '#475569', lineHeight: 1.45 }}>
                   {currentTreasureId === 1 && <span key="d1">{lang === 'en' ? 'Touch highlighted Marker #1 on the map to begin.' : 'मानचित्र पर हाइलाइट किए गए मार्कर #1 को स्पर्श करें।'}</span>}
-                  {currentTreasureId === 2 && <span key="d2">{lang === 'en' ? 'Follow the glowing route to Marker #2.' : 'ग्लॉइंग रूट का अनुसरण कर मार्कर #2 को स्पर्श करें।'}</span>}
+                  {currentTreasureId === 2 && <span key="d2">{lang === 'en' ? 'Follow the route to Marker #2.' : 'रूट का अनुसरण कर मार्कर #2 को स्पर्श करें।'}</span>}
                   {currentTreasureId === 3 && <span key="d3">{lang === 'en' ? 'Unlock the final treasure to become a Digital Explorer!' : 'अंतिम खज़ाना अनलॉक कर डिजिटल एक्सप्लोरर बनें!'}</span>}
                 </div>
               </div>
@@ -244,11 +244,11 @@ export default function App() {
                   fontFamily: "'Rajdhani', monospace",
                   fontWeight: 800,
                   letterSpacing: '0.8px',
-                  color: '#94a3b8',
+                  color: '#64748b',
                   marginBottom: '8px'
                 }}
               >
-                TREASURE QUESTS (खोज सूची)
+                {lang === 'en' ? 'TREASURE QUESTS' : 'खोज सूची • TREASURES'}
               </div>
 
               {MAP_CONFIG.treasures.map((treasure) => {
@@ -273,10 +273,10 @@ export default function App() {
                         />
                       </div>
                       <div>
-                        <div style={{ fontSize: '13px', fontWeight: 700, color: '#ffffff' }}>
+                        <div style={{ fontSize: '13px', fontWeight: 700, color: '#0f172a' }}>
                           {treasure.id}. {treasure.name}
                         </div>
-                        <div style={{ fontSize: '11px', color: '#cbd5e1', fontFamily: "'Noto Sans Devanagari', sans-serif" }}>
+                        <div style={{ fontSize: '11px', color: '#64748b', fontFamily: "'Noto Sans Devanagari', sans-serif" }}>
                           {treasure.hindiName}
                         </div>
                       </div>
@@ -284,17 +284,17 @@ export default function App() {
 
                     <div style={{ textAlign: 'right' }}>
                       {isUnlocked && (
-                        <span style={{ fontSize: '11px', fontWeight: 800, color: '#34d399', fontFamily: "'Rajdhani', monospace" }}>
+                        <span style={{ fontSize: '11px', fontWeight: 800, color: '#059669', fontFamily: "'Rajdhani', monospace" }}>
                           ✓ UNLOCKED
                         </span>
                       )}
                       {isActive && (
-                        <span style={{ fontSize: '11px', fontWeight: 800, color: '#00f2fe', fontFamily: "'Rajdhani', monospace" }}>
+                        <span style={{ fontSize: '11px', fontWeight: 800, color: '#0284c7', fontFamily: "'Rajdhani', monospace" }}>
                           ▶ ACTIVE
                         </span>
                       )}
                       {isLocked && (
-                        <span style={{ fontSize: '11px', fontWeight: 700, color: '#64748b', fontFamily: "'Rajdhani', monospace" }}>
+                        <span style={{ fontSize: '11px', fontWeight: 700, color: '#94a3b8', fontFamily: "'Rajdhani', monospace" }}>
                           🔒 LOCKED
                         </span>
                       )}
@@ -309,15 +309,15 @@ export default function App() {
               style={{
                 padding: '12px 14px',
                 borderRadius: '12px',
-                background: 'rgba(15, 23, 42, 0.75)',
-                border: '1px solid rgba(51, 65, 85, 0.8)',
-                fontSize: '11px',
-                color: '#cbd5e1'
+                background: '#f8fafc',
+                border: '1px solid #e2e8f0',
+                fontSize: '12px',
+                color: '#475569'
               }}
             >
               <div
                 style={{
-                  color: '#00f2fe',
+                  color: '#b45309',
                   fontFamily: "'Rajdhani', monospace",
                   fontWeight: 800,
                   textTransform: 'uppercase',
@@ -327,10 +327,12 @@ export default function App() {
                   gap: '6px'
                 }}
               >
-                <span>⚡ SINGLE RETRY RULE</span>
+                <span>⚡ {lang === 'en' ? 'SINGLE RETRY RULE' : 'री-ट्राई नियम'}</span>
               </div>
-              <p style={{ lineHeight: 1.35, margin: 0 }}>
-                पूरे खेल में केवल 1 री-ट्राई मिलता है। पहला गलत उत्तर आने पर आप सवाल दोबारा कर सकते हैं। दूसरा गलत उत्तर आने पर गेम ओवर हो जाएगा।
+              <p style={{ lineHeight: 1.4, margin: 0 }}>
+                {lang === 'en'
+                  ? 'Only 1 retry is available for the whole game. First mistake allows a retry; second mistake ends the game.'
+                  : 'पूरे खेल में केवल 1 री-ट्राई मिलता है। पहला गलत उत्तर आने पर सवाल दोबारा कर सकते हैं, दूसरा गलत आने पर गेम ओवर हो जाएगा।'}
               </p>
             </div>
           </aside>
@@ -339,10 +341,10 @@ export default function App() {
           <main className="map-main-stage">
             {/* Top Mission Floating Callout Banner */}
             <div className={`hud-mission-banner ${currentTreasureId === 3 ? 'gold' : ''}`}>
-              <span style={{ color: currentTreasureId === 3 ? '#fbbf24' : '#00f2fe', fontSize: '14px', fontWeight: 800, fontFamily: "'Rajdhani', monospace", letterSpacing: '0.5px' }}>
-                {currentTreasureId === 1 && <span key="hb1">{lang === 'en' ? '🎯 MISSION 1: Raipur — Unlock Cyber Safety' : '🎯 MISSION 1: रायपुर — अनलॉक करें साइबर सुरक्षा'}</span>}
-                {currentTreasureId === 2 && <span key="hb2">{lang === 'en' ? '🚀 MISSION 2: Bilaspur — Unlock AI Explorer' : '🚀 MISSION 2: बिलासपुर — अनलॉक करें AI Explorer'}</span>}
-                {currentTreasureId === 3 && <span key="hb3">{lang === 'en' ? '👑 FINAL MISSION: Bastar — Unlock Digital Seva' : '👑 FINAL MISSION: बस्तर — अनलॉक करें Digital Seva'}</span>}
+              <span style={{ color: currentTreasureId === 3 ? '#b45309' : '#0369a1', fontSize: '14px', fontWeight: 800, fontFamily: "'Rajdhani', monospace", letterSpacing: '0.5px' }}>
+                {currentTreasureId === 1 && <span key="hb1">{lang === 'en' ? `🎯 MISSION 1: Raipur — Unlock ${activeMission?.name || 'Cyber Safety'}` : `🎯 MISSION 1: रायपुर — अनलॉक करें ${activeMission?.hindiName || 'साइबर सुरक्षा'}`}</span>}
+                {currentTreasureId === 2 && <span key="hb2">{lang === 'en' ? `🚀 MISSION 2: Bilaspur — Unlock ${activeMission?.name || 'AI Explorer'}` : `🚀 MISSION 2: बिलासपुर — अनलॉक करें ${activeMission?.hindiName || 'AI Explorer'}`}</span>}
+                {currentTreasureId === 3 && <span key="hb3">{lang === 'en' ? `👑 FINAL MISSION: Bastar — Unlock ${activeMission?.name || 'Digital Seva'}` : `👑 FINAL MISSION: बस्तर — अनलॉक करें ${activeMission?.hindiName || 'डिजिटल सेवा'}`}</span>}
               </span>
             </div>
 
@@ -357,10 +359,10 @@ export default function App() {
 
             {/* Mobile Bottom Quick Status Bar */}
             <div className="mobile-quick-status-bar">
-              <span style={{ color: '#00f2fe', fontWeight: 800, fontFamily: "'Rajdhani', monospace" }}>
+              <span style={{ color: '#0284c7', fontWeight: 800, fontFamily: "'Rajdhani', monospace" }}>
                 TARGET: {activeMission?.name}
               </span>
-              <span style={{ color: '#fbbf24', fontWeight: 800, fontFamily: "'Rajdhani', monospace" }}>
+              <span style={{ color: '#b45309', fontWeight: 800, fontFamily: "'Rajdhani', monospace" }}>
                 {unlockedTreasures.length}/3 UNLOCKED
               </span>
             </div>

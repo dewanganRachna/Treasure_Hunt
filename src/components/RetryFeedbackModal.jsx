@@ -53,10 +53,9 @@ export default function RetryFeedbackModal({ onRetry = () => {} }) {
           style={{
             fontSize: '34px',
             fontWeight: 900,
-            color: '#fcd34d',
+            color: '#b45309',
             fontFamily: "'Noto Sans Devanagari', sans-serif",
-            margin: '0 0 6px 0',
-            textShadow: '0 2px 15px rgba(251, 191, 36, 0.5)'
+            margin: '0 0 6px 0'
           }}
         >
           Oops! गलत जवाब!
@@ -67,7 +66,7 @@ export default function RetryFeedbackModal({ onRetry = () => {} }) {
           style={{
             fontSize: '20px',
             fontWeight: 800,
-            color: '#ffffff',
+            color: '#0f172a',
             fontFamily: "'Noto Sans Devanagari', sans-serif",
             margin: '0 0 16px 0'
           }}
@@ -80,10 +79,10 @@ export default function RetryFeedbackModal({ onRetry = () => {} }) {
           style={{
             padding: '14px 18px',
             borderRadius: '12px',
-            background: 'rgba(15, 23, 42, 0.85)',
-            border: '1px solid rgba(148, 163, 184, 0.3)',
+            background: '#fffbeb',
+            border: '1px solid #fde68a',
             fontSize: '14px',
-            color: '#cbd5e1',
+            color: '#78350f',
             lineHeight: 1.5,
             maxWidth: '380px',
             marginBottom: '24px'

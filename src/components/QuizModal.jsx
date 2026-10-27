@@ -33,7 +33,7 @@ export default function QuizModal({
         <div className="tech-corner-accent tech-corner-bl" />
         <div className="tech-corner-accent tech-corner-br" />
 
-        {/* Glowing Top Beam */}
+        {/* Light Top Accent Beam */}
         <div
           style={{
             position: 'absolute',
@@ -41,7 +41,7 @@ export default function QuizModal({
             left: 0,
             right: 0,
             height: '4px',
-            background: 'linear-gradient(90deg, transparent, #00f2fe, transparent)'
+            background: 'linear-gradient(90deg, transparent, #6366f1, transparent)'
           }}
         />
 
@@ -52,7 +52,7 @@ export default function QuizModal({
             alignItems: 'center',
             justifyContent: 'space-between',
             paddingBottom: '16px',
-            borderBottom: '1px solid rgba(0, 242, 254, 0.2)'
+            borderBottom: '1px solid #e2e8f0'
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -61,13 +61,13 @@ export default function QuizModal({
                 width: '36px',
                 height: '36px',
                 borderRadius: '8px',
-                background: '#082f49',
-                border: '1px solid #00f2fe',
+                background: '#eef2ff',
+                border: '1px solid #c7d2fe',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 fontWeight: 800,
-                color: '#00f2fe',
+                color: '#6366f1',
                 fontFamily: "'Rajdhani', monospace"
               }}
             >
@@ -81,13 +81,13 @@ export default function QuizModal({
                   fontFamily: "'Rajdhani', monospace",
                   fontWeight: 700,
                   letterSpacing: '1px',
-                  color: '#00f2fe'
+                  color: '#6366f1'
                 }}
               >
                 TREASURE CHALLENGE
               </div>
-              <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#ffffff', margin: 0 }}>
-                {treasure.name} <span style={{ color: '#fbbf24' }}>({treasure.hindiName})</span>
+              <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#1e293b', margin: 0 }}>
+                {treasure.name} <span style={{ color: '#f59e0b' }}>({treasure.hindiName})</span>
               </h3>
             </div>
           </div>
@@ -97,15 +97,15 @@ export default function QuizModal({
             style={{
               padding: '6px 12px',
               borderRadius: '8px',
-              background: '#040d21',
-              border: '1px solid rgba(148, 163, 184, 0.3)',
+              background: '#f8fafc',
+              border: '1px solid #e2e8f0',
               fontSize: '12px',
               fontFamily: "'Rajdhani', monospace",
               fontWeight: 700
             }}
           >
             {!retryUsed ? (
-              <span style={{ color: '#34d399', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span style={{ color: '#10b981', display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <span className="status-ping-dot green" />
                 1 Retry Available
               </span>
@@ -120,26 +120,9 @@ export default function QuizModal({
 
         {/* The Quiz Question */}
         <div style={{ margin: '20px 0 16px 0' }}>
-          <div
-            style={{
-              fontSize: '11px',
-              fontFamily: "'Rajdhani', monospace",
-              color: '#00f2fe',
-              textTransform: 'uppercase',
-              letterSpacing: '1px',
-              marginBottom: '6px'
-            }}
-          >
-            SECTOR: {lang === 'en' ? (treasure.regionEn || treasure.region) : treasure.region}
-          </div>
           <h2 className="quiz-question-heading" style={{ margin: '0 0 4px 0' }}>
             {lang === 'en' ? (treasure.questionEn || treasure.question) : treasure.question}
           </h2>
-          {treasure.questionEn && treasure.questionEn !== treasure.question && (
-            <div style={{ fontSize: '13px', color: '#94a3b8', fontStyle: 'italic' }}>
-              {lang === 'en' ? treasure.question : treasure.questionEn}
-            </div>
-          )}
         </div>
 
         {/* Options List */}
@@ -147,7 +130,6 @@ export default function QuizModal({
           {treasure.options.map((option) => {
             const isSelected = selectedOptionId === option.id;
             const primaryText = lang === 'en' ? (option.textEn || option.text) : option.text;
-            const subText = lang === 'en' ? (option.textEn ? option.text : '') : (option.textEn || '');
 
             return (
               <button
@@ -161,14 +143,9 @@ export default function QuizModal({
                   {option.id}
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0, textAlign: 'left' }}>
-                  <span className="quiz-opt-text" style={{ fontSize: '15px', fontWeight: 700, color: '#ffffff' }}>
+                  <span className="quiz-opt-text" style={{ fontSize: '15px', fontWeight: 700, color: '#1e293b' }}>
                     {primaryText}
                   </span>
-                  {subText && subText !== primaryText && (
-                    <span style={{ fontSize: '12px', color: '#94a3b8' }}>
-                      {subText}
-                    </span>
-                  )}
                 </div>
                 <div
                   style={{
@@ -176,7 +153,7 @@ export default function QuizModal({
                     height: '20px',
                     borderRadius: '50%',
                     border: '2px solid',
-                    borderColor: isSelected ? '#00f2fe' : '#475569',
+                    borderColor: isSelected ? '#6366f1' : '#cbd5e1',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -189,7 +166,7 @@ export default function QuizModal({
                         width: '10px',
                         height: '10px',
                         borderRadius: '50%',
-                        background: '#00f2fe'
+                        background: '#6366f1'
                       }}
                     />
                   )}
@@ -203,16 +180,16 @@ export default function QuizModal({
         <div
           style={{
             paddingTop: '12px',
-            borderTop: '1px solid rgba(0, 242, 254, 0.2)',
+            borderTop: '1px solid #e2e8f0',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
             fontSize: '12px',
-            color: '#94a3b8',
+            color: '#64748b',
             fontFamily: "'Rajdhani', monospace"
           }}
         >
-          <span>👆 सही उत्तर चुनने के लिए स्पर्श करें (Touch to select)</span>
+          <span>👆 सही उत्तर चुनने के लिए स्पर्श करें</span>
           <button
             type="button"
             onClick={() => {
@@ -222,14 +199,14 @@ export default function QuizModal({
             style={{
               background: 'none',
               border: 'none',
-              color: '#00f2fe',
+              color: '#6366f1',
               cursor: 'pointer',
               textDecoration: 'underline',
               fontSize: '12px',
               fontFamily: 'inherit'
             }}
           >
-            वापस मानचित्र देखें (Back to Map)
+            वापस मानचित्र देखें
           </button>
         </div>
       </div>

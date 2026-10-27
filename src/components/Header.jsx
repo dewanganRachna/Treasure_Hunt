@@ -33,9 +33,9 @@ export default function Header({
         {/* Emblem Crest */}
         <div className="header-emblem-crest">
           <svg viewBox="0 0 40 40" width="28" height="28">
-            <polygon points="20,2 36,10 36,30 20,38 4,30 4,10" fill="none" stroke="#00f2fe" strokeWidth="2.5" />
-            <circle cx="20" cy="20" r="7" fill="#ffd700" />
-            <path d="M 20 7 L 20 12 M 20 28 L 20 33 M 7 20 L 12 20 M 28 20 L 33 20" stroke="#00f2fe" strokeWidth="2" strokeLinecap="round" />
+            <polygon points="20,2 36,10 36,30 20,38 4,30 4,10" fill="none" stroke="#0284c7" strokeWidth="2.5" />
+            <circle cx="20" cy="20" r="7" fill="#f59e0b" />
+            <path d="M 20 7 L 20 12 M 20 28 L 20 33 M 7 20 L 12 20 M 28 20 L 33 20" stroke="#0284c7" strokeWidth="2" strokeLinecap="round" />
           </svg>
         </div>
 
@@ -103,10 +103,9 @@ export default function Header({
           className="header-btn header-btn-lang"
           title={lang === 'hi' ? 'Play in English' : 'हिंदी में खेलें'}
           aria-label="Language Toggle"
-          style={{ borderColor: '#00f2fe' }}
         >
           <span style={{ fontSize: '13px' }}>🌐</span>
-          <span className="btn-label-desktop" style={{ color: '#ffd700', fontWeight: 800 }}>
+          <span className="btn-label-desktop" style={{ color: '#0369a1', fontWeight: 800 }}>
             {lang === 'hi' ? 'ENG' : 'हिंदी'}
           </span>
         </button>

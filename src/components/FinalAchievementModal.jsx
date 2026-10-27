@@ -64,9 +64,9 @@ export default function FinalAchievementModal({ onPlayAgain = () => {} }) {
             gap: '8px',
             padding: '5px 16px',
             borderRadius: '9999px',
-            background: 'rgba(120, 53, 15, 0.45)',
-            border: '1px solid rgba(251, 191, 36, 0.6)',
-            color: '#fbbf24',
+            background: '#fef3c7',
+            border: '1px solid #fde68a',
+            color: '#b45309',
             fontFamily: "'Rajdhani', monospace",
             fontSize: '12px',
             fontWeight: 800,
@@ -83,11 +83,10 @@ export default function FinalAchievementModal({ onPlayAgain = () => {} }) {
           style={{
             fontSize: '44px',
             fontWeight: 900,
-            color: '#fcd34d',
+            color: '#b45309',
             fontFamily: "'Noto Sans Devanagari', sans-serif",
             letterSpacing: '1px',
-            margin: '2px 0 4px 0',
-            textShadow: '0 2px 20px rgba(251, 191, 36, 0.8)'
+            margin: '2px 0 4px 0'
           }}
         >
           बधाई हो!
@@ -96,17 +95,13 @@ export default function FinalAchievementModal({ onPlayAgain = () => {} }) {
         {/* Required Main Text */}
         <h1
           style={{
-            fontSize: '28px',
+            fontSize: '26px',
             fontWeight: 900,
-            color: '#ffffff',
-            background: 'linear-gradient(135deg, #ffffff 30%, #a5f3fc 70%, #00f2fe 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
+            color: '#0f172a',
             fontFamily: "'Outfit', sans-serif",
             textTransform: 'uppercase',
-            letterSpacing: '2px',
-            margin: '0 0 10px 0',
-            textShadow: '0 4px 25px rgba(0, 242, 254, 0.5)'
+            letterSpacing: '1.5px',
+            margin: '0 0 10px 0'
           }}
         >
           YOU ARE A CHHATTISGARH DIGITAL EXPLORER
@@ -116,17 +111,16 @@ export default function FinalAchievementModal({ onPlayAgain = () => {} }) {
         <div
           style={{
             display: 'inline-block',
-            padding: '5px 18px',
+            padding: '6px 20px',
             borderRadius: '12px',
-            background: 'rgba(4, 30, 60, 0.85)',
-            border: '1.5px solid #00f2fe',
-            color: '#00f2fe',
+            background: '#f0f9ff',
+            border: '1.5px solid #bae6fd',
+            color: '#0284c7',
             fontFamily: "'Rajdhani', monospace",
-            fontSize: '15px',
+            fontSize: '14px',
             fontWeight: 800,
             letterSpacing: '1px',
-            marginBottom: '14px',
-            boxShadow: '0 0 15px rgba(0, 242, 254, 0.4)'
+            marginBottom: '14px'
           }}
         >
           PROGRESS: 3/3 TREASURES UNLOCKED
@@ -264,20 +258,20 @@ export default function FinalAchievementModal({ onPlayAgain = () => {} }) {
             style={{
               padding: '10px',
               borderRadius: '12px',
-              background: 'rgba(6, 78, 59, 0.45)',
-              border: '1px solid rgba(16, 185, 129, 0.4)',
+              background: '#f0fdf4',
+              border: '1px solid #bbf7d0',
               textAlign: 'left',
               display: 'flex',
               alignItems: 'center',
               gap: '8px'
             }}
           >
-            <span style={{ color: '#34d399', fontWeight: 800, fontSize: '18px' }}>✓</span>
+            <span style={{ color: '#10b981', fontWeight: 800, fontSize: '18px' }}>✓</span>
             <div>
-              <div style={{ fontSize: '10px', color: '#6ee7b7', fontWeight: 700, textTransform: 'uppercase', fontFamily: "'Rajdhani', monospace" }}>
+              <div style={{ fontSize: '10px', color: '#059669', fontWeight: 700, textTransform: 'uppercase', fontFamily: "'Rajdhani', monospace" }}>
                 Treasure 1
               </div>
-              <div style={{ fontSize: '12px', fontWeight: 700, color: '#ffffff' }}>Cyber Safety</div>
+              <div style={{ fontSize: '12px', fontWeight: 700, color: '#0f172a' }}>Digital Seva</div>
             </div>
           </div>
 
@@ -285,20 +279,20 @@ export default function FinalAchievementModal({ onPlayAgain = () => {} }) {
             style={{
               padding: '10px',
               borderRadius: '12px',
-              background: 'rgba(6, 78, 59, 0.45)',
-              border: '1px solid rgba(16, 185, 129, 0.4)',
+              background: '#f0fdf4',
+              border: '1px solid #bbf7d0',
               textAlign: 'left',
               display: 'flex',
               alignItems: 'center',
               gap: '8px'
             }}
           >
-            <span style={{ color: '#34d399', fontWeight: 800, fontSize: '18px' }}>✓</span>
+            <span style={{ color: '#10b981', fontWeight: 800, fontSize: '18px' }}>✓</span>
             <div>
-              <div style={{ fontSize: '10px', color: '#6ee7b7', fontWeight: 700, textTransform: 'uppercase', fontFamily: "'Rajdhani', monospace" }}>
+              <div style={{ fontSize: '10px', color: '#059669', fontWeight: 700, textTransform: 'uppercase', fontFamily: "'Rajdhani', monospace" }}>
                 Treasure 2
               </div>
-              <div style={{ fontSize: '12px', fontWeight: 700, color: '#ffffff' }}>AI Explorer</div>
+              <div style={{ fontSize: '12px', fontWeight: 700, color: '#0f172a' }}>AI Explorer</div>
             </div>
           </div>
 
@@ -306,20 +300,20 @@ export default function FinalAchievementModal({ onPlayAgain = () => {} }) {
             style={{
               padding: '10px',
               borderRadius: '12px',
-              background: 'rgba(6, 78, 59, 0.45)',
-              border: '1px solid rgba(16, 185, 129, 0.4)',
+              background: '#f0fdf4',
+              border: '1px solid #bbf7d0',
               textAlign: 'left',
               display: 'flex',
               alignItems: 'center',
               gap: '8px'
             }}
           >
-            <span style={{ color: '#34d399', fontWeight: 800, fontSize: '18px' }}>✓</span>
+            <span style={{ color: '#10b981', fontWeight: 800, fontSize: '18px' }}>✓</span>
             <div>
-              <div style={{ fontSize: '10px', color: '#6ee7b7', fontWeight: 700, textTransform: 'uppercase', fontFamily: "'Rajdhani', monospace" }}>
+              <div style={{ fontSize: '10px', color: '#059669', fontWeight: 700, textTransform: 'uppercase', fontFamily: "'Rajdhani', monospace" }}>
                 Treasure 3
               </div>
-              <div style={{ fontSize: '12px', fontWeight: 700, color: '#ffffff' }}>Digital Seva</div>
+              <div style={{ fontSize: '12px', fontWeight: 700, color: '#0f172a' }}>Smart Chhattisgarh</div>
             </div>
           </div>
         </div>

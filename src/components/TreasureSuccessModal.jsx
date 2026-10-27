@@ -37,7 +37,7 @@ export default function TreasureSuccessModal({
 
   const isTreasure1 = treasureId === 1;
   const title = isTreasure1 ? 'Congratulations! Treasure 1 Unlocked!' : 'Amazing! Treasure 2 Unlocked!';
-  const hindiTitle = isTreasure1 ? 'बधाई! खज़ाना 1 (साइबर सुरक्षा) अनलॉक हुआ!' : 'शानदार! खज़ाना 2 (एआई एक्सप्लोरर) अनलॉक हुआ!';
+  const hindiTitle = isTreasure1 ? 'बधाई! खज़ाना 1 (डिजिटल सेवा) अनलॉक हुआ!' : 'शानदार! खज़ाना 2 (एआई एक्सप्लोरर) अनलॉक हुआ!';
   const progressText = isTreasure1 ? '1/3' : '2/3';
 
   return (
@@ -97,21 +97,21 @@ export default function TreasureSuccessModal({
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
-            padding: '4px 14px',
+            padding: '5px 16px',
             borderRadius: '9999px',
-            background: 'rgba(15, 23, 42, 0.8)',
-            border: '1px solid rgba(251, 191, 36, 0.5)',
-            color: '#fbbf24',
+            background: '#fef3c7',
+            border: '1px solid #fde68a',
+            color: '#b45309',
             fontFamily: "'Rajdhani', monospace",
             fontSize: '12px',
-            fontWeight: 700,
+            fontWeight: 800,
             textTransform: 'uppercase',
             letterSpacing: '0.8px',
             marginBottom: '10px'
           }}
         >
           <span>PROGRESS UPDATE:</span>
-          <span style={{ fontSize: '14px', fontWeight: 900, color: '#00f2fe' }}>{progressText} UNLOCKED</span>
+          <span style={{ fontSize: '14px', fontWeight: 900, color: '#0284c7' }}>{progressText} UNLOCKED</span>
         </div>
 
         {/* Animated 3D-Style Chest Opening Showcase */}
@@ -199,12 +199,11 @@ export default function TreasureSuccessModal({
             zIndex: 10,
             fontSize: '28px',
             fontWeight: 900,
-            color: '#fcd34d',
+            color: '#b45309',
             fontFamily: "'Outfit', sans-serif",
             textTransform: 'uppercase',
             letterSpacing: '1px',
-            margin: '6px 0 2px 0',
-            textShadow: '0 2px 15px rgba(251, 191, 36, 0.6)'
+            margin: '6px 0 2px 0'
           }}
         >
           {title}
@@ -214,9 +213,9 @@ export default function TreasureSuccessModal({
         <h3
           style={{
             zIndex: 10,
-            fontSize: '17px',
-            fontWeight: 700,
-            color: '#f1f5f9',
+            fontSize: '18px',
+            fontWeight: 800,
+            color: '#0f172a',
             fontFamily: "'Noto Sans Devanagari', sans-serif",
             margin: '0 0 20px 0'
           }}

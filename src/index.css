@@ -1,23 +1,38 @@
 :root {
-  --bg-deep-navy: #04091a;
-  --bg-navy-900: #060e24;
-  --bg-navy-800: #091738;
-  --bg-navy-700: #0f2452;
-  --bg-card: rgba(8, 22, 53, 0.88);
-  --cyan-bright: #00f2fe;
-  --cyan-deep: #0284c7;
-  --gold-bright: #ffd700;
-  --gold-warm: #fbbf24;
-  --emerald-bright: #10b981;
-  --rose-bright: #f43f5e;
-  --text-white: #ffffff;
-  --text-slate-100: #f1f5f9;
-  --text-slate-300: #cbd5e1;
-  --text-slate-400: #94a3b8;
-  --border-cyan: rgba(0, 242, 254, 0.35);
-  --border-gold: rgba(251, 191, 36, 0.5);
-  --glow-cyan: 0 0 20px rgba(0, 242, 254, 0.5);
-  --glow-gold: 0 0 25px rgba(255, 215, 0, 0.6);
+  --bg-primary: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-subtle: #f1f5f9;
+  --bg-card: #ffffff;
+  
+  --primary-blue: #0284c7;
+  --primary-dark: #0369a1;
+  --primary-light: #e0f2fe;
+  
+  --gold-warm: #f59e0b;
+  --gold-light: #fef3c7;
+  --gold-dark: #b45309;
+  
+  --emerald-green: #10b981;
+  --emerald-light: #ecfdf5;
+  --emerald-dark: #047857;
+  
+  --rose-red: #ef4444;
+  --rose-light: #fef2f2;
+  --rose-dark: #b91c1c;
+
+  --text-main: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --text-light: #94a3b8;
+  
+  --border-light: #e2e8f0;
+  --border-subtle: #cbd5e1;
+  --border-focus: #38bdf8;
+  
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.07);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.09);
+  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.12);
 }
 
 * {
@@ -31,8 +46,8 @@ html, body, #root {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: var(--bg-deep-navy);
-  color: var(--text-slate-100);
+  background-color: var(--bg-primary);
+  color: var(--text-main);
   font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   user-select: none;
 }
@@ -56,36 +71,22 @@ html, body, #root {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background: radial-gradient(circle at 50% 15%, #0c204d 0%, #060e24 55%, #030814 100%);
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
   position: relative;
   overflow: hidden;
 }
 
-/* Cybernetic Scanlines */
+/* Scanlines disabled for clean, modern light theme */
 .scanlines-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    rgba(18, 16, 16, 0) 50%, 
-    rgba(0, 0, 0, 0.2) 50%
-  ), linear-gradient(
-    90deg,
-    rgba(0, 242, 254, 0.015),
-    rgba(0, 0, 0, 0.01),
-    rgba(255, 215, 0, 0.015)
-  );
-  background-size: 100% 3px, 6px 100%;
-  pointer-events: none;
-  z-index: 25;
-  opacity: 0.6;
+  display: none !important;
 }
 
 /* Map Grid Background */
 .map-grid-bg {
-  background-size: 32px 32px;
+  background-size: 36px 36px;
   background-image: 
-    linear-gradient(to right, rgba(0, 242, 254, 0.08) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 242, 254, 0.08) 1px, transparent 1px);
+    linear-gradient(to right, rgba(148, 163, 184, 0.14) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.14) 1px, transparent 1px);
 }
 
 /* Header Styles */
@@ -95,11 +96,11 @@ html, body, #root {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(0, 242, 254, 0.22);
-  background: rgba(6, 14, 34, 0.94);
+  border-bottom: 1px solid var(--border-light);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(12px);
   z-index: 30;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
 }
 
 .hud-badge {
@@ -115,31 +116,29 @@ html, body, #root {
 }
 
 .hud-badge-progress {
-  background: #091838;
-  border: 1px solid rgba(0, 242, 254, 0.4);
-  box-shadow: 0 0 15px rgba(0, 242, 254, 0.15);
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
 }
 
 .hud-badge-retry-available {
-  background: rgba(6, 78, 59, 0.6);
-  border: 1px solid rgba(16, 185, 129, 0.5);
-  color: #6ee7b7;
-  box-shadow: 0 0 12px rgba(16, 185, 129, 0.25);
+  background: var(--emerald-light);
+  border: 1px solid #a7f3d0;
+  color: var(--emerald-dark);
 }
 
 .hud-badge-retry-consumed {
-  background: rgba(136, 19, 55, 0.6);
-  border: 1px solid rgba(244, 63, 94, 0.4);
-  color: #fda4af;
-  opacity: 0.85;
+  background: var(--rose-light);
+  border: 1px solid #fecaca;
+  color: var(--rose-dark);
 }
 
 .header-btn {
   padding: 7px 14px;
   border-radius: 8px;
-  border: 1px solid rgba(148, 163, 184, 0.25);
-  background: rgba(30, 41, 59, 0.8);
-  color: var(--text-slate-300);
+  border: 1px solid var(--border-light);
+  background: #ffffff;
+  color: var(--text-secondary);
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
@@ -147,23 +146,26 @@ html, body, #root {
   align-items: center;
   gap: 6px;
   transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
 }
 
 .header-btn:hover {
-  background: rgba(51, 65, 85, 0.9);
-  color: var(--cyan-bright);
-  border-color: var(--cyan-bright);
+  background: #f8fafc;
+  color: var(--primary-dark);
+  border-color: var(--border-subtle);
 }
 
 .header-btn-restart {
-  background: linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(2, 132, 199, 0.2));
-  border: 1px solid rgba(0, 242, 254, 0.4);
-  color: var(--cyan-bright);
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  color: var(--primary-dark);
+  font-weight: 700;
 }
 
 .header-btn-restart:hover {
-  background: linear-gradient(135deg, rgba(0, 242, 254, 0.35), rgba(2, 132, 199, 0.35));
-  box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
+  background: #e0f2fe;
+  border-color: #7dd3fc;
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.15);
 }
 
 /* Map Screen Layout */
@@ -172,21 +174,21 @@ html, body, #root {
   flex: 1;
   display: flex;
   width: 100%;
-  height: calc(100vh - 65px);
+  height: calc(100vh - 68px);
   overflow: hidden;
 }
 
 .map-sidebar {
   width: 340px;
-  background: rgba(6, 15, 38, 0.88);
-  border-right: 1px solid rgba(0, 242, 254, 0.2);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.94);
+  border-right: 1px solid var(--border-light);
+  backdrop-filter: blur(12px);
   padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   z-index: 10;
-  box-shadow: 6px 0 25px rgba(0, 0, 0, 0.4);
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.05);
 }
 
 .map-main-stage {
@@ -196,15 +198,17 @@ html, body, #root {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  background: radial-gradient(circle at 50% 50%, #f8fafc 0%, #edf2f7 100%);
 }
 
 /* Sidebar Mission Card */
 .mission-card {
   padding: 16px;
   border-radius: 16px;
-  background: linear-gradient(135deg, rgba(10, 26, 62, 0.9), rgba(5, 14, 35, 0.9));
-  border: 1.5px solid rgba(0, 242, 254, 0.4);
-  box-shadow: 0 0 20px rgba(0, 242, 254, 0.15);
+  background: #ffffff;
+  border: 1.5px solid var(--border-light);
+  border-left: 4px solid var(--primary-blue);
+  box-shadow: var(--shadow-md);
   margin-bottom: 16px;
 }
 
@@ -215,21 +219,22 @@ html, body, #root {
   padding: 12px;
   border-radius: 12px;
   margin-bottom: 10px;
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: #ffffff;
+  border: 1px solid var(--border-light);
   transition: all 0.25s ease;
+  box-shadow: var(--shadow-sm);
 }
 
 .treasure-status-item.active {
-  background: linear-gradient(135deg, rgba(0, 242, 254, 0.15), rgba(8, 26, 60, 0.8));
-  border: 1.5px solid var(--cyan-bright);
-  box-shadow: 0 0 18px rgba(0, 242, 254, 0.25);
+  background: #f0f9ff;
+  border: 1.5px solid #38bdf8;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.12);
   transform: translateX(4px);
 }
 
 .treasure-status-item.unlocked {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(8, 26, 60, 0.8));
-  border: 1.5px solid var(--emerald-bright);
+  background: #f0fdf4;
+  border: 1.5px solid #86efac;
 }
 
 /* Animations */
@@ -240,7 +245,7 @@ html, body, #root {
 
 @keyframes bounceSubtle {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+  50% { transform: translateY(-5px); }
 }
 
 @keyframes routePulse {
@@ -287,7 +292,7 @@ html, body, #root {
   position: fixed;
   inset: 0;
   z-index: 50;
-  background: rgba(4, 9, 26, 0.88);
+  background: rgba(15, 23, 42, 0.45);
   backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
@@ -300,28 +305,29 @@ html, body, #root {
   width: 100%;
   padding: 16px 20px;
   border-radius: 16px;
-  background: rgba(13, 30, 64, 0.8);
-  border: 2px solid rgba(0, 242, 254, 0.3);
+  background: #ffffff;
+  border: 2px solid var(--border-light);
   display: flex;
   align-items: center;
   gap: 16px;
-  color: var(--text-white);
+  color: var(--text-main);
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   text-align: left;
+  box-shadow: var(--shadow-sm);
 }
 
 .quiz-option-card:hover {
-  background: rgba(18, 40, 84, 0.95);
-  border-color: var(--cyan-bright);
+  background: #f8faff;
+  border-color: #6366f1;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 242, 254, 0.2);
+  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.14);
 }
 
 .quiz-option-card.selected {
-  background: rgba(0, 242, 254, 0.25);
-  border-color: var(--cyan-bright);
-  box-shadow: 0 0 25px rgba(0, 242, 254, 0.5);
+  background: #eef2ff;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
   transform: scale(1.01);
 }
 
@@ -329,9 +335,9 @@ html, body, #root {
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  background: #091738;
-  border: 1.5px solid rgba(0, 242, 254, 0.5);
-  color: var(--cyan-bright);
+  background: #eef2ff;
+  border: 1.5px solid #c7d2fe;
+  color: #6366f1;
   font-family: 'Outfit', sans-serif;
   font-weight: 800;
   font-size: 18px;
@@ -342,12 +348,12 @@ html, body, #root {
 }
 
 .quiz-option-card.selected .quiz-option-badge {
-  background: var(--cyan-bright);
-  color: #04091a;
-  border-color: #ffffff;
+  background: #6366f1;
+  color: #ffffff;
+  border-color: #6366f1;
 }
 
-/* Interactive Marker Styles - Rock Solid Stability */
+/* Interactive Marker Styles */
 .treasure-marker-group {
   cursor: default;
 }
@@ -358,7 +364,7 @@ html, body, #root {
 }
 
 .treasure-marker-group.active:hover {
-  filter: drop-shadow(0 0 16px rgba(0, 242, 254, 0.9));
+  filter: drop-shadow(0 4px 16px rgba(2, 132, 199, 0.45));
 }
 
 /* Responsive Touch Adjustments */
