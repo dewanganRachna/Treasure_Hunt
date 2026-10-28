@@ -1,157 +1,61 @@
-import React, { useState } from 'react';
-import { sound } from '../utils/audio';
+import { WAYPOINTS } from '../data/explorerConfig';
+import { t } from '../data/i18n';
 
-export default function Header({
-  unlockedCount = 0,
-  totalTreasures = 3,
-  retryUsed = false,
-  onReset = () => {},
-  isMuted = false,
-  onToggleMute = () => {},
-  lang = 'hi',
-  onToggleLang = () => {}
-}) {
-  const [isFullscreen, setIsFullscreen] = useState(false);
+const TOTAL = WAYPOINTS.length;
 
-  const toggleFullscreen = () => {
-    sound.playClick();
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().then(() => {
-        setIsFullscreen(true);
-      }).catch(() => {});
-    } else {
-      document.exitFullscreen().then(() => {
-        setIsFullscreen(false);
-      }).catch(() => {});
-    }
-  };
-
+export default function Header({ cur, lang, muted, onToggleLang, onToggleSound, onFullscreen, onRestart }) {
   return (
-    <header className="kiosk-header">
-      {/* Left: Branding & CHiPS Rajyotsav Logo Emblem */}
-      <div className="header-brand-container">
-        {/* Emblem Crest */}
-        <div className="header-emblem-crest">
-          <svg viewBox="0 0 40 40" width="28" height="28">
-            <polygon points="20,2 36,10 36,30 20,38 4,30 4,10" fill="none" stroke="#0284c7" strokeWidth="2.5" />
-            <circle cx="20" cy="20" r="7" fill="#f59e0b" />
-            <path d="M 20 7 L 20 12 M 20 28 L 20 33 M 7 20 L 12 20 M 28 20 L 33 20" stroke="#0284c7" strokeWidth="2" strokeLinecap="round" />
+    <header className="hdr">
+      <div className="hdr-logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22">
+          <polygon points="12,2.4 21,7.2 21,16.8 12,21.6 3,16.8 3,7.2" fill="none" stroke="#a86e18" strokeWidth="1.6" strokeLinejoin="round" />
+          <circle cx="12" cy="12" r="3.4" fill="#c98a24" />
+        </svg>
+      </div>
+      <div>
+        <div className="cp">
+          <span className="chipl">CHiPS · {t(lang, 'gov')}</span>
+          <span className="chipl g">{t(lang, 'fest')}</span>
+        </div>
+        <div className="ti">{t(lang, 'title')}</div>
+      </div>
+
+      <div className="progress" role="progressbar" aria-label="Progress" aria-valuemin={0} aria-valuemax={TOTAL} aria-valuenow={Math.max(cur, 0)}>
+        <span className="lbl">PROGRESS</span>
+        <span className="dots">
+          {Array.from({ length: TOTAL }, (_, m) => (
+            <i key={m} className={m < cur ? 'on' : m === cur ? 'cu' : ''} />
+          ))}
+        </span>
+        <b>{Math.max(cur, 0)}/{TOTAL}</b>
+      </div>
+
+      <div className="tools">
+        <button type="button" className="tb" onClick={onToggleLang}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M3 12h18M12 3c2.6 3 2.6 15 0 18M12 3c-2.6 3-2.6 15 0 18" />
           </svg>
-        </div>
-
-        <div className="header-brand-text">
-          <div className="header-tag-row">
-            <span className="chips-state-badge">
-              {lang === 'en' ? 'CHiPS • GOVT OF CHHATTISGARH' : 'CHiPS • छत्तीसगढ़ शासन'}
-            </span>
-            <span className="rajyotsav-badge">
-              {lang === 'en' ? 'RAJYOTSAV SPECIAL' : 'राज्य उत्सव विशेष'}
-            </span>
-          </div>
-          <h1 className="header-main-title">
-            {lang === 'en' ? 'Chhattisgarh Digital Explorer' : 'छत्तीसगढ़ डिजिटल एक्सप्लोरर'}
-          </h1>
-        </div>
-      </div>
-
-      {/* Center: Live Mission Progress & Shared Retry Indicator */}
-      <div className="header-center-hud">
-        {/* Progress Display */}
-        <div className="hud-badge hud-badge-progress">
-          <span className="hud-label">PROGRESS:</span>
-          <div className="progress-dots-row">
-            {[1, 2, 3].map((step) => (
-              <div
-                key={step}
-                className={`progress-dot ${step <= unlockedCount ? 'active' : ''}`}
-              />
-            ))}
-          </div>
-          <span className="progress-counter-text">
-            {unlockedCount}/{totalTreasures}
-          </span>
-        </div>
-
-        {/* Global Shared Retry Status Badge */}
-        <div
-          className={`hud-badge ${!retryUsed ? 'hud-badge-retry-available' : 'hud-badge-retry-consumed'}`}
-          title="Single retry shared across all 3 quiz questions"
-        >
-          {!retryUsed ? (
-            <>
-              <span className="status-ping-dot green" />
-              <span>⚡ 1 RETRY AVAILABLE</span>
-            </>
-          ) : (
-            <>
-              <span className="status-ping-dot red" />
-              <span>⚠️ 0 RETRIES LEFT</span>
-            </>
-          )}
-        </div>
-      </div>
-
-      {/* Right: Language Toggle, Audio Toggle, Fullscreen, and Reset */}
-      <div className="header-controls-group">
-        {/* Language Switch Button (HI / EN) */}
-        <button
-          type="button"
-          onClick={() => {
-            sound.playClick();
-            onToggleLang();
-          }}
-          className="header-btn header-btn-lang"
-          title={lang === 'hi' ? 'Play in English' : 'हिंदी में खेलें'}
-          aria-label="Language Toggle"
-        >
-          <span style={{ fontSize: '13px' }}>🌐</span>
-          <span className="btn-label-desktop" style={{ color: '#0369a1', fontWeight: 800 }}>
-            {lang === 'hi' ? 'ENG' : 'हिंदी'}
-          </span>
+          <span lang={lang === 'hi' ? 'en' : 'hi'}>{lang === 'hi' ? 'ENG' : 'हिन्दी'}</span>
         </button>
-
-        {/* Mute / Unmute Button */}
-        <button
-          type="button"
-          onClick={onToggleMute}
-          className={`header-btn ${!isMuted ? 'active-audio' : ''}`}
-          title={isMuted ? 'Unmute Sound' : 'Mute Sound'}
-          aria-label="Sound Toggle"
-        >
-          <span>{isMuted ? '🔇' : '🔊'}</span>
-          <span className="btn-label-desktop">{isMuted ? 'MUTE' : 'SOUND'}</span>
-          {!isMuted && (
-            <span className="audio-equalizer-bars">
-              <span />
-              <span />
-              <span />
-            </span>
-          )}
+        <button type="button" className={`tb${muted ? ' off' : ''}`} onClick={onToggleSound} aria-pressed={!muted}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+            <path d="M4 9v6h4l5 4V5L8 9H4z" strokeLinejoin="round" />
+            <path d="M17 9.5a4 4 0 0 1 0 5M19.5 7a7.5 7.5 0 0 1 0 10" opacity={muted ? 0.25 : 1} />
+          </svg>
+          <span>{t(lang, 'sound')}</span>
         </button>
-
-        {/* Fullscreen Button */}
-        <button
-          type="button"
-          onClick={toggleFullscreen}
-          className="header-btn btn-fullscreen"
-          title="Toggle Fullscreen (Exhibition Kiosk)"
-          aria-label="Toggle Fullscreen"
-        >
-          {isFullscreen ? '⤓' : '⤢'}
+        <button type="button" className="tb" onClick={onFullscreen} aria-label={t(lang, 'fullscreen')}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+            <path d="M9 4H4v5M15 4h5v5M15 20h5v-5M9 20H4v-5" />
+          </svg>
         </button>
-
-        {/* Play Again / Reset Button */}
-        <button
-          type="button"
-          onClick={() => {
-            sound.playClick();
-            onReset();
-          }}
-          className="header-btn header-btn-restart"
-          title="Restart Game"
-        >
-          <span>↺</span>
-          <span>RESTART</span>
+        <button type="button" className="tb" onClick={onRestart}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+            <path d="M3 12a9 9 0 1 0 3-6.7" />
+            <path d="M3 4v5h5" />
+          </svg>
+          <span>{t(lang, 'restart')}</span>
         </button>
       </div>
     </header>
