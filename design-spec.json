@@ -1,0 +1,133 @@
+{
+ "stage": {
+  "w": 1280,
+  "h": 720,
+  "headerH": 66
+ },
+ "mapViewBox": "-110 -110 740 1040",
+ "worldPx": {
+  "w": 1628,
+  "h": 2288,
+  "unitToPx": 2.2
+ },
+ "camera": {
+  "fitZoom": 0.277,
+  "playZoom": 0.8,
+  "mapLeft": 504,
+  "mapRight": 1280,
+  "yAnchor": 393,
+  "clamp": "tx in [MAPR-1628*z, MAPL], ty in [720-2288*z, 66]",
+  "transition": "transform 2.2s cubic-bezier(.45,.05,.2,1)"
+ },
+ "panel": {
+  "left": 16,
+  "width": 472,
+  "holds": [
+   "intro",
+   "question card",
+   "finale banner"
+  ]
+ },
+ "waypoints": [
+  {
+   "i": 1,
+   "name": "Surguja",
+   "x": 363.7,
+   "y": 166.6,
+   "isTreasure": false
+  },
+  {
+   "i": 2,
+   "name": "Raigarh",
+   "x": 372.7,
+   "y": 270.4,
+   "isTreasure": false
+  },
+  {
+   "i": 3,
+   "name": "Korba",
+   "x": 292.8,
+   "y": 215.1,
+   "isTreasure": false
+  },
+  {
+   "i": 4,
+   "name": "Bilaspur",
+   "x": 231.6,
+   "y": 231.2,
+   "isTreasure": false
+  },
+  {
+   "i": 5,
+   "name": "Kabirdham",
+   "x": 134.0,
+   "y": 269.4,
+   "isTreasure": false
+  },
+  {
+   "i": 6,
+   "name": "Rajnandgaon",
+   "x": 87.8,
+   "y": 398.7,
+   "isTreasure": false
+  },
+  {
+   "i": 7,
+   "name": "Durg",
+   "x": 152.4,
+   "y": 376.5,
+   "isTreasure": false
+  },
+  {
+   "i": 8,
+   "name": "Raipur",
+   "x": 202.5,
+   "y": 368.5,
+   "isTreasure": false
+  },
+  {
+   "i": 9,
+   "name": "Kanker",
+   "x": 122.6,
+   "y": 509.5,
+   "isTreasure": false
+  },
+  {
+   "i": 10,
+   "name": "Bastar",
+   "x": 208.0,
+   "y": 639.3,
+   "isTreasure": true
+  }
+ ],
+ "questions": {
+  "count": 10,
+  "source": "src/data/questions.json",
+  "rotation": [
+   "cyber_safety",
+   "digital_seva",
+   "ai_explorer"
+  ],
+  "rule": "one question per waypoint; wrong answers retry unlimited; 10th question is asked AT the treasure"
+ },
+ "palette": {
+  "accent": "#c98a24",
+  "accentDark": "#a86e18",
+  "accentDeep": "#7d4f10",
+  "ok": "#2f7d5f",
+  "bad": "#b4442f",
+  "text": "#3f3318",
+  "textMuted": "#6b5839",
+  "line": "rgba(107,88,57,.22)",
+  "glass": "rgba(253,246,228,.88)",
+  "stageBg": "#e6dcc0",
+  "nodeIdle": "#dcc289",
+  "nodeCurrent": "#c98a24",
+  "nodeDone": "#3f7a4e"
+ },
+ "fonts": {
+  "ui": "Outfit",
+  "hindi": "Noto Sans Devanagari",
+  "mapLabels": "EB Garamond"
+ }
+}
