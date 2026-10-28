@@ -8,13 +8,11 @@ export const STAGE = { w: 1280, h: 720, headerH: 66 };
 export const WORLD = { w: 1628, h: 2288, unitToPx: 2.2, viewBoxOrigin: -110 };
 
 export const CAMERA = {
-  fitZoom: 0.277,
   playZoom: 0.8,
   mapLeft: 504,
-  mapRight: 1280,
-  yAnchor: 393,
-  // Point the overview camera is centred on (map units)
-  overview: { x: 250, y: 420 },
+  // Area the overview fits into the map column: the state plus the title cartouche (map units)
+  overviewBounds: { x0: -110, y0: -112, x1: 520, y1: 812 },
+  flightMs: 2200,
   transition: 'transform 2.2s cubic-bezier(.45,.05,.2,1)'
 };
 
@@ -32,11 +30,15 @@ export const WAYPOINTS = [
   { name: 'Bastar', x: 208.0, y: 639.3, isTreasure: true }
 ];
 
+/** Right edge of the left column, in stage px */
+export const PANEL_RIGHT = 488;
+
 export const TIMING = {
-  intoFirstStop: 2300,
+  // Arrival sequence: ring at 0, thread at 60, card at 180 (CSS delays), each 1300 long
+  arrival: 1300,
+  arrivalCardDelay: 180,
   afterCorrect: 1050,
   travel: 2300,
-  beforeQuestion: 260,
   treasureShake: 850,
   treasureReveal: 600,
   bannerDelay: 2100,

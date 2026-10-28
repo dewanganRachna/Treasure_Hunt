@@ -11,27 +11,25 @@
 .stage {
   position: relative;
   flex: none;
-  width: 1280px;
-  height: 720px;
   overflow: hidden;
-  background: #e6dcc0;
+  background: var(--parchment);
   font-family: Outfit, 'Noto Sans Devanagari', system-ui, sans-serif;
   color: var(--tx);
   user-select: none;
   touch-action: manipulation;
 }
 .stage button:focus-visible {
-  outline: 3px solid var(--am);
-  outline-offset: 2px;
+  outline: 2px solid rgba(201, 138, 36, 0.75);
+  outline-offset: 3px;
 }
+/* Plain parchment so the map sheet appears to run edge to edge */
 .backdrop {
   position: absolute;
-  inset: -6%;
+  inset: 0;
   z-index: 0;
-  background-size: cover;
-  background-position: center;
-  filter: blur(40px) saturate(0.7) brightness(1.05);
-  opacity: 0.95;
+  background:
+    radial-gradient(ellipse at 70% 45%, rgba(255, 250, 235, 0.55), rgba(255, 250, 235, 0) 60%),
+    var(--parchment);
 }
 .world {
   position: absolute;
@@ -48,6 +46,13 @@
   top: 0;
   width: 1628px;
   height: 2288px;
+  /* Feather the image edges into the parchment backdrop */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 5%, #000 95%, transparent),
+    linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent, #000 5%, #000 95%, transparent),
+    linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent);
+  mask-composite: intersect;
 }
 .world .overlay,
 .world svg {
@@ -208,11 +213,20 @@
   position: absolute;
   z-index: 6;
   left: 16px;
-  top: 92px;
+  /* Sized to its content and centred in the left column */
+  top: 82px;
+  bottom: 16px;
+  height: fit-content;
+  /* Between a little over half and the full column (column = stage minus header and gutters) */
+  min-height: calc((100% - 98px) * 0.55);
+  max-height: calc(100% - 98px);
+  margin: auto 0;
   width: 472px;
   box-sizing: border-box;
   padding: 0;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
   opacity: 0;
   transform: translateY(20px) scale(0.97);
   transition: 0.42s cubic-bezier(0.2, 1.1, 0.4, 1);
@@ -230,12 +244,80 @@
   25% { transform: translateX(-9px); }
   75% { transform: translateX(9px); }
 }
+/* Arrival entrance; replaces the .show transition while it plays (declared after .sh so it wins) */
+.card.arrive {
+  transition: none;
+  animation: cardGlide 1300ms cubic-bezier(0.16, 0.84, 0.3, 1.04) 180ms both;
+}
+@keyframes cardGlide {
+  from { opacity: 0; transform: translateX(42%) rotate(2.6deg) scale(0.94); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Arrival ring and thread; positioned per arrival from Game.jsx */
+.arrive-ring {
+  position: absolute;
+  z-index: 4;
+  pointer-events: none;
+  box-sizing: border-box;
+  width: var(--ring-size, 26px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 2px solid var(--am);
+  opacity: 0;
+  margin-left: calc(var(--ring-size, 26px) / -2);
+  margin-top: calc(var(--ring-size, 26px) / -2);
+}
+.arrive-ring.go {
+  animation: arriveRing 1300ms ease-out forwards;
+}
+@keyframes arriveRing {
+  from { transform: scale(0.7); opacity: 0.95; }
+  to { transform: scale(3.4); opacity: 0; }
+}
+.arrive-thread {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  height: 2px;
+  border-radius: 2px;
+  transform-origin: right center;
+  background: linear-gradient(90deg, transparent, var(--am));
+  opacity: 0;
+}
+.arrive-thread.go {
+  animation: arriveThread 1300ms ease-out 60ms forwards;
+}
+@keyframes arriveThread {
+  from { opacity: 0; transform: scaleX(0); }
+  55% { opacity: 0.9; }
+  to { opacity: 0; transform: scaleX(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .arrive-ring,
+  .arrive-thread {
+    display: none;
+  }
+  .card.arrive {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
 .card .top {
   height: 5px;
   background: linear-gradient(90deg, var(--am), #e9bf63, var(--amd));
 }
+.card .top {
+  flex: none;
+}
 .card .in {
-  padding: 18px 24px 20px;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 18px 22px 14px;
 }
 .hd {
   display: flex;
@@ -276,9 +358,11 @@
   color: #33290f;
 }
 .ops {
-  margin-top: 12px;
+  flex: 1;
+  margin-top: 14px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 8px;
 }
 .op {
@@ -286,7 +370,8 @@
   align-items: center;
   gap: 11px;
   width: 100%;
-  padding: 9px 13px;
+  min-height: 50px;
+  padding: 8px 13px;
   background: rgba(255, 252, 243, 0.8);
   border: 1.5px solid rgba(107, 88, 57, 0.18);
   border-radius: 12px;
@@ -334,7 +419,7 @@
 }
 .fb {
   min-height: 22px;
-  margin-top: 10px;
+  margin-top: 8px;
   font: 600 16px Outfit, 'Noto Sans Devanagari', sans-serif;
   text-align: center;
 }
@@ -349,14 +434,15 @@
 .intro {
   position: absolute;
   left: 16px;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 82px;
+  bottom: 16px;
   width: 472px;
   box-sizing: border-box;
   z-index: 8;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-evenly;
   padding: 22px 26px 24px;
   border-radius: 16px;
   text-align: center;
@@ -484,35 +570,171 @@
 }
 .bt {
   margin-top: 16px;
-  padding: 14px 34px;
-  border: 0;
-  border-radius: 40px;
-  background: linear-gradient(145deg, #d9a53c, var(--amd));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 13px 28px;
+  border: 1px solid rgba(125, 79, 16, 0.35);
+  border-radius: 14px;
+  background: linear-gradient(180deg, #dcaa48 0%, var(--am) 55%, #b0741a 100%);
   color: #fffaf0;
-  font: 700 18px Outfit, 'Noto Sans Devanagari', sans-serif;
-  letter-spacing: 0.8px;
+  font: 700 17px Outfit, 'Noto Sans Devanagari', sans-serif;
+  letter-spacing: 0.6px;
+  text-shadow: 0 1px 1px rgba(93, 58, 10, 0.35);
   cursor: pointer;
-  box-shadow: 0 8px 0 #5d3a0a, 0 14px 26px rgba(125, 79, 16, 0.3);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 6px 16px rgba(125, 79, 16, 0.25);
+  transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
+}
+.bt:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 10px 22px rgba(125, 79, 16, 0.3);
 }
 .bt:active {
-  transform: translateY(4px);
-  box-shadow: 0 4px 0 #5d3a0a;
+  transform: translateY(1px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 3px 8px rgba(125, 79, 16, 0.25);
 }
 .bt.o {
   background: rgba(255, 253, 246, 0.95);
   color: var(--tx);
-  box-shadow: 0 4px 0 rgba(107, 88, 57, 0.3);
+  border-color: var(--line);
+  text-shadow: none;
+  box-shadow: 0 4px 12px rgba(80, 60, 25, 0.1);
   margin-left: 12px;
-  font-size: 17px;
-  padding: 13px 30px;
+}
+.bt.o:hover {
+  background: #fff;
+  border-color: var(--am);
+}
+/* ---------- start button: gilded plaque with compass, two-line label and arrow disc ---------- */
+.bt-start {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  width: 100%;
+  justify-content: flex-start;
+  gap: 14px;
+  padding: 10px 10px 10px 12px;
+  border-radius: 18px;
+  border: 1px solid #8a5a12;
+  background:
+    radial-gradient(120% 160% at 0% 0%, rgba(246, 205, 110, 0.9) 0%, rgba(246, 205, 110, 0) 55%),
+    linear-gradient(135deg, #d9a03a 0%, #c0821f 50%, #94600f 100%);
+  text-align: left;
+  --glow: 0 10px 24px rgba(125, 79, 16, 0.32), 0 2px 4px rgba(125, 79, 16, 0.2);
+  box-shadow: inset 0 1px 0 rgba(255, 240, 200, 0.6), var(--glow);
+  animation: invite 2.8s ease-in-out infinite;
+}
+/* Dashed inner stitch, echoing the map routes */
+.bt-start::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  z-index: -1;
+  border-radius: 14px;
+  border: 1.5px dashed rgba(255, 240, 205, 0.38);
+  pointer-events: none;
+}
+/* Occasional sheen sweeping across the plaque */
+.bt-start::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -60%;
+  width: 45%;
+  z-index: -1;
+  background: linear-gradient(105deg, rgba(255, 255, 255, 0), rgba(255, 250, 225, 0.38), rgba(255, 255, 255, 0));
+  transform: skewX(-18deg);
+  animation: sheen 4.2s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes invite {
+  0%, 100% { box-shadow: inset 0 1px 0 rgba(255, 240, 200, 0.6), var(--glow), 0 0 0 0 rgba(201, 138, 36, 0); }
+  50% { box-shadow: inset 0 1px 0 rgba(255, 240, 200, 0.6), var(--glow), 0 0 0 7px rgba(201, 138, 36, 0.16); }
+}
+@keyframes sheen {
+  0% { left: -60%; }
+  55%, 100% { left: 135%; }
+}
+.start-icon {
+  flex: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff8e7;
+  background: rgba(255, 248, 231, 0.16);
+  border: 1px solid rgba(255, 248, 231, 0.5);
+  box-shadow: inset 0 2px 6px rgba(93, 58, 10, 0.25);
+}
+.start-icon svg {
+  transition: transform 0.6s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+.bt-start:hover .start-icon svg {
+  transform: rotate(90deg);
+}
+.start-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.start-text b {
+  font: 800 22px/1.15 'Noto Sans Devanagari', Outfit, sans-serif;
+  color: #fffaf0;
+  letter-spacing: 0.3px;
+}
+.start-text small {
+  margin-top: 3px;
+  font: 700 10px Outfit, 'Noto Sans Devanagari', sans-serif;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+  color: rgba(255, 244, 214, 0.88);
+  text-shadow: none;
+}
+/* Letter-spacing breaks Devanagari conjuncts */
+.start-text small:lang(hi) {
+  font-size: 12px;
+  letter-spacing: 0.4px;
+  text-transform: none;
+}
+.bt-start .arrow {
+  flex: none;
+  margin-left: auto;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--amd);
+  background: linear-gradient(160deg, #fffaf0, #f1e2bd);
+  box-shadow: 0 3px 8px rgba(93, 58, 10, 0.35), inset 0 1px 0 #fff;
+  transition: transform 0.2s;
+}
+.bt-start:hover .arrow {
+  transform: translateX(3px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .bt-start,
+  .bt-start::after {
+    animation: none;
+  }
 }
 
 /* ---------- finale ---------- */
 .finale {
   position: absolute;
   left: 16px;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 82px;
+  bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 472px;
   box-sizing: border-box;
   z-index: 8;
@@ -522,7 +744,7 @@
   animation: rise 0.5s cubic-bezier(0.2, 1.1, 0.4, 1);
 }
 @keyframes rise {
-  from { opacity: 0; transform: translateY(-46%); }
+  from { opacity: 0; transform: translateY(16px); }
 }
 .finale h2 {
   margin: 0;
@@ -539,6 +761,10 @@
   font: 500 16px 'Noto Sans Devanagari', Outfit, sans-serif;
   color: var(--tx2);
   margin: 9px 0 18px;
+}
+.finale .actions {
+  display: flex;
+  justify-content: center;
 }
 .finale .bt {
   margin-top: 0;

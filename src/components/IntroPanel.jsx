@@ -46,8 +46,23 @@ export default function IntroPanel({ lang, onStart }) {
       </div>
 
       <div className="intro-note">{t(lang, 'note')}</div>
-      <button type="button" className="bt" onClick={onStart} autoFocus>
-        {t(lang, 'start')} &nbsp;→
+      <button type="button" className="bt bt-start" onClick={onStart}>
+        <span className="start-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="9.2" />
+            <path d="M15.6 8.4 13.3 13.3 8.4 15.6 10.7 10.7Z" fill="currentColor" fillOpacity=".35" />
+            <circle cx="12" cy="12" r="1.1" fill="currentColor" stroke="none" />
+          </svg>
+        </span>
+        <span className="start-text">
+          <b>{t(lang, 'start')}</b>
+          <small lang={lang}>{t(lang, 'startSub')}</small>
+        </span>
+        <span className="arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </span>
       </button>
     </section>
   );

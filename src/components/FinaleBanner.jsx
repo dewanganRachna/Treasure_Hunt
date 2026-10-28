@@ -6,12 +6,14 @@ export default function FinaleBanner({ lang, onCertificate, onPlayAgain }) {
       <h2 id="finale-title">{t(lang, 'won')}</h2>
       <div className="en">A CHHATTISGARH DIGITAL EXPLORER</div>
       <p>{t(lang, 'wonSub')}</p>
-      <button type="button" className="bt" onClick={onCertificate} autoFocus>
-        {t(lang, 'cert')}
-      </button>
-      <button type="button" className="bt o" onClick={onPlayAgain}>
-        {t(lang, 'again')}
-      </button>
+      <div className="actions">
+        <button type="button" className="bt" onClick={onCertificate} autoFocus>
+          {t(lang, 'cert')}
+        </button>
+        <button type="button" className="bt o" onClick={onPlayAgain}>
+          {t(lang, 'again')}
+        </button>
+      </div>
     </section>
   );
 }

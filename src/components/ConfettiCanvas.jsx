@@ -1,5 +1,4 @@
 import { useEffect, useImperativeHandle, useRef } from 'react';
-import { STAGE } from '../data/explorerConfig';
 
 const COLORS = ['#c98a24', '#e2b155', '#f3d178', '#2f7d5f', '#fff8e7', '#a86e18', '#b4442f', '#6f9fb8'];
 const GRAVITY = 0.42;
@@ -9,11 +8,16 @@ const DRAG = 0.992;
  * Canvas confetti cannons: two from the bottom corners, two from below centre,
  * then the corners again.
  */
-export default function ConfettiCanvas({ ref }) {
+export default function ConfettiCanvas({ ref, width, height }) {
   const canvasRef = useRef(null);
+  const size = useRef({ width, height });
   const pieces = useRef([]);
   const raf = useRef(0);
   const timers = useRef([]);
+
+  useEffect(() => {
+    size.current = { width, height };
+  }, [width, height]);
 
   useEffect(() => () => {
     cancelAnimationFrame(raf.current);
@@ -23,7 +27,8 @@ export default function ConfettiCanvas({ ref }) {
   const tick = () => {
     const cx = canvasRef.current?.getContext('2d');
     if (!cx) return;
-    cx.clearRect(0, 0, STAGE.w, STAGE.h);
+    const { width: w, height: h } = size.current;
+    cx.clearRect(0, 0, w, h);
     const P = pieces.current;
     for (let i = P.length - 1; i >= 0; i--) {
       const p = P[i];
@@ -33,8 +38,8 @@ export default function ConfettiCanvas({ ref }) {
       p.x += p.vx;
       p.y += p.vy;
       p.r += p.vr;
-      if (p.y > 700) p.a -= 0.02;
-      if (p.y > 820 || p.a <= 0) {
+      if (p.y > h - 20) p.a -= 0.02;
+      if (p.y > h + 100 || p.a <= 0) {
         P.splice(i, 1);
         continue;
       }
@@ -47,7 +52,7 @@ export default function ConfettiCanvas({ ref }) {
       cx.restore();
     }
     raf.current = P.length ? requestAnimationFrame(tick) : 0;
-    if (!raf.current) cx.clearRect(0, 0, STAGE.w, STAGE.h);
+    if (!raf.current) cx.clearRect(0, 0, w, h);
   };
 
   const shoot = (ox, oy, angle, count, power) => {
@@ -72,12 +77,14 @@ export default function ConfettiCanvas({ ref }) {
   };
 
   const corners = () => {
-    shoot(-14, 742, -Math.PI / 3.1, 130, 23);
-    shoot(STAGE.w + 14, 742, -Math.PI + Math.PI / 3.1, 130, 23);
+    const { width: w, height: h } = size.current;
+    shoot(-14, h + 22, -Math.PI / 3.1, 130, 23);
+    shoot(w + 14, h + 22, -Math.PI + Math.PI / 3.1, 130, 23);
   };
   const centre = () => {
-    shoot(300, 760, -Math.PI / 2.1, 90, 22);
-    shoot(980, 760, -Math.PI / 1.9, 90, 22);
+    const { width: w, height: h } = size.current;
+    shoot(w * 0.234, h + 40, -Math.PI / 2.1, 90, 22);
+    shoot(w * 0.766, h + 40, -Math.PI / 1.9, 90, 22);
   };
 
   useImperativeHandle(ref, () => ({
@@ -88,5 +95,5 @@ export default function ConfettiCanvas({ ref }) {
     }
   }));
 
-  return <canvas ref={canvasRef} className="confetti" width={STAGE.w} height={STAGE.h} aria-hidden="true" />;
+  return <canvas ref={canvasRef} className="confetti" width={width} height={height} aria-hidden="true" />;
 }

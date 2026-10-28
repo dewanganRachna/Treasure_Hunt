@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import Header from './Header';
-import ExplorerMap, { TERRAIN_SRC } from './ExplorerMap';
+import ExplorerMap from './ExplorerMap';
 import IntroPanel from './IntroPanel';
 import QuestionCard from './QuestionCard';
 import FinaleBanner from './FinaleBanner';
 import ConfettiCanvas from './ConfettiCanvas';
-import { TIMING, WAYPOINTS } from '../data/explorerConfig';
+import { PANEL_RIGHT, TIMING, WAYPOINTS } from '../data/explorerConfig';
 import { buildJourneyQuestions } from '../data/journey';
 import { t } from '../data/i18n';
 import { sound } from '../utils/audio';
@@ -17,16 +17,18 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
  * One playthrough. App remounts this (new key) to restart, which also resets
  * the map overlay to a clean copy.
  */
-export default function Game({ lang, muted, onToggleLang, onToggleSound, onFullscreen, onRestart }) {
+export default function Game({ stage, lang, muted, onToggleLang, onToggleSound, onFullscreen, onRestart }) {
   const [phase, setPhase] = useState('intro'); // 'intro' | 'play' | 'finale'
   const [questions] = useState(buildJourneyQuestions);
   const [cur, setCur] = useState(-1);
-  const [card, setCard] = useState({ open: false, index: 0, wrong: [], correct: null });
+  const [card, setCard] = useState({ open: false, arrive: false, index: 0, wrong: [], correct: null });
   const [shake, setShake] = useState(false);
   const [toast, setToast] = useState(false);
 
   const mapRef = useRef(null);
   const confettiRef = useRef(null);
+  const ringRef = useRef(null);
+  const threadRef = useRef(null);
   const alive = useRef(true);
   const busy = useRef(false);
 
@@ -62,8 +64,41 @@ export default function Game({ lang, muted, onToggleLang, onToggleSound, onFulls
 
   const openQuestion = (j) => {
     setCur(j);
-    setCard({ open: true, index: j, wrong: [], correct: null });
+    setCard({ open: true, arrive: true, index: j, wrong: [], correct: null });
     busy.current = false;
+    // Drop the entrance class once it has played, so later animations (shake) can't replay it
+    setTimeout(() => {
+      if (alive.current) setCard((c) => (c.index === j ? { ...c, arrive: false } : c));
+    }, TIMING.arrivalCardDelay + TIMING.arrival);
+  };
+
+  /** Ring out of waypoint i and a thread from it to the panel edge; positions follow the camera. */
+  const playArrival = (i) => {
+    const ring = ringRef.current;
+    const thread = threadRef.current;
+    if (!ring || !thread) return;
+    const { x, y, diameter } = mapRef.current.screenPoint(i);
+
+    ring.style.left = `${x}px`;
+    ring.style.top = `${y}px`;
+    ring.style.setProperty('--ring-size', `${diameter}px`);
+
+    thread.style.left = `${PANEL_RIGHT}px`;
+    thread.style.top = `${y}px`;
+    thread.style.width = `${Math.max(x - PANEL_RIGHT, 0)}px`;
+
+    ring.classList.remove('go');
+    thread.classList.remove('go');
+    void ring.offsetWidth; // restart the animations
+    ring.classList.add('go');
+    thread.classList.add('go');
+  };
+
+  /** The traveller has landed on waypoint i and the camera has settled. */
+  const arriveAt = (i) => {
+    mapRef.current.setNode(i, 'cur');
+    playArrival(i);
+    openQuestion(i);
   };
 
   const start = async () => {
@@ -73,10 +108,9 @@ export default function Game({ lang, muted, onToggleLang, onToggleSound, onFulls
     setPhase('play');
     const map = mapRef.current;
     map.beginJourney();
-    map.flyTo(0);
-    map.setNode(0, 'cur');
-    if (!(await wait(TIMING.intoFirstStop))) return;
-    openQuestion(0);
+    await map.flyTo(0);
+    if (!alive.current) return;
+    arriveAt(0);
   };
 
   const finale = async () => {
@@ -114,18 +148,15 @@ export default function Game({ lang, muted, onToggleLang, onToggleSound, onFulls
     setCur(j + 1);
 
     if (!(await wait(TIMING.afterCorrect))) return;
-    setCard((c) => ({ ...c, open: false }));
+    setCard((c) => ({ ...c, open: false, arrive: false }));
 
     if (j === LAST) {
       finale();
       return;
     }
-    map.flyTo(j + 1);
-    await map.travel(j, TIMING.travel);
+    await Promise.all([map.flyTo(j + 1), map.travel(j, TIMING.travel)]);
     if (!alive.current) return;
-    map.setNode(j + 1, 'cur');
-    if (!(await wait(TIMING.beforeQuestion))) return;
-    openQuestion(j + 1);
+    arriveAt(j + 1);
   };
 
   const showCertificateToast = () => {
@@ -136,8 +167,8 @@ export default function Game({ lang, muted, onToggleLang, onToggleSound, onFulls
 
   return (
     <>
-      <div className="backdrop" style={{ backgroundImage: `url(${TERRAIN_SRC})` }} />
-      <ExplorerMap ref={mapRef} />
+      <div className="backdrop" />
+      <ExplorerMap ref={mapRef} stage={stage} />
       <div className="vignette" />
 
       <Header
@@ -152,6 +183,7 @@ export default function Game({ lang, muted, onToggleLang, onToggleSound, onFulls
 
       <QuestionCard
         open={card.open}
+        arrive={card.arrive}
         question={phase === 'intro' ? null : questions[card.index]}
         index={card.index}
         wrong={card.wrong}
@@ -161,7 +193,10 @@ export default function Game({ lang, muted, onToggleLang, onToggleSound, onFulls
         onPick={pick}
       />
 
-      <ConfettiCanvas ref={confettiRef} />
+      <span className="arrive-ring" ref={ringRef} aria-hidden="true" />
+      <span className="arrive-thread" ref={threadRef} aria-hidden="true" />
+
+      <ConfettiCanvas ref={confettiRef} width={stage.w} height={stage.h} />
 
       {phase === 'intro' && <IntroPanel lang={lang} onStart={start} />}
       {phase === 'finale' && (

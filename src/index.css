@@ -9,6 +9,8 @@
   --line: rgba(107, 88, 57, 0.22);
   --gl: rgba(253, 246, 228, 0.88);
   --sh: 0 8px 26px rgba(80, 60, 25, 0.16), 0 2px 5px rgba(80, 60, 25, 0.1);
+  /* Colour at the edge of the terrain image; extends the map sheet past the image */
+  --parchment: #f3ebd4;
   color-scheme: light;
 }
 
