@@ -8,7 +8,7 @@ import QuestionPanel from './components/QuestionPanel';
 import GameOverPanel from './components/GameOverPanel';
 import VictoryPanel from './components/VictoryPanel';
 import { sound } from './utils/audio';
-import questionsData from './data/questions.json';
+import { getQuizQuestionsForSession } from './utils/questionSelector';
 import './App.css';
 
 /**
@@ -17,7 +17,12 @@ import './App.css';
  * Matches 8-panel reference flow specification
  */
 export default function App() {
-  const questions = questionsData.questions;
+  // Session counter for deterministic 4/3/3 rotation across game sessions
+  // Session 1: Cyber 4, AI 3, Digital 3
+  // Session 2: Cyber 3, AI 4, Digital 3
+  // Session 3: Cyber 3, AI 3, Digital 4
+  const [sessionIndex, setSessionIndex] = useState(0);
+  const [activeQuestions, setActiveQuestions] = useState(() => getQuizQuestionsForSession(0));
 
   // Primary Game State Machine
   // 'welcome' | 'intro' | 'question' | 'feedback' | 'traveling' | 'gameOver' | 'victory'
@@ -56,6 +61,10 @@ export default function App() {
     sound.playClick();
     clearAllTimeouts();
 
+    // Ensure balanced 10 questions loaded for current session
+    const currentQuestions = getQuizQuestionsForSession(sessionIndex);
+    setActiveQuestions(currentQuestions);
+
     // Reset clean state
     setCurrentLevel(0);
     setCompleted(Array(10).fill(false));
@@ -72,10 +81,15 @@ export default function App() {
     }, 2700);
   };
 
-  // 2. Handle PLAY AGAIN (from Game Over or Victory) -> Fully reset to Welcome
+  // 2. Handle PLAY AGAIN (from Game Over or Victory) -> Fully reset to Welcome & rotate topic
   const handlePlayAgain = () => {
     sound.playClick();
     clearAllTimeouts();
+
+    // Advance session counter so extra topic rotates equally across sessions
+    const nextSession = sessionIndex + 1;
+    setSessionIndex(nextSession);
+    setActiveQuestions(getQuizQuestionsForSession(nextSession));
 
     setStatus('welcome');
     setCurrentLevel(0);
@@ -93,7 +107,7 @@ export default function App() {
     setIsLocked(true);
     setSelectedOption(optionIndex);
 
-    const activeQ = questions[currentLevel];
+    const activeQ = activeQuestions[currentLevel];
     const isCorrect = optionIndex === activeQ.correctIndex;
 
     if (isCorrect) {
@@ -174,7 +188,7 @@ export default function App() {
             {(status === 'question' || status === 'feedback') && (
               <QuestionPanel
                 levelIndex={currentLevel}
-                questionData={questions[currentLevel]}
+                questionData={activeQuestions[currentLevel]}
                 selectedOption={selectedOption}
                 isLocked={isLocked}
                 onSelectOption={handleSelectOption}

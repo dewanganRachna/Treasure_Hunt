@@ -234,24 +234,24 @@ async function main() {
     await screenshot('panel6_next_question.png');
 
     // Play answers for Levels 2 through 10
-    // Correct answers:
-    // Level 1 (idx 0): Option B (idx 1) [already done]
-    // Level 2 (idx 1): Option A (idx 0)
-    // Level 3 (idx 2): Option C (idx 2)
-    // Level 4 (idx 3): Option A (idx 0)
-    // Level 5 (idx 4): Option B (idx 1)
-    // Level 6 (idx 5): Option B (idx 1)
-    // Level 7 (idx 6): Option C (idx 2)
-    // Level 8 (idx 7): Option B (idx 1)
-    // Level 9 (idx 8): Option B (idx 1)
-    // Level 10 (idx 9): Option D (idx 3)
+    // Correct answers for Session 0 (Session 1):
+    // Level 1 (idx 0): Cyber Q1 - Option B (idx 1) [already done]
+    // Level 2 (idx 1): AI Q15 - Option A (idx 0)
+    // Level 3 (idx 2): Digital Q26 - Option C (idx 2)
+    // Level 4 (idx 3): Cyber Q2 - Option C (idx 2)
+    // Level 5 (idx 4): AI Q16 - Option D (idx 3)
+    // Level 6 (idx 5): Digital Q27 - Option D (idx 3)
+    // Level 7 (idx 6): Cyber Q3 - Option A (idx 0)
+    // Level 8 (idx 7): AI Q17 - Option B (idx 1)
+    // Level 9 (idx 8): Digital Q28 - Option B (idx 1)
+    // Level 10 (idx 9): Cyber Q4 - Option D (idx 3)
     const remainingAnswers = [
       { level: 2, optionIndex: 0 },
       { level: 3, optionIndex: 2 },
-      { level: 4, optionIndex: 0 },
-      { level: 5, optionIndex: 1 },
-      { level: 6, optionIndex: 1 },
-      { level: 7, optionIndex: 2 },
+      { level: 4, optionIndex: 2 },
+      { level: 5, optionIndex: 3 },
+      { level: 6, optionIndex: 3 },
+      { level: 7, optionIndex: 0 },
       { level: 8, optionIndex: 1 },
       { level: 9, optionIndex: 1 },
       { level: 10, optionIndex: 3 }

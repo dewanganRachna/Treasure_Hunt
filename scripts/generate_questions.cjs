@@ -1,0 +1,736 @@
+const fs = require('fs');
+const path = require('path');
+
+const questions = [
+  // ==========================================
+  // Category 1: Cyber Safety (IDs 1 to 14)
+  // ==========================================
+  {
+    id: 1,
+    category: "cyber_safety",
+    categoryName: "Cyber Safety",
+    categoryHindi: "साइबर सुरक्षा",
+    questionHindi: "Online Accounts सुरक्षित रखने के लिए क्या करें?",
+    questionEnglish: "What should you do to keep your online accounts secure?",
+    hi: "Online Accounts सुरक्षित रखने के लिए क्या करें?",
+    en: "What should you do to keep your online accounts secure?",
+    options: [
+      { id: "A", hi: "सभी में एक ही Password रखें", en: "Use the same password for all accounts", optionHindi: "सभी में एक ही Password रखें", optionEnglish: "Use the same password for all accounts" },
+      { id: "B", hi: "मज़बूत और अलग-अलग Password रखें", en: "Use strong and unique passwords for each account", optionHindi: "मज़बूत और अलग-अलग Password रखें", optionEnglish: "Use strong and unique passwords for each account" },
+      { id: "C", hi: "Password दोस्तों को बताएँ", en: "Share passwords with friends", optionHindi: "Password दोस्तों को बताएँ", optionEnglish: "Share passwords with friends" },
+      { id: "D", hi: "Password Social Media पर लिखें", en: "Post passwords on social media", optionHindi: "Password Social Media पर लिखें", optionEnglish: "Post passwords on social media" }
+    ],
+    correctAnswer: "B",
+    correctIndex: 1,
+    explanationHindi: "हर Account का अलग और मज़बूत Password होने से एक Account हैक होने पर भी बाकी Accounts सुरक्षित रहते हैं।",
+    explanationEnglish: "Having unique, strong passwords ensures that if one account is compromised, your other accounts remain safe.",
+    explanationHi: "हर Account का अलग और मज़बूत Password होने से एक Account हैक होने पर भी बाकी Accounts सुरक्षित रहते हैं।",
+    explanationEn: "Having unique, strong passwords ensures that if one account is compromised, your other accounts remain safe."
+  },
+  {
+    id: 2,
+    category: "cyber_safety",
+    categoryName: "Cyber Safety",
+    categoryHindi: "साइबर सुरक्षा",
+    questionHindi: "OTP के बारे में सही बात कौन-सी है?",
+    questionEnglish: "Which of the following statements is true about OTP?",
+    hi: "OTP के बारे में सही बात कौन-सी है?",
+    en: "Which of the following statements is true about OTP?",
+    options: [
+      { id: "A", hi: "अनजान व्यक्ति को बता सकते हैं", en: "You can share it with strangers", optionHindi: "अनजान व्यक्ति को बता सकते हैं", optionEnglish: "You can share it with strangers" },
+      { id: "B", hi: "Social Media पर डाल सकते हैं", en: "You can post it on social media", optionHindi: "Social Media पर डाल सकते हैं", optionEnglish: "You can post it on social media" },
+      { id: "C", hi: "किसी के साथ Share नहीं करना चाहिए", en: "It should never be shared with anyone", optionHindi: "किसी के साथ Share नहीं करना चाहिए", optionEnglish: "It should never be shared with anyone" },
+      { id: "D", hi: "सभी Contacts को भेज सकते हैं", en: "You can send it to all contacts", optionHindi: "सभी Contacts को भेज सकते हैं", optionEnglish: "You can send it to all contacts" }
+    ],
+    correctAnswer: "C",
+    correctIndex: 2,
+    explanationHindi: "OTP आपकी पहचान की पुष्टि करता है। इसे जानने वाला व्यक्ति आपके Account या Payment तक पहुँच सकता है।",
+    explanationEnglish: "OTP verifies your identity. Anyone who gets your OTP can gain access to your account or payments.",
+    explanationHi: "OTP आपकी पहचान की पुष्टि करता है। इसे जानने वाला व्यक्ति आपके Account या Payment तक पहुँच सकता है।",
+    explanationEn: "OTP verifies your identity. Anyone who gets your OTP can gain access to your account or payments."
+  },
+  {
+    id: 3,
+    category: "cyber_safety",
+    categoryName: "Cyber Safety",
+    categoryHindi: "साइबर सुरक्षा",
+    questionHindi: "अनजान व्यक्ति से संदिग्ध Link मिले, तो क्या करें?",
+    questionEnglish: "What should you do if you receive a suspicious link from an unknown person?",
+    hi: "अनजान व्यक्ति से संदिग्ध Link मिले, तो क्या करें?",
+    en: "What should you do if you receive a suspicious link from an unknown person?",
+    options: [
+      { id: "A", hi: "न खोलें; Delete या Report करें", en: "Do not open it; delete or report it", optionHindi: "न खोलें; Delete या Report करें", optionEnglish: "Do not open it; delete or report it" },
+      { id: "B", hi: "तुरंत खोलें", en: "Open it immediately", optionHindi: "तुरंत खोलें", optionEnglish: "Open it immediately" },
+      { id: "C", hi: "दोस्तों को Forward करें", en: "Forward it to friends", optionHindi: "दोस्तों को Forward करें", optionEnglish: "Forward it to friends" },
+      { id: "D", hi: "उस पर Personal Details भरें", en: "Fill in your personal details on it", optionHindi: "उस पर Personal Details भरें", optionEnglish: "Fill in your personal details on it" }
+    ],
+    correctAnswer: "A",
+    correctIndex: 0,
+    explanationHindi: "संदिग्ध Link से Phishing या Malware का खतरा होता है, जो Password और Bank Details चुरा सकता है।",
+    explanationEnglish: "Suspicious links pose phishing or malware risks that can steal passwords and banking details.",
+    explanationHi: "संदिग्ध Link से Phishing या Malware का खतरा होता है, जो Password और Bank Details चुरा सकता है।",
+    explanationEn: "Suspicious links pose phishing or malware risks that can steal passwords and banking details."
+  },
+  {
+    id: 4,
+    category: "cyber_safety",
+    categoryName: "Cyber Safety",
+    categoryHindi: "साइबर सुरक्षा",
+    questionHindi: "Two-Factor Authentication (2FA) का मुख्य उद्देश्य क्या है?",
+    questionEnglish: "What is the primary purpose of Two-Factor Authentication (2FA)?",
+    hi: "Two-Factor Authentication (2FA) का मुख्य उद्देश्य क्या है?",
+    en: "What is the primary purpose of Two-Factor Authentication (2FA)?",
+    options: [
+      { id: "A", hi: "Internet Speed बढ़ाना", en: "To increase internet speed", optionHindi: "Internet Speed बढ़ाना", optionEnglish: "To increase internet speed" },
+      { id: "B", hi: "Mobile का Storage बढ़ाना", en: "To increase mobile storage", optionHindi: "Mobile का Storage बढ़ाना", optionEnglish: "To increase mobile storage" },
+      { id: "C", hi: "Password हटाना", en: "To remove passwords", optionHindi: "Password हटाना", optionEnglish: "To remove passwords" },
+      { id: "D", hi: "Login पर अतिरिक्त सुरक्षा देना", en: "To provide an extra layer of login security", optionHindi: "Login पर अतिरिक्त सुरक्षा देना", optionEnglish: "To provide an extra layer of login security" }
+    ],
+    correctAnswer: "D",
+    correctIndex: 3,
+    explanationHindi: "Password पता चल जाए, तब भी OTP जैसे दूसरे Step के बिना कोई Login नहीं कर सकता।",
+    explanationEnglish: "Even if someone discovers your password, they cannot log in without the second verification step like an OTP.",
+    explanationHi: "Password पता चल जाए, तब भी OTP जैसे दूसरे Step के बिना कोई Login नहीं कर सकता।",
+    explanationEn: "Even if someone discovers your password, they cannot log in without the second verification step like an OTP."
+  },
+  {
+    id: 5,
+    category: "cyber_safety",
+    categoryName: "Cyber Safety",
+    categoryHindi: "साइबर सुरक्षा",
+    questionHindi: "कोई Bank Officer बनकर Call करे और OTP माँगे, तो क्या करें?",
+    questionEnglish: "What should you do if someone calls pretending to be a bank officer and asks for an OTP?",
+    hi: "कोई Bank Officer बनकर Call करे और OTP माँगे, तो क्या करें?",
+    en: "What should you do if someone calls pretending to be a bank officer and asks for an OTP?",
+    options: [
+      { id: "A", hi: "OTP बता दें", en: "Share the OTP", optionHindi: "OTP बता दें", optionEnglish: "Share the OTP" },
+      { id: "B", hi: "OTP न दें और Call काट दें", en: "Do not share OTP and disconnect the call", optionHindi: "OTP न दें और Call काट दें", optionEnglish: "Do not share OTP and disconnect the call" },
+      { id: "C", hi: "Account Number और PIN बताएँ", en: "Share account number and PIN", optionHindi: "Account Number और PIN बताएँ", optionEnglish: "Share account number and PIN" },
+      { id: "D", hi: "अपना Password भेज दें", en: "Send your password", optionHindi: "अपना Password भेज दें", optionEnglish: "Send your password" }
+    ],
+    correctAnswer: "B",
+    correctIndex: 1,
+    explanationHindi: "Bank कभी Call पर OTP, PIN या Password नहीं माँगता। ऐसी Call Fraud होती है।",
+    explanationEnglish: "Banks never ask for OTP, PIN, or password over a phone call. Such calls are fraudulent.",
+    explanationHi: "Bank कभी Call पर OTP, PIN या Password नहीं माँगता। ऐसी Call Fraud होती है।",
+    explanationEn: "Banks never ask for OTP, PIN, or password over a phone call. Such calls are fraudulent."
+  },
+  {
+    id: 6,
+    category: "cyber_safety",
+    categoryName: "Cyber Safety",
+    categoryHindi: "साइबर सुरक्षा",
+    questionHindi: "Social Media Profile को Private करने का क्या फायदा है?",
+    questionEnglish: "What is the benefit of making your social media profile private?",
+    hi: "Social Media Profile को Private करने का क्या फायदा है?",
+    en: "What is the benefit of making your social media profile private?",
+    options: [
+      { id: "A", hi: "Posts कौन देखे, यह तय कर सकते हैं", en: "You can choose who sees your posts", optionHindi: "Posts कौन देखे, यह तय कर सकते हैं", optionEnglish: "You can choose who sees your posts" },
+      { id: "B", hi: "Internet तेज़ हो जाता है", en: "It speeds up the internet", optionHindi: "Internet तेज़ हो जाता है", optionEnglish: "It speeds up the internet" },
+      { id: "C", hi: "सभी Frauds खत्म हो जाते हैं", en: "It eliminates all frauds", optionHindi: "सभी Frauds खत्म हो जाते हैं", optionEnglish: "It eliminates all frauds" },
+      { id: "D", hi: "Battery कभी खत्म नहीं होती", en: "The phone battery never runs out", optionHindi: "Battery कभी खत्म नहीं होती", optionEnglish: "The phone battery never runs out" }
+    ],
+    correctAnswer: "A",
+    correctIndex: 0,
+    explanationHindi: "Private Profile में केवल आपके स्वीकृत लोग ही आपकी जानकारी देख पाते हैं, इससे दुरुपयोग का खतरा घटता है।",
+    explanationEnglish: "On a private profile, only approved followers can see your content, reducing the risk of misuse.",
+    explanationHi: "Private Profile में केवल आपके स्वीकृत लोग ही आपकी जानकारी देख पाते हैं, इससे दुरुपयोग का खतरा घटता है।",
+    explanationEn: "On a private profile, only approved followers can see your content, reducing the risk of misuse."
+  },
+  {
+    id: 7,
+    category: "cyber_safety",
+    categoryName: "Cyber Safety",
+    categoryHindi: "साइबर सुरक्षा",
+    questionHindi: "अनजान व्यक्ति की Friend Request आए, तो क्या करें?",
+    questionEnglish: "What should you do if you receive a friend request from an unknown person?",
+    hi: "अनजान व्यक्ति की Friend Request आए, तो क्या करें?",
+    en: "What should you do if you receive a friend request from an unknown person?",
+    options: [
+      { id: "A", hi: "तुरंत Accept करें", en: "Accept it immediately", optionHindi: "तुरंत Accept करें", optionEnglish: "Accept it immediately" },
+      { id: "B", hi: "उसे Personal Details भेजें", en: "Send them personal details", optionHindi: "उसे Personal Details भेजें", optionEnglish: "Send them personal details" },
+      { id: "C", hi: "Profile जाँचकर ही निर्णय लें", en: "Verify the profile before deciding", optionHindi: "Profile जाँचकर ही निर्णय लें", optionEnglish: "Verify the profile before deciding" },
+      { id: "D", hi: "उसे अपना Password दें", en: "Give them your password", optionHindi: "उसे अपना Password दें", optionEnglish: "Give them your password" }
+    ],
+    correctAnswer: "C",
+    correctIndex: 2,
+    explanationHindi: "Fake Profiles अक्सर ठगी या जानकारी चुराने के लिए बनाई जाती हैं। जाँच से असली-नकली की पहचान हो जाती है।",
+    explanationEnglish: "Fake profiles are often created for scams or identity theft. Verifying helps distinguish genuine profiles from fake ones.",
+    explanationHi: "Fake Profiles अक्सर ठगी या जानकारी चुराने के लिए बनाई जाती हैं। जाँच से असली-नकली की पहचान हो जाती है।",
+    explanationEn: "Fake profiles are often created for scams or identity theft. Verifying helps distinguish genuine profiles from fake ones."
+  },
+  {
+    id: 8,
+    category: "cyber_safety",
+    categoryName: "Cyber Safety",
+    categoryHindi: "साइबर सुरक्षा",
+    questionHindi: "कोई आपकी पहचान से Fake Account बनाए, तो क्या करें?",
+    questionEnglish: "What should you do if someone creates a fake account using your identity?",
+    hi: "कोई आपकी पहचान से Fake Account बनाए, तो क्या करें?",
+    en: "What should you do if someone creates a fake account using your identity?",
+    options: [
+      { id: "A", hi: "उसे अपना Password दें", en: "Give them your password", optionHindi: "उसे अपना Password दें", optionEnglish: "Give them your password" },
+      { id: "B", hi: "उसे अपनी Photos भेजें", en: "Send them your photos", optionHindi: "उसे अपनी Photos भेजें", optionEnglish: "Send them your photos" },
+      { id: "C", hi: "उसे अनदेखा करें", en: "Ignore it", optionHindi: "उसे अनदेखा करें", optionEnglish: "Ignore it" },
+      { id: "D", hi: "Account Report करें और Cyber Crime में शिकायत करें", en: "Report the account and file a complaint on Cyber Crime portal", optionHindi: "Account Report करें और Cyber Crime में शिकायत करें", optionEnglish: "Report the account and file a complaint on Cyber Crime portal" }
+    ],
+    correctAnswer: "D",
+    correctIndex: 3,
+    explanationHindi: "Report करने से Account हटाया जा सकता है, और शिकायत से कानूनी कार्रवाई हो सकती है।",
+    explanationEnglish: "Reporting enables the platform to take down the profile, and filing a cyber complaint allows legal action.",
+    explanationHi: "Report करने से Account हटाया जा सकता है, और शिकायत से कानूनी कार्रवाई हो सकती है।",
+    explanationEn: "Reporting enables the platform to take down the profile, and filing a cyber complaint allows legal action."
+  },
+  {
+    id: 9,
+    category: "cyber_safety",
+    categoryName: "Cyber Safety",
+    categoryHindi: "साइबर सुरक्षा",
+    questionHindi: "Public Wi-Fi पर कौन-सी सावधानी ज़रूरी है?",
+    questionEnglish: "Which precaution is essential when connected to public Wi-Fi?",
+    hi: "Public Wi-Fi पर कौन-सी सावधानी ज़रूरी है?",
+    en: "Which precaution is essential when connected to public Wi-Fi?",
+    options: [
+      { id: "A", hi: "Bank Details डालना", en: "Entering bank details", optionHindi: "Bank Details डालना", optionEnglish: "Entering bank details" },
+      { id: "B", hi: "Banking जैसे Sensitive काम न करना", en: "Avoiding sensitive tasks like online banking", optionHindi: "Banking जैसे Sensitive काम न करना", optionEnglish: "Avoiding sensitive tasks like online banking" },
+      { id: "C", hi: "Security Warnings अनदेखा करना", en: "Ignoring security warnings", optionHindi: "Security Warnings अनदेखा करना", optionEnglish: "Ignoring security warnings" },
+      { id: "D", hi: "Password सार्वजनिक लिखना", en: "Writing passwords publicly", optionHindi: "Password सार्वजनिक लिखना", optionEnglish: "Writing passwords publicly" }
+    ],
+    correctAnswer: "B",
+    correctIndex: 1,
+    explanationHindi: "Public Wi-Fi असुरक्षित हो सकता है, जिससे हैकर आपका Data देख या चुरा सकते हैं।",
+    explanationEnglish: "Public Wi-Fi networks can be unencrypted and insecure, allowing hackers to intercept or steal your data.",
+    explanationHi: "Public Wi-Fi असुरक्षित हो सकता है, जिससे हैकर आपका Data देख या चुरा सकते हैं।",
+    explanationEn: "Public Wi-Fi networks can be unencrypted and insecure, allowing hackers to intercept or steal your data."
+  },
+  {
+    id: 10,
+    category: "cyber_safety",
+    categoryName: "Cyber Safety",
+    categoryHindi: "साइबर सुरक्षा",
+    questionHindi: "Cyberbullying क्या है?",
+    questionEnglish: "What is cyberbullying?",
+    hi: "Cyberbullying क्या है?",
+    en: "What is cyberbullying?",
+    options: [
+      { id: "A", hi: "Online पढ़ाई करना", en: "Studying online", optionHindi: "Online पढ़ाई करना", optionEnglish: "Studying online" },
+      { id: "B", hi: "Video Call करना", en: "Making video calls", optionHindi: "Video Call करना", optionEnglish: "Making video calls" },
+      { id: "C", hi: "Online किसी को धमकाना या अपमानित करना", en: "Harassing, threatening, or humiliating someone online", optionHindi: "Online किसी को धमकाना या अपमानित करना", optionEnglish: "Harassing, threatening, or humiliating someone online" },
+      { id: "D", hi: "सरकारी Website खोलना", en: "Opening a government website", optionHindi: "सरकारी Website खोलना", optionEnglish: "Opening a government website" }
+    ],
+    correctAnswer: "C",
+    correctIndex: 2,
+    explanationHindi: "Internet, Social Media या Messages से किसी को बार-बार परेशान करना Cyberbullying है। यह दंडनीय अपराध हो सकता है।",
+    explanationEnglish: "Repeatedly harassing, humiliating, or threatening someone via internet, social media, or messaging is cyberbullying, which is a punishable offense.",
+    explanationHi: "Internet, Social Media या Messages से किसी को बार-बार परेशान करना Cyberbullying है। यह दंडनीय अपराध हो सकता है।",
+    explanationEn: "Repeatedly harassing, humiliating, or threatening someone via internet, social media, or messaging is cyberbullying, which is a punishable offense."
+  },
+  {
+    id: 11,
+    category: "cyber_safety",
+    categoryName: "Cyber Safety",
+    categoryHindi: "साइबर सुरक्षा",
+    questionHindi: "Online Payment Fraud होने पर सबसे पहले क्या करें?",
+    questionEnglish: "What should you do first if you fall victim to online payment fraud?",
+    hi: "Online Payment Fraud होने पर सबसे पहले क्या करें?",
+    en: "What should you do first if you fall victim to online payment fraud?",
+    options: [
+      { id: "A", hi: "और पैसे भेजें", en: "Send more money", optionHindi: "और पैसे भेजें", optionEnglish: "Send more money" },
+      { id: "B", hi: "घटना छिपाएँ", en: "Hide the incident", optionHindi: "घटना छिपाएँ", optionEnglish: "Hide the incident" },
+      { id: "C", hi: "OTP दें", en: "Share OTP", optionHindi: "OTP दें", optionEnglish: "Share OTP" },
+      { id: "D", hi: "तुरंत Bank को बताएँ और 1930 पर Call करें", en: "Immediately notify your bank and call cyber helpline 1930", optionHindi: "तुरंत Bank को बताएँ और 1930 पर Call करें", optionEnglish: "Immediately notify your bank and call cyber helpline 1930" }
+    ],
+    correctAnswer: "D",
+    correctIndex: 3,
+    explanationHindi: "जल्दी सूचना देने पर पैसे रोके या वापस मिलने की संभावना बढ़ जाती है। 1930 Cyber Fraud Helpline है।",
+    explanationEnglish: "Reporting promptly increases the chances of freezing and recovering funds. 1930 is the national cyber financial fraud helpline.",
+    explanationHi: "जल्दी सूचना देने पर पैसे रोके या वापस मिलने की संभावना बढ़ जाती है। 1930 Cyber Fraud Helpline है।",
+    explanationEn: "Reporting promptly increases the chances of freezing and recovering funds. 1930 is the national cyber financial fraud helpline."
+  },
+  {
+    id: 12,
+    category: "cyber_safety",
+    categoryName: "Cyber Safety",
+    categoryHindi: "साइबर सुरक्षा",
+    questionHindi: "Social Media पर News Share करने से पहले क्या करें?",
+    questionEnglish: "What should you do before sharing news on social media?",
+    hi: "Social Media पर News Share करने से पहले क्या करें?",
+    en: "What should you do before sharing news on social media?",
+    options: [
+      { id: "A", hi: "विश्वसनीय Source से जाँचें", en: "Verify from trusted sources", optionHindi: "विश्वसनीय Source से जाँचें", optionEnglish: "Verify from trusted sources" },
+      { id: "B", hi: "सिर्फ़ Headline पढ़ें", en: "Read only the headline", optionHindi: "सिर्फ़ Headline पढ़ें", optionEnglish: "Read only the headline" },
+      { id: "C", hi: "सभी Groups में भेजें", en: "Forward it to all groups", optionHindi: "सभी Groups में भेजें", optionEnglish: "Forward it to all groups" },
+      { id: "D", hi: "Likes देखकर सही मान लें", en: "Assume it is true based on likes", optionHindi: "Likes देखकर सही मान लें", optionEnglish: "Assume it is true based on likes" }
+    ],
+    correctAnswer: "A",
+    correctIndex: 0,
+    explanationHindi: "Fake News तेज़ी से फैलती है। जाँच के बाद Share करने से अफ़वाहें रुकती हैं।",
+    explanationEnglish: "Misinformation spreads rapidly online. Verifying before sharing prevents rumors and fake news.",
+    explanationHi: "Fake News तेज़ी से फैलती है। जाँच के बाद Share करने से अफ़वाहें रुकती हैं।",
+    explanationEn: "Misinformation spreads rapidly online. Verifying before sharing prevents rumors and fake news."
+  },
+  {
+    id: 13,
+    category: "cyber_safety",
+    categoryName: "Cyber Safety",
+    categoryHindi: "साइबर सुरक्षा",
+    questionHindi: "\"आपने Prize जीता है, पाने के लिए पैसे भेजें\" — ऐसा Message आए, तो क्या करें?",
+    questionEnglish: "What should you do if you receive a message saying \"You have won a prize, send money to claim it\"?",
+    hi: "\"आपने Prize जीता है, पाने के लिए पैसे भेजें\" — ऐसा Message आए, तो क्या करें?",
+    en: "What should you do if you receive a message saying \"You have won a prize, send money to claim it\"?",
+    options: [
+      { id: "A", hi: "तुरंत पैसे भेजें", en: "Send money immediately", optionHindi: "तुरंत पैसे भेजें", optionEnglish: "Send money immediately" },
+      { id: "B", hi: "पैसे न भेजें; Message Report करें", en: "Do not send money; report the message", optionHindi: "पैसे न भेजें; Message Report करें", optionEnglish: "Do not send money; report the message" },
+      { id: "C", hi: "Bank Details दें", en: "Provide bank details", optionHindi: "Bank Details दें", optionEnglish: "Provide bank details" },
+      { id: "D", hi: "OTP भेजें", en: "Send OTP", optionHindi: "OTP भेजें", optionEnglish: "Send OTP" }
+    ],
+    correctAnswer: "B",
+    correctIndex: 1,
+    explanationHindi: "असली Prize के लिए पहले पैसे नहीं माँगे जाते। यह एक आम Online ठगी है।",
+    explanationEnglish: "Legitimate prizes never require an advance fee to claim. This is a common online lottery scam.",
+    explanationHi: "असली Prize के लिए पहले पैसे नहीं माँगे जाते। यह एक आम Online ठगी है।",
+    explanationEn: "Legitimate prizes never require an advance fee to claim. This is a common online lottery scam."
+  },
+  {
+    id: 14,
+    category: "cyber_safety",
+    categoryName: "Cyber Safety",
+    categoryHindi: "साइबर सुरक्षा",
+    questionHindi: "कोई आपकी अनुमति के बिना आपकी Photo Social Media पर डाल दे, तो क्या करें?",
+    questionEnglish: "What should you do if someone posts your photo on social media without your permission?",
+    hi: "कोई आपकी अनुमति के बिना आपकी Photo Social Media पर डाल दे, तो क्या करें?",
+    en: "What should you do if someone posts your photo on social media without your permission?",
+    options: [
+      { id: "A", hi: "उसे अपना Password दें", en: "Give them your password", optionHindi: "उसे अपना Password दें", optionEnglish: "Give them your password" },
+      { id: "B", hi: "Personal Details Share करें", en: "Share personal details", optionHindi: "Personal Details Share करें", optionEnglish: "Share personal details" },
+      { id: "C", hi: "Post या Account Report करें", en: "Report the post or account", optionHindi: "Post या Account Report करें", optionEnglish: "Report the post or account" },
+      { id: "D", hi: "उसे पैसे भेजें", en: "Send them money", optionHindi: "उसे पैसे भेजें", optionEnglish: "Send them money" }
+    ],
+    correctAnswer: "C",
+    correctIndex: 2,
+    explanationHindi: "Platform पर Report करने से Post हटाई जा सकती है। ज़रूरत हो तो Cyber Crime में शिकायत भी कर सकते हैं।",
+    explanationEnglish: "Reporting to the platform allows the unauthorized post to be removed, and a cyber crime complaint can be filed if needed.",
+    explanationHi: "Platform पर Report करने से Post हटाई जा सकती है। ज़रूरत हो तो Cyber Crime में शिकायत भी कर सकते हैं।",
+    explanationEn: "Reporting to the platform allows the unauthorized post to be removed, and a cyber crime complaint can be filed if needed."
+  },
+
+  // ==========================================
+  // Category 2: AI Explorer (IDs 15 to 25)
+  // ==========================================
+  {
+    id: 15,
+    category: "ai_explorer",
+    categoryName: "AI Explorer",
+    categoryHindi: "एआई एक्सप्लोरर",
+    questionHindi: "AI का Full Form क्या है?",
+    questionEnglish: "What is the full form of AI?",
+    hi: "AI का Full Form क्या है?",
+    en: "What is the full form of AI?",
+    options: [
+      { id: "A", hi: "Artificial Intelligence", en: "Artificial Intelligence", optionHindi: "Artificial Intelligence", optionEnglish: "Artificial Intelligence" },
+      { id: "B", hi: "Automated Internet", en: "Automated Internet", optionHindi: "Automated Internet", optionEnglish: "Automated Internet" },
+      { id: "C", hi: "Advanced Information", en: "Advanced Information", optionHindi: "Advanced Information", optionEnglish: "Advanced Information" },
+      { id: "D", hi: "Automatic Interface", en: "Automatic Interface", optionHindi: "Automatic Interface", optionEnglish: "Automatic Interface" }
+    ],
+    correctAnswer: "A",
+    correctIndex: 0,
+    explanationHindi: "AI यानी Artificial Intelligence (कृत्रिम बुद्धिमत्ता) — ऐसी Technology जिससे Machines इंसानों की तरह सीख और निर्णय ले सकती हैं।",
+    explanationEnglish: "AI stands for Artificial Intelligence—technology that enables machines to learn, solve problems, and make decisions like humans.",
+    explanationHi: "AI यानी Artificial Intelligence (कृत्रिम बुद्धिमत्ता) — ऐसी Technology जिससे Machines इंसानों की तरह सीख और निर्णय ले सकती हैं।",
+    explanationEn: "AI stands for Artificial Intelligence—technology that enables machines to learn, solve problems, and make decisions like humans."
+  },
+  {
+    id: 16,
+    category: "ai_explorer",
+    categoryName: "AI Explorer",
+    categoryHindi: "एआई एक्सप्लोरर",
+    questionHindi: "इनमें से AI का उदाहरण कौन-सा है?",
+    questionEnglish: "Which of these is an example of AI?",
+    hi: "इनमें से AI का उदाहरण कौन-सा है?",
+    en: "Which of these is an example of AI?",
+    options: [
+      { id: "A", hi: "साधारण कुर्सी", en: "A standard chair", optionHindi: "साधारण कुर्सी", optionEnglish: "A standard chair" },
+      { id: "B", hi: "खाली Notebook", en: "An empty notebook", optionHindi: "खाली Notebook", optionEnglish: "An empty notebook" },
+      { id: "C", hi: "सामान्य पेन", en: "A regular pen", optionHindi: "सामान्य पेन", optionEnglish: "A regular pen" },
+      { id: "D", hi: "सवाल समझकर जवाब देने वाला Voice Assistant", en: "A voice assistant that understands questions and responds", optionHindi: "सवाल समझकर जवाब देने वाला Voice Assistant", optionEnglish: "A voice assistant that understands questions and responds" }
+    ],
+    correctAnswer: "D",
+    correctIndex: 3,
+    explanationHindi: "Voice Assistant आवाज़ समझकर जवाब देता है, जो AI से संभव होता है। बाकी निर्जीव वस्तुएँ हैं।",
+    explanationEnglish: "Voice assistants understand speech and provide intelligent answers using AI. The others are inanimate objects.",
+    explanationHi: "Voice Assistant आवाज़ समझकर जवाब देता है, जो AI से संभव होता है। बाकी निर्जीव वस्तुएँ हैं।",
+    explanationEn: "Voice assistants understand speech and provide intelligent answers using AI. The others are inanimate objects."
+  },
+  {
+    id: 17,
+    category: "ai_explorer",
+    categoryName: "AI Explorer",
+    categoryHindi: "एआई एक्सप्लोरर",
+    questionHindi: "AI Chatbot का मुख्य काम क्या है?",
+    questionEnglish: "What is the primary function of an AI chatbot?",
+    hi: "AI Chatbot का मुख्य काम क्या है?",
+    en: "What is the primary function of an AI chatbot?",
+    options: [
+      { id: "A", hi: "Computer बंद करना", en: "To shut down computers", optionHindi: "Computer बंद करना", optionEnglish: "To shut down computers" },
+      { id: "B", hi: "सवालों के जवाब और सहायता देना", en: "To provide answers to questions and customer assistance", optionHindi: "सवालों के जवाब और सहायता देना", optionEnglish: "To provide answers to questions and customer assistance" },
+      { id: "C", hi: "बिजली बनाना", en: "To generate electricity", optionHindi: "बिजली बनाना", optionEnglish: "To generate electricity" },
+      { id: "D", hi: "Photos Print करना", en: "To print photos", optionHindi: "Photos Print करना", optionEnglish: "To print photos" }
+    ],
+    correctAnswer: "B",
+    correctIndex: 1,
+    explanationHindi: "Chatbot आपका सवाल समझकर Text या Voice में जानकारी और मदद देता है।",
+    explanationEnglish: "Chatbots understand user queries and deliver helpful information and support via text or voice.",
+    explanationHi: "Chatbot आपका सवाल समझकर Text या Voice में जानकारी और मदद देता है।",
+    explanationEn: "Chatbots understand user queries and deliver helpful information and support via text or voice."
+  },
+  {
+    id: 18,
+    category: "ai_explorer",
+    categoryName: "AI Explorer",
+    categoryHindi: "एआई एक्सप्लोरर",
+    questionHindi: "AI से अच्छा उत्तर पाने के लिए क्या करें?",
+    questionEnglish: "How can you get the best and most accurate answer from an AI?",
+    hi: "AI से अच्छा उत्तर पाने के लिए क्या करें?",
+    en: "How can you get the best and most accurate answer from an AI?",
+    options: [
+      { id: "A", hi: "कोई भी शब्द लिख दें", en: "Type random words", optionHindi: "कोई भी शब्द लिख दें", optionEnglish: "Type random words" },
+      { id: "B", hi: "Computer बंद करें", en: "Turn off the computer", optionHindi: "Computer बंद करें", optionEnglish: "Turn off the computer" },
+      { id: "C", hi: "स्पष्ट और पूरा सवाल पूछें", en: "Ask a clear, specific, and complete question", optionHindi: "स्पष्ट और पूरा सवाल पूछें", optionEnglish: "Ask a clear, specific, and complete question" },
+      { id: "D", hi: "Keyboard बदलें", en: "Change the keyboard", optionHindi: "Keyboard बदलें", optionEnglish: "Change the keyboard" }
+    ],
+    correctAnswer: "C",
+    correctIndex: 2,
+    explanationHindi: "सवाल जितना स्पष्ट और संदर्भ सहित होगा, AI उतना सही और उपयोगी उत्तर दे पाएगा।",
+    explanationEnglish: "The more specific, clear, and well-contextualized your prompt is, the more accurate and useful the AI's response will be.",
+    explanationHi: "सवाल जितना स्पष्ट और संदर्भ सहित होगा, AI उतना सही और उपयोगी उत्तर दे पाएगा।",
+    explanationEn: "The more specific, clear, and well-contextualized your prompt is, the more accurate and useful the AI's response will be."
+  },
+  {
+    id: 19,
+    category: "ai_explorer",
+    categoryName: "AI Explorer",
+    categoryHindi: "एआई एक्सप्लोरर",
+    questionHindi: "क्या AI की जानकारी हमेशा सही होती है?",
+    questionEnglish: "Is information provided by AI always accurate?",
+    hi: "क्या AI की जानकारी हमेशा सही होती है?",
+    en: "क्या AI की जानकारी हमेशा सही होती है?",
+    options: [
+      { id: "A", hi: "हाँ, हमेशा", en: "Yes, always", optionHindi: "हाँ, हमेशा", optionEnglish: "Yes, always" },
+      { id: "B", hi: "केवल Paid Version में", en: "Only in paid versions", optionHindi: "केवल Paid Version में", optionEnglish: "Only in paid versions" },
+      { id: "C", hi: "AI कभी उत्तर नहीं देता", en: "AI never answers", optionHindi: "AI कभी उत्तर नहीं देता", optionEnglish: "AI never answers" },
+      { id: "D", hi: "नहीं, ज़रूरी जानकारी जाँचें", en: "No, you should verify important information", optionHindi: "नहीं, ज़रूरी जानकारी जाँचें", optionEnglish: "No, you should verify important information" }
+    ],
+    correctAnswer: "D",
+    correctIndex: 3,
+    explanationHindi: "AI कभी-कभी गलत या पुरानी जानकारी दे सकता है, इसलिए ज़रूरी बातें भरोसेमंद Source से जाँचनी चाहिए।",
+    explanationEnglish: "AI can sometimes produce outdated or inaccurate information; critical facts should always be verified against trusted sources.",
+    explanationHi: "AI कभी-कभी गलत या पुरानी जानकारी दे सकता है, इसलिए ज़रूरी बातें भरोसेमंद Source से जाँचनी चाहिए।",
+    explanationEn: "AI can sometimes produce outdated or inaccurate information; critical facts should always be verified against trusted sources."
+  },
+  {
+    id: 20,
+    category: "ai_explorer",
+    categoryName: "AI Explorer",
+    categoryHindi: "एआई एक्सप्लोरर",
+    questionHindi: "Voice Recognition Technology किसलिए उपयोग होती है?",
+    questionEnglish: "What is Voice Recognition Technology used for?",
+    hi: "Voice Recognition Technology किसलिए उपयोग होती है?",
+    en: "What is Voice Recognition Technology used for?",
+    options: [
+      { id: "A", hi: "बोली गई आवाज़ पहचानने के लिए", en: "To identify and transcribe spoken voice", optionHindi: "बोली गई आवाज़ पहचानने के लिए", optionEnglish: "To identify and transcribe spoken voice" },
+      { id: "B", hi: "Screen का आकार बदलने के लिए", en: "To change screen size", optionHindi: "Screen का आकार बदलने के लिए", optionEnglish: "To change screen size" },
+      { id: "C", hi: "Battery Charge करने के लिए", en: "To charge batteries", optionHindi: "Battery Charge करने के लिए", optionEnglish: "To charge batteries" },
+      { id: "D", hi: "Computer का रंग बदलने के लिए", en: "To change computer colors", optionHindi: "Computer का रंग बदलने के लिए", optionEnglish: "To change computer colors" }
+    ],
+    correctAnswer: "A",
+    correctIndex: 0,
+    explanationHindi: "यह Technology बोली गई बात को समझकर Text या Command में बदलती है (जैसे Voice Typing)।",
+    explanationEnglish: "This technology processes spoken words and translates them into text or commands, such as in voice typing.",
+    explanationHi: "यह Technology बोली गई बात को समझकर Text या Command में बदलती है (जैसे Voice Typing)।",
+    explanationEn: "This technology processes spoken words and translates them into text or commands, such as in voice typing."
+  },
+  {
+    id: 21,
+    category: "ai_explorer",
+    categoryName: "AI Explorer",
+    categoryHindi: "एआई एक्सप्लोरर",
+    questionHindi: "AI Translation Tool किसलिए उपयोग होता है?",
+    questionEnglish: "What is the purpose of an AI translation tool?",
+    hi: "AI Translation Tool किसलिए उपयोग होता है?",
+    en: "What is the purpose of an AI translation tool?",
+    options: [
+      { id: "A", hi: "Battery बदलने के लिए", en: "To replace batteries", optionHindi: "Battery बदलने के लिए", optionEnglish: "To replace batteries" },
+      { id: "B", hi: "एक भाषा का Text/ Audio दूसरी भाषा में बदलने के लिए", en: "To translate text or audio from one language to another", optionHindi: "एक भाषा का Text/ Audio दूसरी भाषा में बदलने के लिए", optionEnglish: "To translate text or audio from one language to another" },
+      { id: "C", hi: "Computer Repair करने के लिए", en: "To repair computers", optionHindi: "Computer Repair करने के लिए", optionEnglish: "To repair computers" },
+      { id: "D", hi: "Internet Connection हटाने के लिए", en: "To disconnect internet", optionHindi: "Internet Connection हटाने के लिए", optionEnglish: "To disconnect internet" }
+    ],
+    correctAnswer: "B",
+    correctIndex: 1,
+    explanationHindi: "Translation Tool एक भाषा को दूसरी भाषा में बदलकर भाषा की बाधा कम करता है।",
+    explanationEnglish: "Translation tools bridge language barriers by converting text or audio seamlessly between languages.",
+    explanationHi: "Translation Tool एक भाषा को दूसरी भाषा में बदलकर भाषा की बाधा कम करता है।",
+    explanationEn: "Translation tools bridge language barriers by converting text or audio seamlessly between languages."
+  },
+  {
+    id: 22,
+    category: "ai_explorer",
+    categoryName: "AI Explorer",
+    categoryHindi: "एआई एक्सप्लोरर",
+    questionHindi: "परिचित की आवाज़ में Call आए और तुरंत पैसे माँगे जाएँ, तो क्या करें?",
+    questionEnglish: "What should you do if you receive a call in a familiar person's voice asking for urgent money?",
+    hi: "परिचित की आवाज़ में Call आए और तुरंत पैसे माँगे जाएँ, तो क्या करें?",
+    en: "What should you do if you receive a call in a familiar person's voice asking for urgent money?",
+    options: [
+      { id: "A", hi: "तुरंत पैसे भेजें", en: "Send money immediately", optionHindi: "तुरंत पैसे भेजें", optionEnglish: "Send money immediately" },
+      { id: "B", hi: "UPI PIN बताएँ", en: "Share your UPI PIN", optionHindi: "UPI PIN बताएँ", optionEnglish: "Share your UPI PIN" },
+      { id: "C", hi: "दूसरे Number या सीधी Call से पुष्टि करें", en: "Verify by calling their known number or meeting in person", optionHindi: "दूसरे Number या सीधी Call से पुष्टि करें", optionEnglish: "Verify by calling their known number or meeting in person" },
+      { id: "D", hi: "Call Recording Share करें", en: "Share the call recording", optionHindi: "Call Recording Share करें", optionEnglish: "Share the call recording" }
+    ],
+    correctAnswer: "C",
+    correctIndex: 2,
+    explanationHindi: "AI से किसी की आवाज़ की नकल (Voice Clone) बन सकती है। पैसे भेजने से पहले पहचान की पुष्टि ज़रूरी है।",
+    explanationEnglish: "AI voice cloning can replicate someone's voice accurately. Always verify urgent requests independently before transferring money.",
+    explanationHi: "AI से किसी की आवाज़ की नकल (Voice Clone) बन सकती है। पैसे भेजने से पहले पहचान की पुष्टि ज़रूरी है।",
+    explanationEn: "AI voice cloning can replicate someone's voice accurately. Always verify urgent requests independently before transferring money."
+  },
+  {
+    id: 23,
+    category: "ai_explorer",
+    categoryName: "AI Explorer",
+    categoryHindi: "एआई एक्सप्लोरर",
+    questionHindi: "AI सरकारी Services में कैसे मदद कर सकता है?",
+    questionEnglish: "How can AI assist in delivering government services?",
+    hi: "AI सरकारी Services में कैसे मदद कर सकता है?",
+    en: "How can AI assist in delivering government services?",
+    options: [
+      { id: "A", hi: "जानकारी खोजने और Documents से Data निकालने में", en: "In searching information and extracting data from documents", optionHindi: "जानकारी खोजने और Documents से Data निकालने में", optionEnglish: "In searching information and extracting data from documents" },
+      { id: "B", hi: "बिना जाँच सब Approve करके", en: "By approving everything without checks", optionHindi: "बिना जाँच सब Approve करके", optionEnglish: "By approving everything without checks" },
+      { id: "C", hi: "सभी Records मिटाकर", en: "By deleting all public records", optionHindi: "सभी Records मिटाकर", optionEnglish: "By deleting all public records" },
+      { id: "D", hi: "अधिकारियों की भूमिका खत्म करके", en: "By eliminating the role of officials", optionHindi: "अधिकारियों की भूमिका खत्म करके", optionEnglish: "By eliminating the role of officials" }
+    ],
+    correctAnswer: "A",
+    correctIndex: 0,
+    explanationHindi: "AI जानकारी खोजने और Documents पढ़ने जैसे काम आसान करता है, लेकिन अंतिम निर्णय अधिकारी ही लेते हैं।",
+    explanationEnglish: "AI speeds up citizen service by organizing records and processing documents, while final decisions remain with human officers.",
+    explanationHi: "AI जानकारी खोजने और Documents पढ़ने जैसे काम आसान करता है, लेकिन अंतिम निर्णय अधिकारी ही लेते हैं।",
+    explanationEn: "AI speeds up citizen service by organizing records and processing documents, while final decisions remain with human officers."
+  },
+  {
+    id: 24,
+    category: "ai_explorer",
+    categoryName: "AI Explorer",
+    categoryHindi: "एआई एक्सप्लोरर",
+    questionHindi: "Responsible AI का मुख्य उद्देश्य क्या है?",
+    questionEnglish: "What is the primary objective of Responsible AI?",
+    hi: "Responsible AI का मुख्य उद्देश्य क्या है?",
+    en: "What is the primary objective of Responsible AI?",
+    options: [
+      { id: "A", hi: "बिना जाँच निर्णय लेना", en: "Making unverified decisions", optionHindi: "बिना जाँच निर्णय लेना", optionEnglish: "Making unverified decisions" },
+      { id: "B", hi: "Personal Data सार्वजनिक करना", en: "Making personal data public", optionHindi: "Personal Data सार्वजनिक करना", optionEnglish: "Making personal data public" },
+      { id: "C", hi: "AI के उत्तर हमेशा सही मानना", en: "Assuming AI answers are always true", optionHindi: "AI के उत्तर हमेशा सही मानना", optionEnglish: "Assuming AI answers are always true" },
+      { id: "D", hi: "AI का सुरक्षित, निष्पक्ष और ज़िम्मेदार उपयोग", en: "Ensuring safe, ethical, unbiased, and responsible use of AI", optionHindi: "AI का सुरक्षित, निष्पक्ष और ज़िम्मेदार उपयोग", optionEnglish: "Ensuring safe, ethical, unbiased, and responsible use of AI" }
+    ],
+    correctAnswer: "D",
+    correctIndex: 3,
+    explanationHindi: "Responsible AI यह सुनिश्चित करता है कि AI से किसी के साथ भेदभाव या नुकसान न हो और Data सुरक्षित रहे।",
+    explanationEnglish: "Responsible AI ensures that artificial intelligence is developed and deployed ethically, safely, without bias, and with data privacy protected.",
+    explanationHi: "Responsible AI यह सुनिश्चित करता है कि AI से किसी के साथ भेदभाव या नुकसान न हो और Data सुरक्षित रहे।",
+    explanationEn: "Responsible AI ensures that artificial intelligence is developed and deployed ethically, safely, without bias, and with data privacy protected."
+  },
+  {
+    id: 25,
+    category: "ai_explorer",
+    categoryName: "AI Explorer",
+    categoryHindi: "एआई एक्सप्लोरर",
+    questionHindi: "AI Chatbot में कौन-सी जानकारी नहीं डालनी चाहिए?",
+    questionEnglish: "What sensitive information should you never enter into an AI chatbot?",
+    hi: "AI Chatbot में कौन-सी जानकारी नहीं डालनी चाहिए?",
+    en: "What sensitive information should you never enter into an AI chatbot?",
+    options: [
+      { id: "A", hi: "किसी विषय पर सवाल", en: "General questions about a topic", optionHindi: "किसी विषय पर सवाल", optionEnglish: "General questions about a topic" },
+      { id: "B", hi: "Aadhaar, Bank Details या Password", en: "Aadhaar number, banking details, or passwords", optionHindi: "Aadhaar, Bank Details या Password", optionEnglish: "Aadhaar number, banking details, or passwords" },
+      { id: "C", hi: "Letter का Draft", en: "A letter draft", optionHindi: "Letter का Draft", optionEnglish: "A letter draft" },
+      { id: "D", hi: "भाषा सीखने से जुड़ा सवाल", en: "Questions related to learning a language", optionHindi: "भाषा सीखने से जुड़ा सवाल", optionEnglish: "Questions related to learning a language" }
+    ],
+    correctAnswer: "B",
+    correctIndex: 1,
+    explanationHindi: "Chatbot में दी गई जानकारी Store या दुरुपयोग हो सकती है, इसलिए निजी और Financial जानकारी Share नहीं करनी चाहिए।",
+    explanationEnglish: "Data entered into chatbots may be stored or processed for training; confidential identity or financial credentials should never be shared.",
+    explanationHi: "Chatbot में दी गई जानकारी Store या दुरुपयोग हो सकती है, इसलिए निजी और Financial जानकारी Share नहीं करनी चाहिए।",
+    explanationEn: "Data entered into chatbots may be stored or processed for training; confidential identity or financial credentials should never be shared."
+  },
+
+  // ==========================================
+  // Category 3: Digital Seva (IDs 26 to 32)
+  // ==========================================
+  {
+    id: 26,
+    category: "digital_seva",
+    categoryName: "Digital Seva",
+    categoryHindi: "डिजिटल सेवा",
+    questionHindi: "Digital Government Service Portal का मुख्य उद्देश्य क्या है?",
+    questionEnglish: "What is the main purpose of a digital government service portal?",
+    hi: "Digital Government Service Portal का मुख्य उद्देश्य क्या है?",
+    en: "What is the main purpose of a digital government service portal?",
+    options: [
+      { id: "A", hi: "Entertainment देना", en: "To provide entertainment", optionHindi: "Entertainment देना", optionEnglish: "To provide entertainment" },
+      { id: "B", hi: "Games चलाना", en: "To host video games", optionHindi: "Games चलाना", optionEnglish: "To host video games" },
+      { id: "C", hi: "नागरिकों को Online Government Services उपलब्ध कराना", en: "To provide online government services directly to citizens", optionHindi: "नागरिकों को Online Government Services उपलब्ध कराना", optionEnglish: "To provide online government services directly to citizens" },
+      { id: "D", hi: "Videos दिखाना", en: "To stream videos", optionHindi: "Videos दिखाना", optionEnglish: "To stream videos" }
+    ],
+    correctAnswer: "C",
+    correctIndex: 2,
+    explanationHindi: "Portal से नागरिक घर बैठे Application, Payment और Status जैसी सेवाओं का लाभ ले सकते हैं।",
+    explanationEnglish: "Digital portals enable citizens to conveniently apply, pay fees, and track public services from the comfort of their homes.",
+    explanationHi: "Portal से नागरिक घर बैठे Application, Payment और Status जैसी सेवाओं का लाभ ले सकते हैं।",
+    explanationEn: "Digital portals enable citizens to conveniently apply, pay fees, and track public services from the comfort of their homes."
+  },
+  {
+    id: 27,
+    category: "digital_seva",
+    categoryName: "Digital Seva",
+    categoryHindi: "डिजिटल सेवा",
+    questionHindi: "Online Application के बाद क्या सुरक्षित रखना चाहिए?",
+    questionEnglish: "What should you safely retain after submitting an online application?",
+    hi: "Online Application के बाद क्या सुरक्षित रखना चाहिए?",
+    en: "What should you safely retain after submitting an online application?",
+    options: [
+      { id: "A", hi: "दूसरे का Password", en: "Someone else's password", optionHindi: "दूसरे का Password", optionEnglish: "Someone else's password" },
+      { id: "B", hi: "Website का Colour", en: "The website's color scheme", optionHindi: "Website का Colour", optionEnglish: "The website's color scheme" },
+      { id: "C", hi: "अनजान व्यक्ति का OTP", en: "A stranger's OTP", optionHindi: "अनजान व्यक्ति का OTP", optionEnglish: "A stranger's OTP" },
+      { id: "D", hi: "Application Reference Number", en: "The Application Reference Number / Acknowledgement ID", optionHindi: "Application Reference Number", optionEnglish: "The Application Reference Number / Acknowledgement ID" }
+    ],
+    correctAnswer: "D",
+    correctIndex: 3,
+    explanationHindi: "इसी Number से बाद में Application की Status देखी जा सकती है और पूछताछ की जा सकती है।",
+    explanationEnglish: "The Application Reference Number is needed to track application status, download certificates, and resolve grievances.",
+    explanationHi: "इसी Number से बाद में Application की Status देखी जा सकती है और पूछताछ की जा सकती है।",
+    explanationEn: "The Application Reference Number is needed to track application status, download certificates, and resolve grievances."
+  },
+  {
+    id: 28,
+    category: "digital_seva",
+    categoryName: "Digital Seva",
+    categoryHindi: "डिजिटल सेवा",
+    questionHindi: "Application की Status Check करने से क्या पता चलता है?",
+    questionEnglish: "What information do you get by checking application status?",
+    hi: "Application की Status Check करने से क्या पता चलता है?",
+    en: "What information do you get by checking application status?",
+    options: [
+      { id: "A", hi: "Mobile की Battery", en: "Mobile battery level", optionHindi: "Mobile की Battery", optionEnglish: "Mobile battery level" },
+      { id: "B", hi: "Application की वर्तमान स्थिति", en: "The current processing stage of the application", optionHindi: "Application की वर्तमान स्थिति", optionEnglish: "The current processing stage of the application" },
+      { id: "C", hi: "Internet का Password", en: "Internet password", optionHindi: "Internet का Password", optionEnglish: "Internet password" },
+      { id: "D", hi: "दूसरों के Documents", en: "Other people's documents", optionHindi: "दूसरों के Documents", optionEnglish: "Other people's documents" }
+    ],
+    correctAnswer: "B",
+    correctIndex: 1,
+    explanationHindi: "Status से पता चलता है कि Application जमा हुई, जाँच में है, स्वीकृत हुई या अस्वीकृत।",
+    explanationEnglish: "Status tracking reveals whether your application is submitted, under review, approved, or requires clarification.",
+    explanationHi: "Status से पता चलता है कि Application जमा हुई, जाँच में है, स्वीकृत हुई या अस्वीकृत।",
+    explanationEn: "Status tracking reveals whether your application is submitted, under review, approved, or requires clarification."
+  },
+  {
+    id: 29,
+    category: "digital_seva",
+    categoryName: "Digital Seva",
+    categoryHindi: "डिजिटल सेवा",
+    questionHindi: "Digital Services का मुख्य लाभ क्या है?",
+    questionEnglish: "What is a major advantage of digital public services?",
+    hi: "Digital Services का मुख्य लाभ क्या है?",
+    en: "What is a major advantage of digital public services?",
+    options: [
+      { id: "A", hi: "आसान और सुविधाजनक पहुँच", en: "Convenient, transparent, and easy access from anywhere", optionHindi: "आसान और सुविधाजनक पहुँच", optionEnglish: "Convenient, transparent, and easy access from anywhere" },
+      { id: "B", hi: "हर काम के लिए Office जाना", en: "Having to visit physical offices for every task", optionHindi: "हर काम के लिए Office जाना", optionEnglish: "Having to visit physical offices for every task" },
+      { id: "C", hi: "Documents का खो जाना", en: "Risk of physical documents getting lost", optionHindi: "Documents का खो जाना", optionEnglish: "Risk of physical documents getting lost" },
+      { id: "D", hi: "Internet की ज़रूरत खत्म होना", en: "Eliminating the need for internet", optionHindi: "Internet की ज़रूरत खत्म होना", optionEnglish: "Eliminating the need for internet" }
+    ],
+    correctAnswer: "A",
+    correctIndex: 0,
+    explanationHindi: "Digital Services से समय और यात्रा की बचत होती है और सेवाएँ कहीं से भी उपलब्ध होती हैं।",
+    explanationEnglish: "Digital services save time and travel costs, offering 24/7 transparent access to public utilities and certificates.",
+    explanationHi: "Digital Services से समय और यात्रा की बचत होती है और सेवाएँ कहीं से भी उपलब्ध होती हैं।",
+    explanationEn: "Digital services save time and travel costs, offering 24/7 transparent access to public utilities and certificates."
+  },
+  {
+    id: 30,
+    category: "digital_seva",
+    categoryName: "Digital Seva",
+    categoryHindi: "डिजिटल सेवा",
+    questionHindi: "UPI PIN कब डालना चाहिए?",
+    questionEnglish: "When should you enter your UPI PIN?",
+    hi: "UPI PIN कब डालना चाहिए?",
+    en: "When should you enter your UPI PIN?",
+    options: [
+      { id: "A", hi: "पैसे Receive करते समय", en: "While receiving money into your account", optionHindi: "पैसे Receive करते समय", optionEnglish: "While receiving money into your account" },
+      { id: "B", hi: "अनजान व्यक्ति के कहने पर", en: "Whenever requested by an unknown caller", optionHindi: "अनजान व्यक्ति के कहने पर", optionEnglish: "Whenever requested by an unknown caller" },
+      { id: "C", hi: "स्वयं Payment भेजते समय", en: "Only when you are sending or transferring money", optionHindi: "स्वयं Payment भेजते समय", optionEnglish: "Only when you are sending or transferring money" },
+      { id: "D", hi: "हर Message के बाद", en: "After receiving any message", optionHindi: "हर Message के बाद", optionEnglish: "After receiving any message" }
+    ],
+    correctAnswer: "C",
+    correctIndex: 2,
+    explanationHindi: "UPI PIN केवल अपनी Payment Authorize करने के लिए होता है, पैसे पाने के लिए नहीं।",
+    explanationEnglish: "UPI PIN is only required to authorize money being deducted from your account, never to receive payments.",
+    explanationHi: "UPI PIN केवल अपनी Payment Authorize करने के लिए होता है, पैसे पाने के लिए नहीं।",
+    explanationEn: "UPI PIN is only required to authorize money being deducted from your account, never to receive payments."
+  },
+  {
+    id: 31,
+    category: "digital_seva",
+    categoryName: "Digital Seva",
+    categoryHindi: "डिजिटल सेवा",
+    questionHindi: "कोई कहे \"पैसे पाने के लिए UPI PIN डालें\", तो क्या करें?",
+    questionEnglish: "What should you do if someone tells you to enter your UPI PIN to receive money?",
+    hi: "कोई कहे \"पैसे पाने के लिए UPI PIN डालें\", तो क्या करें?",
+    en: "What should you do if someone tells you to enter your UPI PIN to receive money?",
+    options: [
+      { id: "A", hi: "PIN न डालें; यह Fraud हो सकता है", en: "Do not enter PIN; this is a scam", optionHindi: "PIN न डालें; यह Fraud हो सकता है", optionEnglish: "Do not enter PIN; this is a scam" },
+      { id: "B", hi: "PIN डाल दें", en: "Enter the PIN immediately", optionHindi: "PIN डाल दें", optionEnglish: "Enter the PIN immediately" },
+      { id: "C", hi: "PIN उसे बता दें", en: "Share the PIN with them", optionHindi: "PIN उसे बता दें", optionEnglish: "Share the PIN with them" },
+      { id: "D", hi: "OTP भी भेज दें", en: "Send the OTP as well", optionHindi: "OTP भी भेज दें", optionEnglish: "Send the OTP as well" }
+    ],
+    correctAnswer: "A",
+    correctIndex: 0,
+    explanationHindi: "पैसे Receive करने के लिए PIN की ज़रूरत नहीं होती। PIN डालने पर आपके खाते से पैसे कट सकते हैं।",
+    explanationEnglish: "You never need a PIN to receive money via UPI. Entering your PIN will result in money being deducted from your bank account.",
+    explanationHi: "पैसे Receive करने के लिए PIN की ज़रूरत नहीं होती। PIN डालने पर आपके खाते से पैसे कट सकते हैं।",
+    explanationEn: "You never need a PIN to receive money via UPI. Entering your PIN will result in money being deducted from your bank account."
+  },
+  {
+    id: 32,
+    category: "digital_seva",
+    categoryName: "Digital Seva",
+    categoryHindi: "डिजिटल सेवा",
+    questionHindi: "सरकारी Portal पर Identity Verification क्यों होता है?",
+    questionEnglish: "Why is identity verification required on government portals?",
+    hi: "सरकारी Portal पर Identity Verification क्यों होता है?",
+    en: "Why is identity verification required on government portals?",
+    options: [
+      { id: "A", hi: "Font बदलने के लिए", en: "To change font styles", optionHindi: "Font बदलने के लिए", optionEnglish: "To change font styles" },
+      { id: "B", hi: "सही व्यक्ति की पहचान पक्की करने के लिए", en: "To authenticate genuine beneficiaries and prevent fraud", optionHindi: "सही व्यक्ति की पहचान पक्की करने के लिए", optionEnglish: "To authenticate genuine beneficiaries and prevent fraud" },
+      { id: "C", hi: "Internet Speed बढ़ाने के लिए", en: "To increase internet speed", optionHindi: "Internet Speed बढ़ाने के लिए", optionEnglish: "To increase internet speed" },
+      { id: "D", hi: "Storage बढ़ाने के लिए", en: "To expand device storage", optionHindi: "Storage बढ़ाने के लिए", optionEnglish: "To expand device storage" }
+    ],
+    correctAnswer: "B",
+    correctIndex: 1,
+    explanationHindi: "इससे सेवा और Data केवल सही व्यक्ति को मिलता है तथा दुरुपयोग रुकता है।",
+    explanationEnglish: "Identity verification ensures that government benefits, documents, and data reach only the legitimate individual while preventing unauthorized impersonation.",
+    explanationHi: "इससे सेवा और Data केवल सही व्यक्ति को मिलता है तथा दुरुपयोग रुकता है।",
+    explanationEn: "Identity verification ensures that government benefits, documents, and data reach only the legitimate individual while preventing unauthorized impersonation."
+  }
+];
+
+const data = {
+  _comment: "Official Quiz Question Bank for CHiPS Digital Explorer (Rajyotsav 2026). Exactly 32 questions across 3 balanced categories.",
+  totalCount: questions.length,
+  categories: {
+    cyber_safety: { name: "Cyber Safety", count: 14 },
+    ai_explorer: { name: "AI Explorer", count: 11 },
+    digital_seva: { name: "Digital Seva", count: 7 }
+  },
+  questions
+};
+
+const targetPath = path.resolve(__dirname, '../src/data/questions.json');
+fs.writeFileSync(targetPath, JSON.stringify(data, null, 2), 'utf8');
+console.log(`[Success] Written ${questions.length} questions to ${targetPath}`);
+

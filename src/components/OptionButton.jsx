@@ -43,10 +43,10 @@ export default function OptionButton({
         <span>{letter}</span>
       </div>
 
-      {/* Two-Line Bilingual Option Text Stack */}
+      {/* Two-Line Bilingual Option Text Stack: Hindi prominent on top, English beneath */}
       <div className="option-text-stack">
-        <span className="option-text-en">{enText}</span>
         <span className="option-text-hi">{hiText}</span>
+        <span className="option-text-en">{enText}</span>
       </div>
     </button>
   );

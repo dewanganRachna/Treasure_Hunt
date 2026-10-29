@@ -71,13 +71,13 @@ export default function QuestionPanel({
         <span className="level-pill-text">LEVEL {paddedLevelStr}/10</span>
       </div>
 
-      {/* 2. Bilingual Question Stack */}
+      {/* 2. Bilingual Question Stack: Hindi First, English Beneath */}
       <div className="question-title-stack">
-        <h2 className="question-title-en">
-          <span className="question-prefix">Q{currentLevelNum}.</span> {questionData.en}
+        <h2 className="question-title-hi">
+          <span className="question-prefix-hi">प्र.{currentLevelNum}.</span> {questionData.questionHindi || questionData.hi}
         </h2>
-        <p className="question-title-hi">
-          <span className="question-prefix-hi">प्र.{currentLevelNum}.</span> {questionData.hi}
+        <p className="question-title-en">
+          <span className="question-prefix">Q{currentLevelNum}.</span> {questionData.questionEnglish || questionData.en}
         </p>
       </div>
 
