@@ -234,6 +234,12 @@ run('npm', ['run', 'build'], {
 const indexHtml = readFileSync(join(ROOT, 'dist', 'index.html'), 'utf8');
 if (!indexHtml.includes(`${cfg.urlPath}/assets/`)) fail(`dist/index.html does not point at ${cfg.urlPath}/assets/; the build used the wrong base path.`);
 
+// Which commit is live: deploy/server/report.sh compares it with the server's checkout
+const git = (...args) => spawnSync('git', args, { cwd: ROOT, encoding: 'utf8' }).stdout?.trim() ?? '';
+const commit = git('rev-parse', '--short', 'HEAD') || 'unknown';
+const changed = git('status', '--porcelain', '--untracked-files=no') ? ' with local changes' : '';
+writeFileSync(join(ROOT, 'dist', 'version.txt'), `${commit}${changed}, built ${new Date().toISOString()}\n`);
+
 step('Packing the build');
 const serverFiles = stageServerFiles();
 run('tar', ['-czf', ARCHIVE, '-C', 'dist', '.']);

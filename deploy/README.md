@@ -103,6 +103,67 @@ git pull && npm run deploy -- --local
 
 Run it as your normal user, **not with `sudo`**: it asks for your sudo password itself for the install step. `--rollback`, `--set-password` and `--logout-all` work with `--local` too. With a build you already have: `sudo bash deploy/server/install.sh dist`.
 
+## Server reports
+
+`deploy/server/report.sh` checks the game on the server and pushes a report to a separate private repository, where developers read it. It covers:
+- **The deploy:** whether it worked, with its output, and which commit is live.
+- **nginx:** what nginx answers for each of the game's addresses, the nginx sites, and the game's snippet.
+- **Logs:** recent nginx errors and requests for the game.
+- **The server:** SELinux denials, the firewall, and tool versions.
+
+The development cycle:
+
+```bash
+git pull && bash deploy/server/report.sh --deploy
+```
+
+Run that on the server. On the developer's PC, inside this project:
+
+```bash
+git -C .server-reports pull
+```
+
+Read `.server-reports/report.md`, fix, push, and repeat. Each report is one commit there, so `git log` shows earlier ones.
+
+The script's options:
+- **`--deploy`** deploys first and puts the deploy's output in the report, even when it fails. Without it, the script only reports.
+- **`--no-push`** only writes `~/treasure_hunt_report.md`.
+
+Run it without `sudo`; it asks for the sudo password once, to read nginx's files and logs.
+
+**What the report leaves out:**
+- the admin ID and password hash
+- the session token
+- passwords inside URLs
+- other sites' full configs (only their `listen`, `server_name`, `location` and similar lines)
+- the last part of client IP addresses in logs
+
+### Setting up server reports (once)
+
+The reports go to their own repository so the server's key for the game's code stays read-only. A key with write access there would let anyone who gets into the server change the code.
+
+1. As CMITF, create an empty private repository `CMITF/treasure_hunt_reports` and add the developers as collaborators.
+2. On the server, make a second key, because GitHub won't accept one deploy key for two repositories:
+
+   ```bash
+   ssh-keygen -t ed25519 -f ~/.ssh/treasure_hunt_reports -N "" -C "treasure_hunt reports"
+   cat ~/.ssh/treasure_hunt_reports.pub
+   ```
+
+   Add it under **CMITF/treasure_hunt_reports → Settings → Deploy keys** with **Allow write access** ticked.
+3. Add these two lines to `deploy/deploy.env` on the server:
+
+   ```
+   REPORT_REPO=git@github.com:CMITF/treasure_hunt_reports.git
+   REPORT_SSH_KEY=~/.ssh/treasure_hunt_reports
+   ```
+
+4. On the developer's PC, inside this project (the folder is git-ignored):
+
+   ```bash
+   git clone https://github.com/CMITF/treasure_hunt_reports.git .server-reports
+   ```
+
 ## Kiosk setup tips
 
 - **Browser.** Open the select-game screen (or `https://<your-server>/treasure_hunt/`) in Chrome with `--kiosk`, in a normal profile so the login cookie survives restarts (not `--incognito`). After logging in once it goes straight to the game. Useful extra Chrome flags:

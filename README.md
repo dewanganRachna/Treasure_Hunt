@@ -99,7 +99,7 @@ Locally a win calls the real certificate API too, so every won test game creates
 npm run deploy
 ```
 
-This builds the game, uploads it over SSH and adds it to the server's existing nginx at `/treasure_hunt/`, behind an admin login that each kiosk enters once. It needs a `deploy/deploy.env` with the server address. See **[deploy/README.md](deploy/README.md)** for setup, what it changes on the server, rollback and password commands.
+This builds the game, uploads it over SSH and adds it to the server's existing nginx at `/treasure_hunt/`, behind an admin login that each kiosk enters once. It needs a `deploy/deploy.env` with the server address. See **[deploy/README.md](deploy/README.md)** for setup, what it changes on the server, rollback and password commands. That guide also covers **server reports**: `bash deploy/server/report.sh --deploy` on the server deploys, checks the game and pushes a report that developers pull and read.
 
 ## Project layout
 

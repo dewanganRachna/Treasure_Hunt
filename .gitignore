@@ -26,3 +26,5 @@ dist-ssr
 # Deploy settings and scratch output
 deploy/deploy.env
 .deploy
+# Clone of the server reports repository (deploy/server/report.sh)
+.server-reports
