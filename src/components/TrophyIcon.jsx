@@ -9,7 +9,7 @@ export default function TrophyIcon({ className = '' }) {
     <div className={`trophy-illustration-container ${className}`}>
       <svg
         viewBox="0 0 460 360"
-        className="trophy-svg"
+        width="360" height="280" className="trophy-svg"
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>

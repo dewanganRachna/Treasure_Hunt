@@ -9,7 +9,7 @@ export default function ChestIllustration({ className = '' }) {
     <div className={`chest-illustration-container ${className}`}>
       <svg
         viewBox="0 0 500 380"
-        className="chest-svg"
+        width="480" height="340" className="chest-svg"
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>

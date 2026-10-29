@@ -109,6 +109,9 @@ async function connectCDP() {
 
   ws.onmessage = (event) => {
     const data = JSON.parse(event.data);
+    if (data.method === 'Runtime.exceptionThrown') {
+      console.error('[Page Error]:', data.params?.exceptionDetails?.exception?.description || data.params?.exceptionDetails?.text);
+    }
     if (data.id && callbacks.has(data.id)) {
       const { resolve, reject } = callbacks.get(data.id);
       callbacks.delete(data.id);
@@ -134,6 +137,16 @@ async function connectCDP() {
     return res?.result?.value;
   };
 
+  const waitForSelector = async (selector, timeoutMs = 8000) => {
+    const start = Date.now();
+    while (Date.now() - start < timeoutMs) {
+      const val = await evaluate(`!!document.querySelector('${selector}')`);
+      if (val) return true;
+      await new Promise((r) => setTimeout(r, 200));
+    }
+    return false;
+  };
+
   const screenshot = async (filename) => {
     const res = await send('Page.captureScreenshot', { format: 'png' });
     const buffer = Buffer.from(res.data, 'base64');
@@ -142,7 +155,7 @@ async function connectCDP() {
     console.log(`[Screenshot] Saved: ${filename}`);
   };
 
-  return { ws, send, evaluate, screenshot };
+  return { ws, send, evaluate, waitForSelector, screenshot };
 }
 
 // 4. Main Automated Game Verification Flow
@@ -152,7 +165,7 @@ async function main() {
 
   try {
     await new Promise((r) => setTimeout(r, 1500));
-    const { ws, send, evaluate, screenshot } = await connectCDP();
+    const { ws, send, evaluate, waitForSelector, screenshot } = await connectCDP();
 
     await send('Page.enable');
     await send('Runtime.enable');
@@ -165,7 +178,7 @@ async function main() {
 
     console.log('[Test] Navigating to game...');
     await send('Page.navigate', { url: `http://localhost:${PORT}` });
-    await new Promise((r) => setTimeout(r, 2000));
+    await waitForSelector('.welcome-main-title', 10000);
 
     // STAGE 1: Welcome Screen (Panel 1)
     console.log('[Test] 1. Checking Welcome Screen...');
@@ -176,6 +189,7 @@ async function main() {
     // Click START GAME
     console.log('[Test] Clicking START GAME...');
     await evaluate('document.querySelector(".welcome-start-btn")?.click()');
+    await waitForSelector('.ribbon-main-title', 10000);
 
     // STAGE 2: Full Map View (Panel 2)
     console.log('[Test] 2. Checking Full Map View...');
