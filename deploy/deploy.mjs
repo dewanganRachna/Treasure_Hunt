@@ -137,6 +137,31 @@ const sshArgs = () => ['-p', cfg.port, ...(cfg.key ? ['-i', cfg.key] : []), '-o'
 const scpArgs = () => ['-P', cfg.port, ...(cfg.key ? ['-i', cfg.key] : [])];
 const envPairs = () => Object.entries(cfg.remoteEnv).filter(([, v]) => v !== '');
 
+// ---------- file ownership ----------
+// npm under sudo leaves root-owned files in the project that later normal runs can't replace.
+// The installer asks for sudo itself, so the deploy never needs it.
+if (!IS_WIN && process.getuid() === 0 && process.env.SUDO_USER) {
+  fail(`Run this without sudo, as ${process.env.SUDO_USER}. It asks for sudo itself for the install step.`);
+}
+
+/** First path in the folders a deploy rewrites that belongs to another user, e.g. one left by a sudo run. */
+function foreignPath() {
+  if (IS_WIN || process.getuid() === 0) return '';
+  const dirs = ['node_modules', 'dist', OUT_DIR].filter((d) => existsSync(join(ROOT, d)));
+  if (dirs.length === 0) return '';
+  const r = spawnSync('find', [...dirs, '!', '-uid', String(process.getuid()), '-print', '-quit'], { cwd: ROOT, encoding: 'utf8' });
+  return r.stdout?.trim() ?? '';
+}
+
+const foreign = foreignPath();
+if (foreign) {
+  fail(
+    `${foreign} belongs to another user (an earlier run with sudo?), so npm can't replace it.\n` +
+      `Give the folder back to yourself, then run this again without sudo:\n\n` +
+      `  sudo chown -R "$(id -un):$(id -gn)" ${shQuote(ROOT)}`
+  );
+}
+
 /** Fresh .deploy/ folder holding LF-only copies of the server files (a Windows checkout may have CRLF, which bash rejects). */
 function stageServerFiles() {
   rmSync(join(ROOT, OUT_DIR), { recursive: true, force: true });

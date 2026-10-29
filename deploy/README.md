@@ -101,7 +101,7 @@ To update later, from that folder:
 git pull && npm run deploy -- --local
 ```
 
-`--rollback`, `--set-password` and `--logout-all` work with `--local` too. With a build you already have: `sudo bash deploy/server/install.sh dist`.
+Run it as your normal user, **not with `sudo`**: it asks for your sudo password itself for the install step. `--rollback`, `--set-password` and `--logout-all` work with `--local` too. With a build you already have: `sudo bash deploy/server/install.sh dist`.
 
 ## Kiosk setup tips
 
@@ -117,6 +117,7 @@ git pull && npm run deploy -- --local
 
 ## Troubleshooting
 
+- **"belongs to another user"** or npm `EACCES` errors on the server: npm was run with `sudo` once in this folder, which left root-owned files. Run `sudo chown -R "$(id -un):$(id -gn)" .` in the folder, then `npm run deploy -- --local` without `sudo`. The deploy refuses to run under `sudo` for this reason; it asks for `sudo` itself when it installs.
 - **"Several nginx files have server blocks"**: set `NGINX_SITE` in `deploy/deploy.env`.
 - **"has several server blocks"**: set `NGINX_SERVER_NAME` to the domain that should serve the game.
 - **The page loads but looks unstyled, or files 404**: the build was made for another path. `npm run deploy` always builds for `URL_PATH`, so redeploy with it.
