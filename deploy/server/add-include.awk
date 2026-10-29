@@ -5,8 +5,9 @@
 #       -v note='# Treasure Hunt game' -v name='example.gov.in' \
 #       -f add-include.awk site.conf site.conf > site.conf.new
 #
-# Which block: the one whose server_name lists `name`, if given. Otherwise the block that
-# listens on 443/ssl (the one that serves pages when port 80 only redirects), or the only block.
+# Which block: of the blocks whose server_name lists `name` (all blocks if no name is given),
+# the one that listens on 443/ssl (it serves the pages when port 80 only redirects), or the
+# only one. With a name and still several, the first.
 # Exit codes: 3 no server block, 4 several candidates (pass name), 5 name not found,
 #             6 the block is written on one line.
 
@@ -24,16 +25,19 @@ function strip_comment(s,    out, i, c, q) {
 
 function choose(    i, n, any_ssl) {
     if (nb == 0) return -3
-    if (name != "") {
-        for (i = 1; i <= nb; i++) if (index(names[i], " " name " ") > 0) return i
-        return -5
-    }
-    any_ssl = 0
-    for (i = 1; i <= nb; i++) if (ssl[i]) any_ssl = 1
     n = 0
-    for (i = 1; i <= nb; i++) if (!any_ssl || ssl[i]) { n++; pick = i }
-    if (n != 1) return -4
-    return pick
+    for (i = 1; i <= nb; i++) {
+        cand[i] = (name == "" || index(names[i], " " name " ") > 0)
+        if (cand[i]) n++
+    }
+    if (n == 0) return -5
+    # A site usually has a port-80 block that only redirects, then the 443 block with the same name
+    any_ssl = 0
+    for (i = 1; i <= nb; i++) if (cand[i] && ssl[i]) any_ssl = 1
+    n = 0
+    for (i = 1; i <= nb; i++) if (cand[i] && (!any_ssl || ssl[i])) { n++; if (n == 1) pick = i }
+    if (n == 1 || name != "") return pick
+    return -4
 }
 
 BEGIN { nb = 0; depth = 0; inblock = 0; pending = 0; chosen = 0 }

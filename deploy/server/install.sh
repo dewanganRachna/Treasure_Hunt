@@ -207,14 +207,20 @@ detect_site() {
   if [[ ${#candidates[@]} -eq 0 ]]; then
     warn "No nginx file with a server block was found."
   else
-    warn "Several nginx files have server blocks:"; printf '      %s\n' "${candidates[@]}" >&2
+    # Show what each one answers, so the right one can be picked
+    warn "Several nginx files have server blocks:"
+    for f in "${candidates[@]}"; do
+      printf '      %s\n' "$f" >&2
+      { grep -E '^[^#]*\b(listen|server_name)[[:space:]]' "$f" || true; } \
+        | sed -E 's/^[[:space:]]+//; s/[[:space:]]*#.*$//' | awk '!seen[$0]++ { print "          " $0 }' >&2
+    done
   fi
   return 1
 }
 
 resolve_site() {
   if [[ -z "$NGINX_SITE" ]]; then
-    NGINX_SITE="$(detect_site)" || die "Set NGINX_SITE to the file of the site that should serve $URL_PATH/ (e.g. NGINX_SITE=/etc/nginx/sites-available/default)."
+    NGINX_SITE="$(detect_site)" || die "Set NGINX_SITE to the file whose server block answers the address the kiosks open, e.g. NGINX_SITE=/etc/nginx/conf.d/example.conf in deploy/deploy.env."
   fi
   NGINX_SITE="$(readlink -f "$NGINX_SITE")"
   [[ -f "$NGINX_SITE" ]] || die "NGINX_SITE=$NGINX_SITE is not a file."
