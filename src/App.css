@@ -427,7 +427,7 @@
 .intro {
   position: absolute;
   left: 16px;
-  top: 50%;
+  top: calc(50% + 33px);
   transform: translateY(-50%);
   width: 472px;
   box-sizing: border-box;
@@ -451,46 +451,11 @@
   color: var(--tx2);
   box-shadow: 0 3px 10px rgba(80, 60, 25, 0.08);
 }
-.intro .orb {
-  position: relative;
-  width: 84px;
-  height: 84px;
-  margin: 12px 0 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.intro .orb .r1,
-.intro .orb .r2 {
-  position: absolute;
-  border-radius: 50%;
-  border: 1.5px dashed rgba(201, 138, 36, 0.45);
-}
-.intro .orb .r1 {
-  inset: 0;
-  animation: spin 26s linear infinite;
-}
-.intro .orb .r2 {
-  inset: 14px;
-  border-style: solid;
-  border-color: rgba(201, 138, 36, 0.22);
-}
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
-.intro .orb .core {
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  background: linear-gradient(160deg, #fffaf0, #f1e2bd);
-  border: 1px solid rgba(107, 88, 57, 0.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 8px 22px rgba(125, 79, 16, 0.2), inset 0 2px 8px rgba(255, 255, 255, 0.9);
-}
 .intro h1 {
-  margin: 0;
+  margin: 14px 0 0;
   font: 800 33px/1.14 'Noto Sans Devanagari', Outfit, sans-serif;
   color: #33290f;
 }
@@ -584,6 +549,81 @@
   font-size: 17px;
   padding: 13px 30px;
 }
+/* "All games" is a link to the launcher, styled like the buttons */
+a.bt {
+  display: inline-block;
+  text-decoration: none;
+}
+.stage a:focus-visible {
+  outline: 3px solid var(--am);
+  outline-offset: 2px;
+}
+
+/* Name for the certificate, asked before starting */
+.intro-start {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.name-field {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  text-align: left;
+}
+.name-field span {
+  display: block;
+  margin: 0 0 5px 4px;
+  font: 600 12.5px 'Noto Sans Devanagari', Outfit, sans-serif;
+  color: var(--tx2);
+}
+.name-field input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px 16px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(107, 88, 57, 0.28);
+  background: #fffdf6;
+  font: 600 18px Outfit, 'Noto Sans Devanagari', sans-serif;
+  color: #33290f;
+  outline: none;
+  -webkit-user-select: text;
+  user-select: text;
+}
+.name-field input::placeholder {
+  font-weight: 500;
+  color: rgba(107, 88, 57, 0.5);
+}
+.name-field input:focus-visible,
+.name-field input:focus {
+  border-color: var(--am);
+  box-shadow: 0 0 0 3px rgba(201, 138, 36, 0.2);
+}
+.name-field input[aria-invalid='true'] {
+  border-color: var(--bad);
+  animation: sh 0.4s;
+}
+.name-hint {
+  margin-top: 6px;
+  font: 600 13px 'Noto Sans Devanagari', Outfit, sans-serif;
+  color: var(--bad);
+}
+.intro-start .bt {
+  margin-top: 14px;
+}
+.back-link {
+  align-self: flex-start;
+  margin: -6px 0 8px -4px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font: 600 13px Outfit, 'Noto Sans Devanagari', sans-serif;
+  color: var(--amd);
+  text-decoration: none;
+}
+.back-link:hover {
+  background: rgba(201, 138, 36, 0.12);
+}
 
 /* ---------- finale ---------- */
 .finale {
@@ -595,7 +635,7 @@
   box-sizing: border-box;
   z-index: 8;
   text-align: center;
-  padding: 30px 34px;
+  padding: 24px 30px;
   border-radius: 16px;
   animation: rise 0.5s cubic-bezier(0.2, 1.1, 0.4, 1);
 }
@@ -613,6 +653,61 @@
   margin-top: 7px;
   color: var(--tx);
 }
+.finale .who {
+  margin-top: 2px;
+  font: 700 22px Outfit, 'Noto Sans Devanagari', sans-serif;
+  color: #33290f;
+  overflow-wrap: anywhere;
+}
+/* Certificate from the Rajyotsav API: a QR code to scan with a phone */
+.cert-qr {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 150px;
+  margin: 0 0 18px;
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(255, 253, 246, 0.85);
+  border: 1px solid rgba(201, 138, 36, 0.35);
+  text-align: left;
+}
+.cert-qr img {
+  flex: none;
+  width: 150px;
+  height: 150px;
+  border-radius: 8px;
+  background: #fff;
+  image-rendering: pixelated;
+}
+.finale .cert-qr p {
+  margin: 0;
+  font: 600 15px/1.45 Outfit, 'Noto Sans Devanagari', sans-serif;
+  color: var(--tx);
+}
+.cert-qr.loading,
+.cert-qr.error {
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
+}
+.finale .cert-qr.error p {
+  color: var(--bad);
+}
+.finale .cert-qr .retry {
+  margin: 0;
+  padding: 10px 24px;
+  font-size: 15px;
+}
+.spinner {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 4px solid rgba(201, 138, 36, 0.25);
+  border-top-color: var(--am);
+  animation: spin 0.9s linear infinite;
+}
 .finale p {
   font: 500 16px 'Noto Sans Devanagari', Outfit, sans-serif;
   color: var(--tx2);
@@ -623,7 +718,7 @@
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
   font: 600 14.5px Outfit, 'Noto Sans Devanagari', sans-serif;
   color: var(--amd);
 }
@@ -676,138 +771,6 @@
 .stars .on path {
   fill: #e2b155;
   stroke: var(--amd);
-}
-
-/* ---------- certificate ---------- */
-.cert-wrap {
-  position: absolute;
-  inset: 0;
-  z-index: 12;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-  background: rgba(40, 30, 12, 0.5);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  animation: fade-in 0.3s ease-out;
-}
-@keyframes fade-in {
-  from { opacity: 0; }
-}
-.cert {
-  width: 820px;
-  box-sizing: border-box;
-  padding: 14px;
-  border-radius: 10px;
-  background: linear-gradient(160deg, #fffaf0, #f4e6c4);
-  box-shadow: 0 22px 50px rgba(30, 20, 5, 0.45);
-}
-.cert-frame {
-  position: relative;
-  padding: 24px 46px 20px;
-  border: 2px solid var(--am);
-  border-radius: 6px;
-  outline: 1px solid rgba(201, 138, 36, 0.45);
-  outline-offset: -8px;
-  text-align: center;
-}
-.cert-brand {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font: 600 12px 'Noto Sans Devanagari', Outfit, sans-serif;
-  color: var(--tx2);
-}
-.cert-brand .dot {
-  color: var(--am);
-}
-.cert h2 {
-  margin: 10px 0 0;
-  font: 800 46px/1.1 'Noto Sans Devanagari', 'EB Garamond', serif;
-  color: var(--amd);
-}
-.cert-sub {
-  margin-top: 6px;
-  font: 600 13px 'EB Garamond', serif;
-  letter-spacing: 4px;
-  color: var(--am2);
-}
-.cert-certify {
-  margin: 16px 0 4px;
-  font: 500 16px 'Noto Sans Devanagari', Outfit, sans-serif;
-  color: var(--tx2);
-}
-.cert-name input {
-  width: 460px;
-  max-width: 100%;
-  box-sizing: border-box;
-  padding: 4px 6px 6px;
-  border: 0;
-  border-bottom: 2px solid rgba(125, 79, 16, 0.45);
-  background: transparent;
-  text-align: center;
-  font: 700 28px 'Noto Sans Devanagari', 'EB Garamond', serif;
-  color: #33290f;
-  outline: none;
-  -webkit-user-select: text;
-  user-select: text;
-}
-.cert-name input:focus-visible {
-  border-bottom-color: var(--am);
-  background: rgba(201, 138, 36, 0.08);
-}
-.cert-name input::placeholder {
-  font-size: 17px;
-  font-weight: 500;
-  color: rgba(107, 88, 57, 0.5);
-}
-.cert-body {
-  max-width: 610px;
-  margin: 12px auto 0;
-  font: 500 16px/1.55 'Noto Sans Devanagari', Outfit, sans-serif;
-  color: var(--tx);
-}
-.cert-score {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 12px;
-  font: 600 15px Outfit, 'Noto Sans Devanagari', sans-serif;
-  color: var(--amd);
-}
-.cert-foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 12px;
-  font: 500 13px Outfit, 'Noto Sans Devanagari', sans-serif;
-  color: var(--tx2);
-}
-.cert-foot b {
-  font-weight: 700;
-  color: var(--tx);
-}
-.cert-seal {
-  display: flex;
-}
-.cert-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.cert-actions .bt {
-  margin: 0;
-  padding: 12px 28px;
-  font-size: 16px;
-}
-.cert-privacy {
-  margin-right: 6px;
-  font: 500 12.5px Outfit, 'Noto Sans Devanagari', sans-serif;
-  color: #fff3d6;
 }
 
 /* ---------- map overlay (classes and ids inside map-overlay.svg) ---------- */
@@ -966,9 +929,6 @@ svg.ov #ch { transform: scale(2.2); }
 .portrait .intro {
   transform: none;
 }
-.portrait .intro .orb {
-  display: none;
-}
 .portrait .intro h1 {
   margin-top: 12px;
 }
@@ -1003,47 +963,6 @@ svg.ov #ch { transform: scale(2.2); }
 @keyframes rise-up {
   from { opacity: 0; transform: translateY(16px); }
 }
-.portrait .cert {
-  width: 472px;
-  padding: 10px;
-}
-.portrait .cert-frame {
-  padding: 20px 20px 16px;
-}
-.portrait .cert-brand {
-  flex-wrap: wrap;
-  font-size: 11px;
-}
-.portrait .cert h2 {
-  font-size: 38px;
-}
-.portrait .cert-name input {
-  width: 100%;
-  font-size: 24px;
-}
-.portrait .cert-body {
-  font-size: 15px;
-}
-.portrait .cert-foot {
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 4px 16px;
-}
-.portrait .cert-seal {
-  order: -1;
-  width: 100%;
-  justify-content: center;
-}
-.portrait .cert-actions {
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.portrait .cert-privacy {
-  width: 100%;
-  margin: 0;
-  text-align: center;
-}
-
 @media (prefers-reduced-motion: reduce) {
   /* One near-instant run: infinite animations at 0.01ms would otherwise flicker */
   *,
@@ -1052,57 +971,5 @@ svg.ov #ch { transform: scale(2.2); }
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-}
-
-/* ---------- printing the certificate ---------- */
-@media print {
-  @page {
-    size: A4 landscape;
-    margin: 10mm;
-  }
-  html,
-  body,
-  #root {
-    height: auto;
-    overflow: visible;
-    background: #fff;
-  }
-  .fit {
-    position: static;
-    display: block;
-    padding: 0;
-  }
-  .stage {
-    width: auto !important;
-    height: auto !important;
-    transform: none !important;
-    overflow: visible;
-    background: none;
-  }
-  .stage > :not(.cert-wrap) {
-    display: none !important;
-  }
-  .cert-wrap {
-    position: static;
-    background: none;
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-    animation: none;
-  }
-  .cert-actions {
-    display: none;
-  }
-  .cert {
-    width: 100%;
-    box-shadow: none;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-  .cert-name input {
-    background: none !important;
-  }
-  .cert-name input::placeholder {
-    color: transparent;
   }
 }

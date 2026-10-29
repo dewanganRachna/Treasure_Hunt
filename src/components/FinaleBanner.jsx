@@ -1,24 +1,57 @@
 import { starsFor } from '../data/explorerConfig';
 import { t } from '../data/i18n';
+import { LAUNCHER_URL } from '../data/platform';
 import Stars from './Stars';
 
-export default function FinaleBanner({ lang, firstTry, total, onCertificate, onPlayAgain }) {
+/**
+ * Win panel: score, time, and the certificate from the Rajyotsav API as a QR code to scan.
+ * cert: { status: 'loading' | 'ready' | 'error', qrCode? }
+ */
+export default function FinaleBanner({ lang, name, firstTry, total, time, cert, onRetry, onPlayAgain }) {
   return (
     <section className="finale glass" role="dialog" aria-labelledby="finale-title">
       <h2 id="finale-title">{t(lang, 'won')}</h2>
+      {name && <div className="who">{name}</div>}
       <div className="en">A CHHATTISGARH DIGITAL EXPLORER</div>
-      <p>{t(lang, 'wonSub')}</p>
       <div className="score">
-        <Stars count={starsFor(firstTry)} lang={lang} />
-        <span>{t(lang, 'firstTry', { n: firstTry, total })}</span>
+        <Stars count={starsFor(firstTry)} lang={lang} size={30} />
+        <span>
+          {t(lang, 'firstTry', { n: firstTry, total })} · {t(lang, 'timeTaken', { time })}
+        </span>
       </div>
+
+      <div className={`cert-qr ${cert.status}`} aria-live="polite">
+        {cert.status === 'ready' && (
+          <>
+            <img src={cert.qrCode} width="150" height="150" alt={t(lang, 'certQrAlt')} />
+            <p>{t(lang, 'certScan')}</p>
+          </>
+        )}
+        {cert.status === 'loading' && (
+          <>
+            <span className="spinner" aria-hidden="true" />
+            <p>{t(lang, 'certLoading')}</p>
+          </>
+        )}
+        {cert.status === 'error' && (
+          <>
+            <p>{t(lang, 'certFailed')}</p>
+            <button type="button" className="bt o retry" onClick={onRetry}>
+              {t(lang, 'retry')}
+            </button>
+          </>
+        )}
+      </div>
+
       <div className="finale-actions">
-        <button type="button" className="bt" onClick={onCertificate} autoFocus>
-          {t(lang, 'cert')}
-        </button>
-        <button type="button" className="bt o" onClick={onPlayAgain}>
+        <button type="button" className="bt" onClick={onPlayAgain} autoFocus>
           {t(lang, 'again')}
         </button>
+        {LAUNCHER_URL && (
+          <a className="bt o" href={LAUNCHER_URL}>
+            {t(lang, 'allGames')} →
+          </a>
+        )}
       </div>
     </section>
   );

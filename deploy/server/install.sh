@@ -29,6 +29,8 @@
 #   KEEP_RELEASES      5                         older releases are deleted
 #   COOKIE_DAYS        365                       how long a kiosk stays logged in
 #   COOKIE_SECURE      auto                      yes / no / auto (yes when the site has HTTPS)
+#   CERT_API_URL       https://cggeomap.cgstate.gov.in/rajyotsav/api/certificate
+#                                                where wins are forwarded to make certificates
 set -euo pipefail
 
 URL_PATH="${URL_PATH:-/treasure_hunt}"
@@ -38,6 +40,7 @@ NGINX_SERVER_NAME="${NGINX_SERVER_NAME:-}"
 KEEP_RELEASES="${KEEP_RELEASES:-5}"
 COOKIE_DAYS="${COOKIE_DAYS:-365}"
 COOKIE_SECURE="${COOKIE_SECURE:-auto}"
+CERT_API_URL="${CERT_API_URL:-https://cggeomap.cgstate.gov.in/rajyotsav/api/certificate}"
 NGINX_DIR="${NGINX_DIR:-/etc/nginx}"
 SNIPPET_DIR="$NGINX_DIR/snippets"
 
@@ -66,6 +69,8 @@ URL_PATH="/${URL_PATH#/}"; URL_PATH="${URL_PATH%/}"
 [[ "$URL_PATH" != "" && "$URL_PATH" != "/" ]] || die "URL_PATH must be a sub-path such as /treasure_hunt."
 [[ "$URL_PATH" =~ ^/[A-Za-z0-9._/-]+$ ]] || die "URL_PATH may only contain letters, digits, . _ - and /."
 [[ "$COOKIE_DAYS" =~ ^[0-9]+$ ]] || die "COOKIE_DAYS must be a number of days."
+[[ "$CERT_API_URL" =~ ^https?://[A-Za-z0-9.-]+(:[0-9]+)?(/[A-Za-z0-9._~/-]*)?$ ]] \
+  || die "CERT_API_URL must be a plain http(s) URL, e.g. https://cggeomap.cgstate.gov.in/rajyotsav/api/certificate"
 
 NAME="$(basename "$URL_PATH")"
 SNIPPET="$SNIPPET_DIR/$NAME.conf"
@@ -173,7 +178,8 @@ write_snippet() {
           -e "s|__HTPASSWD__|$HTPASSWD|g" \
           -e "s|__SESSION_TOKEN__|$SESSION_TOKEN|g" \
           -e "s|__COOKIE_MAX_AGE__|$(( COOKIE_DAYS * 86400 ))|g" \
-          -e "s|__COOKIE_SECURE__|$(cookie_secure_attr)|g" > "$tmp"
+          -e "s|__COOKIE_SECURE__|$(cookie_secure_attr)|g" \
+          -e "s|__CERT_API_URL__|$CERT_API_URL|g" > "$tmp"
   chmod 600 "$tmp"
   mv -f "$tmp" "$SNIPPET"
 }

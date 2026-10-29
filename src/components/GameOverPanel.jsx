@@ -1,4 +1,5 @@
 import { t } from '../data/i18n';
+import { LAUNCHER_URL } from '../data/platform';
 
 /** Shown in the left column when a wrong answer beyond the allowance ends the game. */
 export default function GameOverPanel({ lang, question, cleared, total, onPlayAgain }) {
@@ -21,6 +22,11 @@ export default function GameOverPanel({ lang, question, cleared, total, onPlayAg
         <button type="button" className="bt" onClick={onPlayAgain} autoFocus>
           {t(lang, 'again')} &nbsp;→
         </button>
+        {LAUNCHER_URL && (
+          <a className="bt o" href={LAUNCHER_URL}>
+            {t(lang, 'allGames')} →
+          </a>
+        )}
       </div>
     </section>
   );

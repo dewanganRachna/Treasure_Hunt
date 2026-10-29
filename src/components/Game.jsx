@@ -1,15 +1,15 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Header from './Header';
 import ExplorerMap, { TERRAIN_SRC } from './ExplorerMap';
 import IntroPanel from './IntroPanel';
 import QuestionCard from './QuestionCard';
 import FinaleBanner from './FinaleBanner';
 import GameOverPanel from './GameOverPanel';
-import Certificate from './Certificate';
 import ConfettiCanvas from './ConfettiCanvas';
 import { MISTAKES_ALLOWED, TIMING, WAYPOINTS } from '../data/explorerConfig';
 import { buildJourneyQuestions } from '../data/journey';
 import { sound } from '../utils/audio';
+import { formatDuration, requestCertificate } from '../utils/certificate';
 import { motionMs, prefersReducedMotion } from '../utils/motion';
 
 const LAST = WAYPOINTS.length - 1;
@@ -19,7 +19,18 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
  * One playthrough. App remounts this (new key) to restart, which also resets
  * the map overlay to a clean copy.
  */
-export default function Game({ layout, lang, muted, onToggleLang, onToggleSound, onFullscreen, onRestart, onIdle }) {
+export default function Game({
+  layout,
+  lang,
+  muted,
+  playerName,
+  onPlayerNameChange,
+  onToggleLang,
+  onToggleSound,
+  onFullscreen,
+  onRestart,
+  onIdle
+}) {
   const [phase, setPhase] = useState('intro'); // 'intro' | 'play' | 'finale' | 'over'
   const [questions] = useState(buildJourneyQuestions);
   const [cur, setCur] = useState(-1);
@@ -28,13 +39,15 @@ export default function Game({ layout, lang, muted, onToggleLang, onToggleSound,
   const [shake, setShake] = useState(false);
   const [firstTry, setFirstTry] = useState(0);
   const [mistakes, setMistakes] = useState(0);
-  const [showCert, setShowCert] = useState(false);
+  const [timeTaken, setTimeTaken] = useState('');
+  const [cert, setCert] = useState({ status: 'idle' }); // 'idle' | 'loading' | 'ready' | 'error'
 
   const mapRef = useRef(null);
   const confettiRef = useRef(null);
   const alive = useRef(true);
   const busy = useRef(false);
   const advancing = useRef(false);
+  const startedAt = useRef(0);
 
   useEffect(() => {
     alive.current = true;
@@ -78,6 +91,7 @@ export default function Game({ layout, lang, muted, onToggleLang, onToggleSound,
     if (busy.current) return;
     busy.current = true;
     sound.tap();
+    startedAt.current = performance.now();
     setPhase('play');
     const map = mapRef.current;
     map.beginJourney();
@@ -104,6 +118,20 @@ export default function Game({ layout, lang, muted, onToggleLang, onToggleSound,
     confettiRef.current?.celebrate();
     if (!(await wait(motionMs(TIMING.bannerDelay)))) return;
     setPhase('finale');
+  };
+
+  /**
+   * Ask the certificate API for this win. Each call makes a new PDF on the server, so it runs
+   * once per won game (again only after a failure, from the Retry button).
+   */
+  const makeCertificate = async (time) => {
+    setCert({ status: 'loading' });
+    try {
+      const result = await requestCertificate({ username: playerName.trim(), timeTaken: time });
+      if (alive.current) setCert({ status: 'ready', ...result });
+    } catch {
+      if (alive.current) setCert({ status: 'error' });
+    }
   };
 
   /** A wrong answer beyond the allowance: show the right one, then the game-over panel. */
@@ -139,6 +167,13 @@ export default function Game({ layout, lang, muted, onToggleLang, onToggleSound,
     map.setNode(j, 'done');
     map.burst(j);
     setCur(j + 1);
+
+    // Won: stop the clock and start making the certificate while the chest opens
+    if (j === LAST) {
+      const time = formatDuration(performance.now() - startedAt.current);
+      setTimeTaken(time);
+      makeCertificate(time);
+    }
   };
 
   /** After reading the explanation: close the card and travel on (or open the treasure). */
@@ -163,15 +198,11 @@ export default function Game({ layout, lang, muted, onToggleLang, onToggleSound,
     openQuestion(j + 1);
   };
 
-  const openCertificate = () => {
+  const retryCertificate = () => {
+    if (cert.status !== 'error') return;
     sound.tap();
-    setShowCert(true);
+    makeCertificate(timeTaken);
   };
-
-  const closeCertificate = useCallback(() => {
-    sound.tap();
-    setShowCert(false);
-  }, []);
 
   return (
     <>
@@ -206,20 +237,22 @@ export default function Game({ layout, lang, muted, onToggleLang, onToggleSound,
 
       <ConfettiCanvas ref={confettiRef} w={layout.w} h={layout.h} />
 
-      {phase === 'intro' && <IntroPanel lang={lang} onStart={start} />}
-      {phase === 'finale' && !showCert && (
+      {phase === 'intro' && <IntroPanel lang={lang} name={playerName} onNameChange={onPlayerNameChange} onStart={start} />}
+      {phase === 'finale' && (
         <FinaleBanner
           lang={lang}
+          name={playerName.trim()}
           firstTry={firstTry}
           total={questions.length}
-          onCertificate={openCertificate}
+          time={timeTaken}
+          cert={cert}
+          onRetry={retryCertificate}
           onPlayAgain={onRestart}
         />
       )}
       {phase === 'over' && (
         <GameOverPanel lang={lang} question={questions[card.index]} cleared={card.index} total={questions.length} onPlayAgain={onRestart} />
       )}
-      {showCert && <Certificate lang={lang} firstTry={firstTry} total={questions.length} onClose={closeCertificate} />}
     </>
   );
 }

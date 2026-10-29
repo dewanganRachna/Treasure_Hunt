@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import Game from './components/Game';
 import { getLayout } from './data/explorerConfig';
+import { LAUNCHER_URL } from './data/platform';
 import { sound } from './utils/audio';
 import './App.css';
 
@@ -17,6 +18,8 @@ export default function App() {
   const [gameKey, setGameKey] = useState(0);
   const [lang, setLang] = useState('hi');
   const [muted, setMuted] = useState(false);
+  // Kept across "Play again" (same player); cleared by the idle reset (next visitor)
+  const [playerName, setPlayerName] = useState('');
   const [fit, setFit] = useState(measure);
 
   useLayoutEffect(() => {
@@ -54,9 +57,14 @@ export default function App() {
 
   const restart = useCallback(() => setGameKey((k) => k + 1), []);
 
-  // Kiosk idle reset: the next visitor starts in Hindi
+  // Kiosk idle reset: back to the select-game screen if there is one, otherwise a fresh start in Hindi
   const idleReset = useCallback(() => {
+    if (LAUNCHER_URL) {
+      window.location.assign(LAUNCHER_URL);
+      return;
+    }
     setLang('hi');
+    setPlayerName('');
     setGameKey((k) => k + 1);
   }, []);
 
@@ -81,6 +89,8 @@ export default function App() {
           layout={layout}
           lang={lang}
           muted={muted}
+          playerName={playerName}
+          onPlayerNameChange={setPlayerName}
           onToggleLang={toggleLang}
           onToggleSound={toggleSound}
           onFullscreen={toggleFullscreen}
