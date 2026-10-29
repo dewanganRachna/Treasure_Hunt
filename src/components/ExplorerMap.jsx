@@ -1,6 +1,6 @@
 import { useImperativeHandle, useLayoutEffect, useRef } from 'react';
 import overlaySvg from '../assets/map-overlay.svg?raw';
-import { CAMERA, WAYPOINTS, WORLD, toPx } from '../data/explorerConfig';
+import { CAMERA, TIMING, WAYPOINTS, WORLD, toPx } from '../data/explorerConfig';
 
 const TERRAIN_SRC = `${import.meta.env.BASE_URL}map/cg-map-terrain.jpg`;
 const TRAIL_LAYERS = ['gA', 'gB', 'gC'];
@@ -20,6 +20,8 @@ export default function ExplorerMap({ ref, layout }) {
   const overlayRef = useRef(null);
   // What the camera is looking at: the whole state (null) or a stop index
   const target = useRef(null);
+  // Last camera transform applied to the world: stage px offset and zoom
+  const view = useRef({ tx: 0, ty: 0, zoom: 1 });
   const layoutRef = useRef(layout);
 
   const $ = (sel) => overlayRef.current?.querySelector(sel) ?? null;
@@ -39,6 +41,7 @@ export default function ExplorerMap({ ref, layout }) {
     const bottom = overview ? L.overviewBottom : L.mapBottom;
     const tx = clamp((L.mapLeft + L.mapRight) / 2 - toPx(x) * zoom, L.mapRight - WORLD.w * zoom, L.mapLeft);
     const ty = clamp(anchorY - toPx(y) * zoom, bottom - WORLD.h * zoom, L.headerH);
+    view.current = { tx, ty, zoom };
     world.style.transform = `translate(${tx}px,${ty}px) scale(${zoom})`;
   };
 
@@ -73,9 +76,25 @@ export default function ExplorerMap({ ref, layout }) {
   }, [layout]);
 
   useImperativeHandle(ref, () => ({
+    /** Fly the camera to waypoint i; resolves once the flight has finished. */
     flyTo(i) {
       target.current = i;
-      aim();
+      const world = worldRef.current;
+      if (!world) return Promise.resolve();
+      return new Promise((resolve) => {
+        const done = () => {
+          clearTimeout(fallback);
+          world.removeEventListener('transitionend', onEnd);
+          resolve();
+        };
+        const onEnd = (e) => {
+          if (e.target === world && e.propertyName === 'transform') done();
+        };
+        // No transitionend if the transform doesn't change, or on a hidden page
+        const fallback = setTimeout(done, CAMERA.flightMs + 400);
+        world.addEventListener('transitionend', onEnd);
+        aim();
+      });
     },
 
     /** Leave the overview: drop the enlarged strokes and the cartouche. */
@@ -85,11 +104,26 @@ export default function ExplorerMap({ ref, layout }) {
       if (cart) cart.style.opacity = 0;
     },
 
+    /** Where waypoint i sits on the stage under the current camera, and its pulse ring's on-screen diameter. */
+    screenPoint(i) {
+      const { tx, ty, zoom } = view.current;
+      // Treasure node's pulse is larger than a regular waypoint's
+      const r = parseFloat($(`#n${i} .pulse`)?.getAttribute('r')) || 7.4;
+      return {
+        x: tx + toPx(WAYPOINTS[i].x) * zoom,
+        y: ty + toPx(WAYPOINTS[i].y) * zoom,
+        diameter: 2 * r * WORLD.unitToPx * zoom
+      };
+    },
+
     setNode(i, state) {
       const node = $(`#n${i}`);
       if (!node) return;
       node.classList.remove('cur', 'done');
       node.classList.add(state);
+      // Let the arrival ring finish before the steady pulse takes over
+      const pulse = node.querySelector('.pulse');
+      if (pulse) pulse.style.animationDelay = state === 'cur' ? `${TIMING.arrival}ms` : '';
       const label = node.querySelector('.nn');
       if (label) label.textContent = state === 'done' ? '✓' : '';
     },
@@ -197,5 +231,3 @@ export default function ExplorerMap({ ref, layout }) {
     </div>
   );
 }
-
-export { TERRAIN_SRC };

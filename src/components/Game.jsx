@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Header from './Header';
-import ExplorerMap, { TERRAIN_SRC } from './ExplorerMap';
+import ExplorerMap from './ExplorerMap';
 import IntroPanel from './IntroPanel';
 import NamePanel from './NamePanel';
 import TopicPanel from './TopicPanel';
@@ -36,8 +36,9 @@ export default function Game({
   const [topic, setTopic] = useState(null);
   const [questions, setQuestions] = useState([]);
   const [cur, setCur] = useState(-1);
+  // arrive: the card's entrance after landing on a stop
   // revealed: index of the right answer, shown when a wrong answer ends the game
-  const [card, setCard] = useState({ open: false, index: 0, wrong: [], correct: null, revealed: null });
+  const [card, setCard] = useState({ open: false, arrive: false, index: 0, wrong: [], correct: null, revealed: null });
   const [shake, setShake] = useState(false);
   const [firstTry, setFirstTry] = useState(0);
   const [mistakes, setMistakes] = useState(0);
@@ -49,6 +50,8 @@ export default function Game({
 
   const mapRef = useRef(null);
   const confettiRef = useRef(null);
+  const ringRef = useRef(null);
+  const threadRef = useRef(null);
   const alive = useRef(true);
   const busy = useRef(false);
   const advancing = useRef(false);
@@ -87,9 +90,48 @@ export default function Game({
 
   const openQuestion = (j) => {
     setCur(j);
-    setCard({ open: true, index: j, wrong: [], correct: null, revealed: null });
+    setCard({ open: true, arrive: true, index: j, wrong: [], correct: null, revealed: null });
     busy.current = false;
     advancing.current = false;
+    // Drop the entrance class once it has played, so later animations (shake) can't replay it
+    setTimeout(() => {
+      if (alive.current) setCard((c) => (c.index === j ? { ...c, arrive: false } : c));
+    }, TIMING.arrivalCardDelay + TIMING.arrival);
+  };
+
+  /**
+   * Ring out of waypoint i and, beside the left column, a thread from it to the panel edge.
+   * Positions follow the camera. Phones show the card below the map, so they get the ring only.
+   */
+  const playArrival = (i) => {
+    const ring = ringRef.current;
+    const thread = threadRef.current;
+    if (!ring || !thread) return;
+    const { x, y, diameter } = mapRef.current.screenPoint(i);
+
+    ring.style.left = `${x}px`;
+    ring.style.top = `${y}px`;
+    ring.style.setProperty('--ring-size', `${diameter}px`);
+
+    const withThread = layout.panelRight !== null;
+    if (withThread) {
+      thread.style.left = `${layout.panelRight}px`;
+      thread.style.top = `${y}px`;
+      thread.style.width = `${Math.max(x - layout.panelRight, 0)}px`;
+    }
+
+    ring.classList.remove('go');
+    thread.classList.remove('go');
+    void ring.offsetWidth; // restart the animations
+    ring.classList.add('go');
+    if (withThread) thread.classList.add('go');
+  };
+
+  /** The traveller has landed on waypoint i and the camera has settled. */
+  const arriveAt = (i) => {
+    mapRef.current.setNode(i, 'cur');
+    playArrival(i);
+    openQuestion(i);
   };
 
   const start = async () => {
@@ -100,10 +142,9 @@ export default function Game({
     setPhase('play');
     const map = mapRef.current;
     map.beginJourney();
-    map.flyTo(0);
-    map.setNode(0, 'cur');
-    if (!(await wait(motionMs(TIMING.intoFirstStop)))) return;
-    openQuestion(0);
+    await map.flyTo(0);
+    if (!alive.current) return;
+    arriveAt(0);
   };
 
   const finale = async () => {
@@ -146,7 +187,7 @@ export default function Game({
     mapRef.current.failAt(j);
     if (!(await wait(TIMING.gameOverReveal))) return;
     sound.gameOver();
-    setCard((c) => ({ ...c, open: false }));
+    setCard((c) => ({ ...c, open: false, arrive: false }));
     setPhase('over');
   };
 
@@ -187,7 +228,7 @@ export default function Game({
     advancing.current = true;
     const j = card.index;
     sound.tap();
-    setCard((c) => ({ ...c, open: false }));
+    setCard((c) => ({ ...c, open: false, arrive: false }));
 
     if (j === LAST) {
       if (!(await wait(TIMING.cardClose))) return;
@@ -195,12 +236,9 @@ export default function Game({
       return;
     }
     const map = mapRef.current;
-    map.flyTo(j + 1);
-    await map.travel(j, prefersReducedMotion() ? 0 : TIMING.travel);
+    await Promise.all([map.flyTo(j + 1), map.travel(j, prefersReducedMotion() ? 0 : TIMING.travel)]);
     if (!alive.current) return;
-    map.setNode(j + 1, 'cur');
-    if (!(await wait(TIMING.beforeQuestion))) return;
-    openQuestion(j + 1);
+    arriveAt(j + 1);
   };
 
   const retryCertificate = () => {
@@ -211,7 +249,7 @@ export default function Game({
 
   return (
     <>
-      <div className="backdrop" style={{ backgroundImage: `url(${TERRAIN_SRC})` }} />
+      <div className="backdrop" />
       <ExplorerMap ref={mapRef} layout={layout} />
       <div className="vignette" />
 
@@ -228,6 +266,7 @@ export default function Game({
 
       <QuestionCard
         open={card.open}
+        arrive={card.arrive}
         question={questions.length ? questions[card.index] : null}
         index={card.index}
         wrong={card.wrong}
@@ -239,6 +278,9 @@ export default function Game({
         onPick={pick}
         onContinue={advance}
       />
+
+      <span className="arrive-ring" ref={ringRef} aria-hidden="true" />
+      <span className="arrive-thread" ref={threadRef} aria-hidden="true" />
 
       <ConfettiCanvas ref={confettiRef} w={layout.w} h={layout.h} />
 

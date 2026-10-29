@@ -11,7 +11,7 @@ export default function GameOverPanel({ lang, question, cleared, total, onPlayAg
   return (
     <section className="finale over glass" role="dialog" aria-labelledby="over-title">
       <h2 id="over-title">{t(lang, 'over')}</h2>
-      <div className="en">{t(lang, 'overSub')}</div>
+      <div className="over-sub">{t(lang, 'overSub')}</div>
       <p>{t(lang, 'overProgress', { n: cleared, total })}</p>
       <div className="answer">
         <small>{t(lang, 'rightAnswer')}</small>

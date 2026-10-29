@@ -18,7 +18,7 @@ select-game screen (built separately)
 ## How a game goes
 
 1. **Start screen.** The whole state is shown, with the route and a closed treasure chest waiting at Bastar. START leads to a **"What's your name?"** step with an on-screen keyboard (the name is printed on the certificate), then to **"choose your topic"**: Cyber Safety, Digital Seva or AI Explorer. One tap on a topic starts the journey.
-2. **10 stops.** The camera flies to each stop and a question opens:
+2. **10 stops.** The camera flies to each stop. On landing, a ring pulses out of the waypoint, a gold thread runs to the panel, and the question card glides in:
    - A right answer turns green and shows a one-line explanation. **Continue** walks the traveller along the trail to the next stop.
    - **Only one wrong answer is allowed in the whole game.** The first wrong answer empties the heart in the progress bar and the player tries the same question again. A second wrong answer anywhere ends the game: the right answer is shown, the stop turns red, and a Game Over panel says how far they got, with the explanation and **Play again**.
    - All 10 questions come from the chosen topic, with no repeats within a game.
@@ -48,6 +48,7 @@ Kiosk behaviour:
 - **Inviting when idle.** START pulses gently.
 - **Fair.** Answer order is shuffled every game, so the right answer isn't always in the same place.
 - **Offline-proof assets.** Fonts and the map are bundled, so the game needs the internet only for the certificate.
+- **Fills any screen.** On landscape screens the 1280×720 design is scaled and then stretched to the display's shape, so there are no black bars; the start map is fitted to the state.
 - **Phones and accessibility.** Phones held upright get a portrait layout, and the system's reduced-motion setting is respected.
 
 ## Question bank

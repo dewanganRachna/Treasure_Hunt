@@ -7,35 +7,59 @@ export const WORLD = { w: 1628, h: 2288, unitToPx: 2.2, viewBoxOrigin: -110 };
 
 export const CAMERA = {
   playZoom: 0.8,
+  // Area the overview fits into the map column: the state plus the title cartouche (map units)
+  overviewBounds: { x0: -110, y0: -112, x1: 520, y1: 812 },
+  flightMs: 2200,
   transition: 'transform 2.2s cubic-bezier(.45,.05,.2,1)'
 };
 
-/** Point the overview camera is centred on (map units) */
+/** Point the portrait overview camera is centred on (map units) */
 const OVERVIEW = { x: 250, y: 420 };
 
-/**
- * 16:9 kiosk layout: fixed 1280×720 stage, panels in a left column, map on the right.
- * mapBottom is how far down the map may be shown; overview* is used while the intro is up.
- */
-export const LANDSCAPE = {
-  portrait: false,
-  w: 1280,
-  h: 720,
-  headerH: 66,
-  mapLeft: 504,
-  mapRight: 1280,
-  mapBottom: 720,
-  yAnchor: 393,
-  fitZoom: 0.277,
-  overview: OVERVIEW,
-  overviewAnchor: 393,
-  overviewBottom: 720
-};
+// Landscape (kiosks, laptops): the 1280×720 design scaled to the screen, then stretched along
+// the longer side so it fills the whole display; panels in a left column, map to the right.
+const BASE_W = 1280;
+const BASE_H = 720;
+const HEADER_H = 66;
+const MAP_LEFT = 504;
+const PANEL_RIGHT = 488; // right edge of the left column
+
+const landscapeCache = new Map();
+
+function landscapeLayout(vw, vh) {
+  const scale = Math.min(vw / BASE_W, vh / BASE_H);
+  const w = Math.round(vw / scale);
+  const h = Math.round(vh / scale);
+  const key = `${w}x${h}`;
+  if (!landscapeCache.has(key)) {
+    // Overview: fit the state and its title cartouche into the map column
+    const b = CAMERA.overviewBounds;
+    const areaW = w - MAP_LEFT;
+    const areaH = h - HEADER_H;
+    const centreY = Math.round(HEADER_H + areaH / 2);
+    landscapeCache.set(key, {
+      portrait: false,
+      w,
+      h,
+      headerH: HEADER_H,
+      mapLeft: MAP_LEFT,
+      mapRight: w,
+      mapBottom: h,
+      panelRight: PANEL_RIGHT,
+      yAnchor: centreY,
+      fitZoom: Math.min(areaW / ((b.x1 - b.x0) * WORLD.unitToPx), areaH / ((b.y1 - b.y0) * WORLD.unitToPx)),
+      overview: { x: (b.x0 + b.x1) / 2, y: (b.y0 + b.y1) / 2 },
+      overviewAnchor: centreY,
+      overviewBottom: h
+    });
+  }
+  return landscapeCache.get(key);
+}
 
 // Portrait (phones held upright): the stage is one panel wide and as tall as the screen allows
 const PORTRAIT_W = 504;
 const PORTRAIT_HEADER = 100;
-const PORTRAIT_INTRO = 512; // intro panel plus its bottom gap
+const PORTRAIT_INTRO = 552; // intro panel plus its bottom gap
 const PORTRAIT_CARD = 470; // typical question card plus its bottom gap
 const STATE_SHARE_OF_WORLD_H = 0.76; // the state fills about this much of the terrain image's height
 
@@ -52,6 +76,7 @@ function portraitLayout(h) {
       headerH: PORTRAIT_HEADER,
       mapLeft: 0,
       mapRight: PORTRAIT_W,
+      panelRight: null, // panels sit below the map, not beside it
       // The card covers the bottom, so the map may scroll up to its top edge (lets Bastar clear the card)
       mapBottom: h - PORTRAIT_CARD,
       yAnchor: Math.round(PORTRAIT_HEADER + Math.max(90, (h - PORTRAIT_HEADER - PORTRAIT_CARD) / 2)),
@@ -66,7 +91,7 @@ function portraitLayout(h) {
 
 /** Pick the stage layout for a viewport. Returns cached objects so equal layouts compare equal. */
 export function getLayout(vw, vh) {
-  if (vw >= vh) return LANDSCAPE;
+  if (vw >= vh) return landscapeLayout(vw, vh);
   const h = Math.round(Math.min(1120, Math.max(820, (PORTRAIT_W * vh) / vw)) / 10) * 10;
   return portraitLayout(h);
 }
@@ -86,9 +111,10 @@ export const WAYPOINTS = [
 ];
 
 export const TIMING = {
-  intoFirstStop: 2300,
+  // Arrival sequence: ring at 0, thread at 60, card at 180 (CSS delays), each 1300 long
+  arrival: 1300,
+  arrivalCardDelay: 180,
   travel: 2300,
-  beforeQuestion: 260,
   cardClose: 380,
   treasureShake: 850,
   treasureReveal: 600,

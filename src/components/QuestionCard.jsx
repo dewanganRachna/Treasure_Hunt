@@ -8,7 +8,7 @@ const LETTERS = 'ABCD';
  * Question card in the left column. Stays mounted so it can fade out with its
  * last question still showing.
  */
-export default function QuestionCard({ open, question, index, wrong, correct, revealed, shake, lang, isLast, onPick, onContinue }) {
+export default function QuestionCard({ open, arrive, question, index, wrong, correct, revealed, shake, lang, isLast, onPick, onContinue }) {
   const opsRef = useRef(null);
   const nextRef = useRef(null);
   const answered = correct !== null;
@@ -40,7 +40,7 @@ export default function QuestionCard({ open, question, index, wrong, correct, re
   }
 
   return (
-    <section className={`card glass${open ? ' show' : ''}${shake ? ' sh' : ''}`} inert={!open} aria-hidden={!open}>
+    <section className={`card glass${open ? ' show' : ''}${arrive ? ' arrive' : ''}${shake ? ' sh' : ''}`} inert={!open} aria-hidden={!open}>
       {question && (
         <>
           <div className="top" />
