@@ -253,6 +253,11 @@ for f in "$NGINX_DIR/nginx.conf" "$NGINX_DIR"/conf.d/*.conf "$NGINX_DIR"/sites-e
   [[ -e "$f" ]] || continue
   block "$(readlink -f "$f") (outline)" outline "$(readlink -f "$f")"
 done
+# Other apps' snippets share the game's server block, so their locations matter too
+for f in "$NGINX_DIR"/snippets/*.conf; do
+  [[ -e "$f" && "$f" != "$SNIPPET" ]] || continue
+  block "$f (outline)" outline "$f"
+done
 for f in $INCLUDED_IN; do
   block "Where $f includes the game" as_root grep -n -B 6 -A 2 -F "$INCLUDE_LINE" "$f"
 done
@@ -283,7 +288,7 @@ SELINUX="$(getenforce 2>/dev/null || echo 'not installed')"
 DENIALS="$(as_root ausearch -m AVC,USER_AVC -ts today -i 2>/dev/null | grep -iE 'nginx|httpd' | grep -c denied || true)"
 if [[ "$SELINUX" == Enforcing && "${DENIALS:-0}" -gt 0 ]]; then check fail "$DENIALS SELinux denials for nginx today: see Server"
 else check note "SELinux: $SELINUX"; fi
-block "System" sh -c 'echo "$1"; uname -r; uptime; df -h / "$2" 2>/dev/null; free -h' _ "$OS" "$(dirname "$APP_DIR")"
+block "System" sh -c 'echo "$1"; uname -r; uptime; df -h / "$2" 2>/dev/null | awk "!seen[\$0]++"; free -h' _ "$OS" "$(dirname "$APP_DIR")"
 block "Tools" sh -c 'for c in "node -v" "npm -v" "git --version" "nginx -v" "openssl version" "curl --version"; do printf "%-16s " "${c%% *}"; $c 2>&1 | head -n 1; done'
 block "SELinux denials for nginx today" sh -c 'cat' < <(as_root ausearch -m AVC,USER_AVC -ts today -i 2>&1 | grep -iE 'nginx|httpd|no matches' | tail -n 20)
 block "Firewall" sh -c 'if command -v firewall-cmd >/dev/null; then sudo -n firewall-cmd --state; echo "services: $(sudo -n firewall-cmd --list-services)"; echo "ports: $(sudo -n firewall-cmd --list-ports)"; else echo "firewalld not installed"; fi'
