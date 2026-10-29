@@ -105,7 +105,7 @@ Run it as your normal user, **not with `sudo`**: it asks for your sudo password 
 
 ## Server reports
 
-`deploy/server/report.sh` checks the game on the server and pushes a report to a separate private repository, where developers read it. It covers:
+`deploy/server/report.sh` checks the game on the server and pushes a report to the `server-reports` branch of this repository, where developers read it. That branch holds only `report.md`. It covers:
 - **The deploy:** whether it worked, with its output, and which commit is live.
 - **nginx:** what nginx answers for each of the game's addresses, the nginx sites, and the game's snippet.
 - **Logs:** recent nginx errors and requests for the game.
@@ -120,10 +120,10 @@ git pull && bash deploy/server/report.sh --deploy
 Run that on the server. On the developer's PC, inside this project:
 
 ```bash
-git -C .server-reports pull
+git fetch origin server-reports && git show FETCH_HEAD:report.md
 ```
 
-Read `.server-reports/report.md`, fix, push, and repeat. Each report is one commit there, so `git log` shows earlier ones.
+Read the report, fix, push, and repeat. Each report is one commit on that branch, so `git log FETCH_HEAD` shows earlier ones.
 
 The script's options:
 - **`--deploy`** deploys first and puts the deploy's output in the report, even when it fails. Without it, the script only reports.
@@ -140,29 +140,18 @@ Run it without `sudo`; it asks for the sudo password once, to read nginx's files
 
 ### Setting up server reports (once)
 
-The reports go to their own repository so the server's key for the game's code stays read-only. A key with write access there would let anyone who gets into the server change the code.
+To push, the server's deploy key needs write access. GitHub can't change that on an existing key, so add it again:
 
-1. As CMITF, create an empty private repository `CMITF/treasure_hunt_reports` and add the developers as collaborators.
-2. On the server, make a second key, because GitHub won't accept one deploy key for two repositories:
+1. On the server, print the key: `cat ~/.ssh/treasure_hunt_deploy.pub`.
+2. As CMITF, open **CMITF/treasure_hunt → Settings → Deploy keys** and delete the server's key.
+3. Click **Add deploy key**, paste the same line and tick **Allow write access**.
 
-   ```bash
-   ssh-keygen -t ed25519 -f ~/.ssh/treasure_hunt_reports -N "" -C "treasure_hunt reports"
-   cat ~/.ssh/treasure_hunt_reports.pub
-   ```
+Pulling keeps working as before. The trade-off: with write access, anyone who gets into the server could push to any branch of this repository, `classic` included. Keep an eye on its commit history.
 
-   Add it under **CMITF/treasure_hunt_reports → Settings → Deploy keys** with **Allow write access** ticked.
-3. Add these two lines to `deploy/deploy.env` on the server:
-
-   ```
-   REPORT_REPO=git@github.com:CMITF/treasure_hunt_reports.git
-   REPORT_SSH_KEY=~/.ssh/treasure_hunt_reports
-   ```
-
-4. On the developer's PC, inside this project (the folder is git-ignored):
-
-   ```bash
-   git clone https://github.com/CMITF/treasure_hunt_reports.git .server-reports
-   ```
+**A separate repository instead.** To keep the code repository's key read-only:
+1. Make a private repository for the reports and give it a second deploy key with write access. GitHub won't accept one key on two repositories.
+2. On the server, set `REPORT_REPO=git@github.com:<owner>/<repo>.git` and `REPORT_SSH_KEY=~/.ssh/<that key>` in `deploy/deploy.env`. Reports then go to that repository's `main` branch.
+3. Developers clone it into `.server-reports`, which is git-ignored.
 
 ## Kiosk setup tips
 

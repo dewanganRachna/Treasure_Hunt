@@ -1,19 +1,21 @@
 #!/usr/bin/env bash
-# Writes a report on how the Treasure Hunt runs on this server and pushes it to a private
-# reports repository, so a developer can read it, fix things and push. The cycle:
+# Writes a report on how the Treasure Hunt runs on this server and pushes it as report.md to
+# the server-reports branch of this repository, so a developer can read it, fix things and push:
 #
 #   on the server:   git pull && bash deploy/server/report.sh --deploy
-#   on the dev PC:   git -C .server-reports pull      then read .server-reports/report.md
+#   on the dev PC:   git fetch origin server-reports && git show FETCH_HEAD:report.md
 #
 #   bash deploy/server/report.sh             report only
 #   bash deploy/server/report.sh --deploy    deploy this checkout first (npm run deploy -- --local);
 #                                            its output goes in the report, even when it fails
 #   bash deploy/server/report.sh --no-push   only write the report to ~/treasure_hunt_report.md
 #
-# Settings, from deploy/deploy.env or the environment (see deploy/README.md):
-#   REPORT_REPO     the reports repository, e.g. git@github.com:CMITF/treasure_hunt_reports.git
-#   REPORT_SSH_KEY  its deploy key with write access, e.g. ~/.ssh/treasure_hunt_reports
-#   REPORT_DIR      where it is cloned on this server (default ~/treasure_hunt_reports)
+# Pushing needs the server's deploy key to have write access. Settings, from deploy/deploy.env or
+# the environment (see deploy/README.md):
+#   REPORT_BRANCH   branch of this repository the reports go to (default server-reports)
+#   REPORT_REPO     push to this separate repository's main branch instead
+#   REPORT_SSH_KEY  key to push with, when it isn't the one this checkout pulls with
+#   REPORT_DIR      where REPORT_REPO is cloned on this server (default ~/treasure_hunt_reports)
 #   and URL_PATH, APP_DIR, NGINX_SITE, NGINX_SERVER_NAME, CERT_API_URL as for the deploy.
 #
 # Never in the report: the admin ID and password hash, the session token, other sites' full
@@ -45,7 +47,7 @@ for a in "$@"; do
   case "$a" in
     --deploy) DEPLOY=1 ;;
     --no-push) PUSH=0 ;;
-    -h|--help) sed -n '2,20p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'; exit 0 ;;
+    -h|--help) sed -n '2,22p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'; exit 0 ;;
     *) die "Unknown option $a (use --deploy, --no-push or --help)." ;;
   esac
 done
@@ -56,6 +58,7 @@ APP_DIR="$(setting APP_DIR /var/www/treasure_hunt)"
 NGINX_SITE="$(setting NGINX_SITE)"
 NGINX_SERVER_NAME="$(setting NGINX_SERVER_NAME)"
 CERT_API_URL="$(setting CERT_API_URL https://cggeomap.cgstate.gov.in/rajyotsav/api/certificate)"
+REPORT_BRANCH="$(setting REPORT_BRANCH server-reports)"
 REPORT_REPO="$(setting REPORT_REPO)"
 REPORT_SSH_KEY="$(setting REPORT_SSH_KEY)"; REPORT_SSH_KEY="${REPORT_SSH_KEY/#\~/$HOME}"
 REPORT_DIR="$(setting REPORT_DIR "$HOME/treasure_hunt_reports")"; REPORT_DIR="${REPORT_DIR/#\~/$HOME}"
@@ -291,7 +294,7 @@ block "git status" git -C "$ROOT" status --short --branch
 block "Recent commits" git -C "$ROOT" log --oneline -8
 settings() {
   [[ -f "$ENV_FILE" ]] || echo "(no deploy/deploy.env: defaults)"
-  for k in URL_PATH APP_DIR NGINX_SITE NGINX_SERVER_NAME KEEP_RELEASES COOKIE_DAYS COOKIE_SECURE PUBLIC_URL LAUNCHER_URL CERT_API_URL REPORT_REPO REPORT_DIR; do
+  for k in URL_PATH APP_DIR NGINX_SITE NGINX_SERVER_NAME KEEP_RELEASES COOKIE_DAYS COOKIE_SECURE PUBLIC_URL LAUNCHER_URL CERT_API_URL REPORT_BRANCH REPORT_REPO REPORT_DIR; do
     printf '%s=%s\n' "$k" "$(setting "$k")"
   done
 }
@@ -314,14 +317,35 @@ echo
 PROBLEMS="$(printf '%s\n' "${SUMMARY[@]}" | grep -c '^- FAIL' || true)"
 
 # ---------- publish ----------
-if (( ! PUSH )) || [[ -z "$REPORT_REPO" ]]; then
+if (( ! PUSH )); then
   cp "$REPORT" "$FALLBACK"
   ok "Report written to $FALLBACK"
-  (( PUSH )) && warn "REPORT_REPO isn't set, so it wasn't pushed. See \"Server reports\" in deploy/README.md."
   exit 0
 fi
 
 [[ -n "$REPORT_SSH_KEY" ]] && export GIT_SSH_COMMAND="ssh -i $(printf '%q' "$REPORT_SSH_KEY") -o IdentitiesOnly=yes"
+MESSAGE="$(hostname -s) $(date '+%Y-%m-%d %H:%M') at $COMMIT: $PROBLEMS problem(s)"
+
+if [[ -z "$REPORT_REPO" ]]; then
+  # A branch of this repository holding only report.md. Built with git plumbing, so this
+  # checkout's files and branch stay as they are.
+  r() { git -C "$ROOT" -c user.name="treasure_hunt server" -c user.email="treasure-hunt@$(hostname)" "$@"; }
+  REF="refs/remotes/origin/$REPORT_BRANCH"
+  r fetch -q origin "+refs/heads/$REPORT_BRANCH:$REF" 2>/dev/null || true
+  parent="$(r rev-parse -q --verify "$REF" || true)"
+  blob="$(r hash-object -w "$REPORT")"
+  tree="$(printf '100644 blob %s\treport.md\n' "$blob" | r mktree)"
+  commit="$(r commit-tree "$tree" ${parent:+-p "$parent"} -m "$MESSAGE")"
+  if r push -q origin "$commit:refs/heads/$REPORT_BRANCH"; then
+    r update-ref "$REF" "$commit"
+    ok "Report pushed to the $REPORT_BRANCH branch of $(r remote get-url origin) ($PROBLEMS problem(s))"
+  else
+    cp "$REPORT" "$FALLBACK"
+    die "Could not push the $REPORT_BRANCH branch. The server's deploy key needs write access (see \"Server reports\" in deploy/README.md). The report is in $FALLBACK."
+  fi
+  exit 0
+fi
+
 if [[ ! -d "$REPORT_DIR/.git" ]]; then
   git clone -q "$REPORT_REPO" "$REPORT_DIR" 2>&1 | grep -v 'empty repository' || true
   [[ -d "$REPORT_DIR/.git" ]] || { cp "$REPORT" "$FALLBACK"; die "Could not clone $REPORT_REPO. The report is in $FALLBACK."; }
