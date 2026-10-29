@@ -8,9 +8,9 @@ npm run deploy
 
 ## What you need
 
-- **Server:** Linux with nginx already running your site, SSH access, and a user that can `sudo`. Node is **not** needed on the server.
+- **Server:** Linux with nginx already running your site, SSH access, and a user that can `sudo`. Node is **not** needed on the server, unless you build there (see [Deploying from the server itself](#deploying-from-the-server-itself)).
 - **Kiosks:** internet access to `cggeomap.cgstate.gov.in`, because the kiosk browser sends wins to the certificate API itself.
-- **Your computer:** Node 18+ and `ssh`, `scp`, `tar`. These come with Windows 10/11, macOS and Linux.
+- **Your computer:** Node 20.19+ or 22.12+ (Vite needs it to build), and `ssh`, `scp`, `tar`. Those three come with Windows 10/11, macOS and Linux.
 
 ## First deploy
 
@@ -76,14 +76,32 @@ npm run deploy -- --host user@server   # without a deploy.env
 
 ### Deploying from the server itself
 
-If you'd rather build on the server (needs Node there):
+To build on the server instead, it pulls the code from `CMITF/treasure_hunt` with a read-only deploy key. The server then needs Node 20.19+ or 22.12+, and internet access to GitHub and npm.
+
+1. On the server, as the user that will deploy, make a key just for this repository:
+
+   ```bash
+   ssh-keygen -t ed25519 -f ~/.ssh/treasure_hunt_deploy -N "" -C "treasure_hunt deploy key"
+   cat ~/.ssh/treasure_hunt_deploy.pub
+   ```
+
+2. On GitHub, open **CMITF/treasure_hunt → Settings → Deploy keys → Add deploy key**, paste that `.pub` line and leave **Allow write access** off.
+
+3. Clone with that key and deploy. `-c` saves the key choice in the clone, so later pulls use it too. The first connection asks you to confirm GitHub's host key: answer `yes`.
+
+   ```bash
+   git clone -c core.sshCommand="ssh -i ~/.ssh/treasure_hunt_deploy -o IdentitiesOnly=yes" -b classic git@github.com:CMITF/treasure_hunt.git
+   cd treasure_hunt
+   npm run deploy -- --local
+   ```
+
+To update later, from that folder:
 
 ```bash
-git pull
-npm run deploy -- --local
+git pull && npm run deploy -- --local
 ```
 
-or with a build you already have: `sudo bash deploy/server/install.sh dist`.
+`--rollback`, `--set-password` and `--logout-all` work with `--local` too. With a build you already have: `sudo bash deploy/server/install.sh dist`.
 
 ## Kiosk setup tips
 
