@@ -270,6 +270,24 @@
   background: radial-gradient(circle at 50% 40%, #FFFDF5 0%, #F8F2E2 50%, #ECE0C7 100%);
 }
 
+.gameplay-scenic-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.gameplay-scenic-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
 /* --------------------------------------------------------------------------
    4. Top HUD Overlay
    -------------------------------------------------------------------------- */
@@ -384,6 +402,7 @@
   position: absolute;
   inset: 0;
   overflow: hidden;
+  z-index: 10;
 }
 
 .camera-layer-transform {

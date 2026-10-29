@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import StageScaler from './components/StageScaler';
 import WelcomeScreen from './components/WelcomeScreen';
+import GameplayBackground from './components/GameplayBackground';
 import Hud from './components/Hud';
 import CameraRig from './components/CameraRig';
 import QuestionPanel from './components/QuestionPanel';
@@ -159,6 +160,9 @@ export default function App() {
         {/* PANELS 2 - 8: Stationary Map World with Moving Camera & Overlays */}
         {status !== 'welcome' && (
           <div className="gameplay-viewport">
+            {/* Immersive Chhattisgarh Scenic Background */}
+            <GameplayBackground />
+
             {/* Top HUD: CHiPS Logo (left), Title Plaque (center), Progress Pill (right) */}
             <Hud progressCount={completedCount} totalLevels={10} />
 

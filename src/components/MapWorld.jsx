@@ -91,6 +91,12 @@ export default function MapWorld({
               <feColorMatrix type="matrix" values="0 0 0 0 0.08   0 0 0 0 0.18   0 0 0 0 0.1   0 0 0 0.28 0" />
             </filter>
 
+            {/* Ambient Map Elevation Glow Filter (separates 3D map cleanly from scenic background) */}
+            <filter id="mapAmbientAura" x="-25%" y="-25%" width="160%" height="160%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="28" />
+              <feColorMatrix type="matrix" values="1 0 0 0 1   0 0.95 0 0 0.92   0 0 0.8 0 0.75   0 0 0 0.42 0" />
+            </filter>
+
             {/* Clip path for terrain boundary */}
             <clipPath id="mapOutlineClip">
               <path d={MAP_OUTLINE} />
@@ -128,6 +134,14 @@ export default function MapWorld({
               <circle cx="-1" cy="-4" r="3" fill="#66BB6A" opacity="0.8" />
             </g>
           </defs>
+
+          {/* 0. Ambient Soft Golden Elevation Cushion */}
+          <path
+            d={BASE_SHADOW}
+            fill="#FFF8DC"
+            filter="url(#mapAmbientAura)"
+            opacity="0.6"
+          />
 
           {/* 1. Underlying Soft Drop Shadow of the Raised Map */}
           <path
