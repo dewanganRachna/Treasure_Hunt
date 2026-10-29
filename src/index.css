@@ -1,375 +1,67 @@
+/* CSS Reset & Global Typography */
 :root {
-  --bg-primary: #f8fafc;
-  --bg-surface: #ffffff;
-  --bg-subtle: #f1f5f9;
-  --bg-card: #ffffff;
-  
-  --primary-blue: #0284c7;
-  --primary-dark: #0369a1;
-  --primary-light: #e0f2fe;
-  
-  --gold-warm: #f59e0b;
-  --gold-light: #fef3c7;
-  --gold-dark: #b45309;
-  
-  --emerald-green: #10b981;
-  --emerald-light: #ecfdf5;
-  --emerald-dark: #047857;
-  
-  --rose-red: #ef4444;
-  --rose-light: #fef2f2;
-  --rose-dark: #b91c1c;
+  --color-ivory: #FBF6E9;
+  --color-ivory-light: #FFFDF8;
+  --color-cream: #F3EAD3;
+  --color-dark-green: #14452F;
+  --color-dark-green-hover: #1c5b3f;
+  --color-sage: #8FB59A;
+  --color-teal: #2A9D8F;
+  --color-gold: #C9A24A;
+  --color-gold-bright: #F3D98B;
+  --color-gold-deep: #A17B27;
+  --color-error-red: #C0392B;
+  --color-success-green: #15803D;
 
-  --text-main: #0f172a;
-  --text-secondary: #334155;
-  --text-muted: #64748b;
-  --text-light: #94a3b8;
-  
-  --border-light: #e2e8f0;
-  --border-subtle: #cbd5e1;
-  --border-focus: #38bdf8;
-  
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.07);
-  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.09);
-  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.12);
+  --font-title: 'Cinzel', 'Playfair Display', Georgia, serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-body: 'Noto Sans', 'Noto Sans Devanagari', -apple-system, sans-serif;
+  --font-hindi: 'Noto Sans Devanagari', 'Noto Sans', sans-serif;
 }
 
-* {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  -webkit-tap-highlight-color: transparent;
 }
 
-html, body, #root {
+html, body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #0d1f16;
+  font-family: var(--font-body);
+  color: #1F2937;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+#root {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: var(--bg-primary);
-  color: var(--text-main);
-  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  user-select: none;
-}
-
-/* Typography styles */
-.font-devanagari {
-  font-family: 'Noto Sans Devanagari', 'Outfit', sans-serif;
-}
-
-.font-outfit {
-  font-family: 'Outfit', sans-serif;
-}
-
-.font-mono {
-  font-family: 'Rajdhani', monospace, sans-serif;
-}
-
-/* Application Viewport Container */
-.app-viewport {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
   position: relative;
-  overflow: hidden;
 }
 
-/* Scanlines disabled for clean, modern light theme */
-.scanlines-overlay {
-  display: none !important;
+/* Kiosk Mode Flag (?kiosk=1) */
+.kiosk-mode {
+  cursor: none !important;
 }
 
-/* Map Grid Background */
-.map-grid-bg {
-  background-size: 36px 36px;
-  background-image: 
-    linear-gradient(to right, rgba(148, 163, 184, 0.14) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(148, 163, 184, 0.14) 1px, transparent 1px);
+.kiosk-mode * {
+  cursor: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
 }
 
-/* Header Styles */
-.kiosk-header {
-  width: 100%;
-  padding: 12px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--border-light);
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(12px);
-  z-index: 30;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
-}
-
-.hud-badge {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  border-radius: 12px;
-  font-family: 'Rajdhani', sans-serif;
-  font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 0.5px;
-}
-
-.hud-badge-progress {
-  background: #ffffff;
-  border: 1px solid var(--border-light);
-  box-shadow: var(--shadow-sm);
-}
-
-.hud-badge-retry-available {
-  background: var(--emerald-light);
-  border: 1px solid #a7f3d0;
-  color: var(--emerald-dark);
-}
-
-.hud-badge-retry-consumed {
-  background: var(--rose-light);
-  border: 1px solid #fecaca;
-  color: var(--rose-dark);
-}
-
-.header-btn {
-  padding: 7px 14px;
-  border-radius: 8px;
-  border: 1px solid var(--border-light);
-  background: #ffffff;
-  color: var(--text-secondary);
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.2s ease;
-  box-shadow: var(--shadow-sm);
-}
-
-.header-btn:hover {
-  background: #f8fafc;
-  color: var(--primary-dark);
-  border-color: var(--border-subtle);
-}
-
-.header-btn-restart {
-  background: #f0f9ff;
-  border: 1px solid #bae6fd;
-  color: var(--primary-dark);
-  font-weight: 700;
-}
-
-.header-btn-restart:hover {
-  background: #e0f2fe;
-  border-color: #7dd3fc;
-  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.15);
-}
-
-/* Map Screen Layout */
-.map-view-wrapper {
-  position: relative;
-  flex: 1;
-  display: flex;
-  width: 100%;
-  height: calc(100vh - 68px);
-  overflow: hidden;
-}
-
-.map-sidebar {
-  width: 340px;
-  background: rgba(255, 255, 255, 0.94);
-  border-right: 1px solid var(--border-light);
-  backdrop-filter: blur(12px);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  z-index: 10;
-  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.05);
-}
-
-.map-main-stage {
-  flex: 1;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background: radial-gradient(circle at 50% 50%, #f8fafc 0%, #edf2f7 100%);
-}
-
-/* Sidebar Mission Card */
-.mission-card {
-  padding: 16px;
-  border-radius: 16px;
-  background: #ffffff;
-  border: 1.5px solid var(--border-light);
-  border-left: 4px solid var(--primary-blue);
-  box-shadow: var(--shadow-md);
-  margin-bottom: 16px;
-}
-
-.treasure-status-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-  border-radius: 12px;
-  margin-bottom: 10px;
-  background: #ffffff;
-  border: 1px solid var(--border-light);
-  transition: all 0.25s ease;
-  box-shadow: var(--shadow-sm);
-}
-
-.treasure-status-item.active {
-  background: #f0f9ff;
-  border: 1.5px solid #38bdf8;
-  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.12);
-  transform: translateX(4px);
-}
-
-.treasure-status-item.unlocked {
-  background: #f0fdf4;
-  border: 1.5px solid #86efac;
-}
-
-/* Animations */
-@keyframes spinSlow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes bounceSubtle {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
-}
-
-@keyframes routePulse {
-  0% { stroke-dashoffset: 28; }
-  100% { stroke-dashoffset: 0; }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.97); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-.animate-spin-slow {
-  animation: spinSlow 20s linear infinite;
-}
-
-.animate-bounce-subtle {
-  animation: bounceSubtle 2.2s ease-in-out infinite;
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.route-pulse-dash {
-  animation: routePulse 1.2s linear infinite;
-}
-
-.route-pulse-dash-reverse {
-  animation: routePulse 1.4s linear infinite reverse;
-}
-
-.active-pulse {
-  animation: bounceSubtle 2.4s ease-in-out infinite;
-}
-
-.halo-spin {
-  animation: spinSlow 12s linear infinite;
-  transform-origin: 50px 50px;
-}
-
-/* Modals & Overlays */
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  background: rgba(15, 23, 42, 0.45);
-  backdrop-filter: blur(10px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-}
-
-/* Quiz Option Card Buttons */
-.quiz-option-card {
-  width: 100%;
-  padding: 16px 20px;
-  border-radius: 16px;
-  background: #ffffff;
-  border: 2px solid var(--border-light);
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  color: var(--text-main);
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  text-align: left;
-  box-shadow: var(--shadow-sm);
-}
-
-.quiz-option-card:hover {
-  background: #f8faff;
-  border-color: #6366f1;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.14);
-}
-
-.quiz-option-card.selected {
-  background: #eef2ff;
-  border-color: #6366f1;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
-  transform: scale(1.01);
-}
-
-.quiz-option-badge {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: #eef2ff;
-  border: 1.5px solid #c7d2fe;
-  color: #6366f1;
-  font-family: 'Outfit', sans-serif;
-  font-weight: 800;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.quiz-option-card.selected .quiz-option-badge {
-  background: #6366f1;
-  color: #ffffff;
-  border-color: #6366f1;
-}
-
-/* Interactive Marker Styles */
-.treasure-marker-group {
-  cursor: default;
-}
-
-.treasure-marker-group.clickable-marker,
-.treasure-marker-group.active {
-  cursor: pointer;
-}
-
-.treasure-marker-group.active:hover {
-  filter: drop-shadow(0 4px 16px rgba(2, 132, 199, 0.45));
-}
-
-/* Responsive Touch Adjustments */
-@media (max-width: 900px) {
-  .map-sidebar {
-    display: none;
+/* Reduced Motion Preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

@@ -1,0 +1,275 @@
+{
+  "_comment": "SAMPLE QUESTIONS FOR CHIPS DIGITAL EXPLORER. Exactly 10 questions to be replaced by the approved set.",
+  "questions": [
+    {
+      "id": 1,
+      "category": "cyber_security",
+      "en": "Which of these is a secure practice to protect your digital accounts from cyber threats?",
+      "hi": "साइबर खतरों से अपने डिजिटल खातों की सुरक्षा के लिए इनमें से कौन सी सुरक्षित प्रथा है?",
+      "options": [
+        {
+          "en": "Using the same password for all accounts",
+          "hi": "सभी खातों के लिए एक ही पासवर्ड का उपयोग करना"
+        },
+        {
+          "en": "Enabling Two-Factor Authentication (2FA)",
+          "hi": "दो-कारक प्रमाणीकरण (2FA) सक्षम करना"
+        },
+        {
+          "en": "Sharing your OTP with strangers",
+          "hi": "अजनबियों के साथ अपना OTP साझा करना"
+        },
+        {
+          "en": "Clicking on random links in messages",
+          "hi": "संदेशों में यादृच्छिक लिंक पर क्लिक करना"
+        }
+      ],
+      "correctIndex": 1,
+      "explanationEn": "Enabling Two-Factor Authentication (2FA) adds an essential second security shield to protect your accounts.",
+      "explanationHi": "दो-कारक प्रमाणीकरण (2FA) सक्षम करने से आपके खातों की सुरक्षा के लिए एक मजबूत दूसरा सुरक्षा कवच जुड़ता है।"
+    },
+    {
+      "id": 2,
+      "category": "ai_explorer",
+      "en": "What is a key benefit of using Artificial Intelligence (AI) in governance?",
+      "hi": "शासन में कृत्रिम बुद्धिमत्ता (AI) का उपयोग करने का एक प्रमुख लाभ क्या है?",
+      "options": [
+        {
+          "en": "Faster and more accurate services",
+          "hi": "तेज़ और अधिक सटीक सेवाएं"
+        },
+        {
+          "en": "Increased paperwork",
+          "hi": "अधिक कागजी कार्यवाही"
+        },
+        {
+          "en": "Higher manual effort",
+          "hi": "अधिक मैनुअल प्रयास"
+        },
+        {
+          "en": "No change in service delivery",
+          "hi": "सेवा वितरण में कोई बदलाव नहीं"
+        }
+      ],
+      "correctIndex": 0,
+      "explanationEn": "AI helps automate routine verification and delivers quick, error-free public services to citizens.",
+      "explanationHi": "AI नियमित सत्यापन को स्वचालित करने और नागरिकों को त्वरित, त्रुटिरहित सार्वजनिक सेवाएं प्रदान करने में मदद करता है।"
+    },
+    {
+      "id": 3,
+      "category": "cyber_security",
+      "en": "What constitutes a strong and secure password for online safety?",
+      "hi": "ऑनलाइन सुरक्षा के लिए एक मजबूत और सुरक्षित पासवर्ड में क्या होना चाहिए?",
+      "options": [
+        {
+          "en": "Your birth date or vehicle registration number",
+          "hi": "आपकी जन्मतिथि या वाहन पंजीकरण संख्या"
+        },
+        {
+          "en": "Simple sequential numbers like 123456",
+          "hi": "123456 जैसे सरल क्रमिक अंक"
+        },
+        {
+          "en": "A unique mix of letters, numbers, and symbols",
+          "hi": "अक्षरों, संख्याओं और विशेष प्रतीकों का अनूठा मिश्रण"
+        },
+        {
+          "en": "Your own first name or pet name",
+          "hi": "आपका अपना पहला नाम या पालतू जानवर का नाम"
+        }
+      ],
+      "correctIndex": 2,
+      "explanationEn": "A strong password combines uppercase and lowercase letters, numbers, and special symbols.",
+      "explanationHi": "एक मजबूत पासवर्ड में बड़े और छोटे अक्षर, अंक और विशेष प्रतीक शामिल होते हैं।"
+    },
+    {
+      "id": 4,
+      "category": "social_media_security",
+      "en": "When receiving a One-Time Password (OTP), what should you do?",
+      "hi": "वन-टाइम पासवर्ड (OTP) प्राप्त होने पर आपको क्या करना चाहिए?",
+      "options": [
+        {
+          "en": "Never share it with anyone over phone or chat",
+          "hi": "इसे फोन या चैट पर किसी के साथ कभी साझा न करें"
+        },
+        {
+          "en": "Post it on social media for verification",
+          "hi": "सत्यापन के लिए इसे सोशल मीडिया पर पोस्ट करें"
+        },
+        {
+          "en": "Share it with callers claiming prize money",
+          "hi": "इनाम का दावा करने वाले कॉलर के साथ साझा करें"
+        },
+        {
+          "en": "Forward it to all your contacts",
+          "hi": "इसे अपने सभी संपर्कों को अग्रेषित करें"
+        }
+      ],
+      "correctIndex": 0,
+      "explanationEn": "OTPs are strictly confidential and should never be disclosed to anyone under any circumstances.",
+      "explanationHi": "OTP पूरी तरह गोपनीय होता है और इसे किसी भी परिस्थिति में किसी को नहीं बताया जाना चाहिए।"
+    },
+    {
+      "id": 5,
+      "category": "ai_explorer",
+      "en": "How can AI-powered chatbots help citizens access government schemes?",
+      "hi": "AI-आधारित चैटबॉट नागरिकों को सरकारी योजनाओं तक पहुँचने में कैसे मदद कर सकते हैं?",
+      "options": [
+        {
+          "en": "By charging a fee for every query search",
+          "hi": "प्रत्येक खोज के लिए पैसे लेकर"
+        },
+        {
+          "en": "By providing 24/7 instant guidance in local languages",
+          "hi": "स्थानीय भाषाओं में 24/7 त्वरित मार्गदर्शन प्रदान करके"
+        },
+        {
+          "en": "By deleting submitted applications",
+          "hi": "जमा किए गए आवेदनों को हटाकर"
+        },
+        {
+          "en": "By shutting down the website at night",
+          "hi": "रात में वेबसाइट बंद करके"
+        }
+      ],
+      "correctIndex": 1,
+      "explanationEn": "AI chatbots provide round-the-clock instant answers in the citizen's preferred language.",
+      "explanationHi": "AI चैटबॉट नागरिक की पसंदीदा भाषा में 24 घंटे तत्काल उत्तर प्रदान करते हैं।"
+    },
+    {
+      "id": 6,
+      "category": "digital_seva",
+      "en": "What is the primary advantage of using DigiLocker for official documents?",
+      "hi": "आधिकारिक दस्तावेजों के लिए डिजिलॉकर (DigiLocker) का उपयोग करने का मुख्य लाभ क्या है?",
+      "options": [
+        {
+          "en": "It requires carrying physical paper documents everywhere",
+          "hi": "इसमें हर जगह भौतिक कागजी दस्तावेज साथ ले जाना पड़ता है"
+        },
+        {
+          "en": "Secure, paperless access to authentic digital certificates",
+          "hi": "प्रामाणिक डिजिटल प्रमाणपत्रों तक सुरक्षित, पेपरलेस पहुंच"
+        },
+        {
+          "en": "It is used exclusively for playing online games",
+          "hi": "इसका उपयोग केवल ऑनलाइन गेम खेलने के लिए होता है"
+        },
+        {
+          "en": "Stored certificates disappear after twenty-four hours",
+          "hi": "सहेजे गए प्रमाणपत्र चौबीस घंटे बाद गायब हो जाते हैं"
+        }
+      ],
+      "correctIndex": 1,
+      "explanationEn": "DigiLocker provides secure digital issuance and paperless verification of authentic credentials.",
+      "explanationHi": "डिजिलॉकर प्रामाणिक दस्तावेजों का सुरक्षित डिजिटल भंडारण और पेपरलेस सत्यापन प्रदान करता है।"
+    },
+    {
+      "id": 7,
+      "category": "cyber_security",
+      "en": "If you receive an unexpected message with a suspicious link, what is the safest step?",
+      "hi": "यदि आपको किसी संदिग्ध लिंक के साथ अप्रत्याशित संदेश मिलता है, तो सबसे सुरक्षित कदम क्या है?",
+      "options": [
+        {
+          "en": "Click the link immediately and enter credentials",
+          "hi": "तुरंत लिंक पर क्लिक करें और अपनी जानकारी दर्ज करें"
+        },
+        {
+          "en": "Forward the suspicious link to family and friends",
+          "hi": "संदिग्ध लिंक को परिवार और दोस्तों को अग्रेषित करें"
+        },
+        {
+          "en": "Do not click; verify from the official source or report it",
+          "hi": "क्लिक न करें; आधिकारिक स्रोत से पुष्टि करें या रिपोर्ट करें"
+        },
+        {
+          "en": "Download attachments from the sender right away",
+          "hi": "प्रेषक से प्राप्त अटैचमेंट तुरंत डाउनलोड करें"
+        }
+      ],
+      "correctIndex": 2,
+      "explanationEn": "Never click unverified links. Always check official portals directly to stay protected from phishing.",
+      "explanationHi": "असत्यापित लिंक पर कभी क्लिक न करें। फ़िशिंग से सुरक्षित रहने के लिए हमेशा आधिकारिक पोर्टल पर जाएं।"
+    },
+    {
+      "id": 8,
+      "category": "digital_seva",
+      "en": "How do citizen service portals (like e-District) benefit people across Chhattisgarh?",
+      "hi": "नागरिक सेवा पोर्टल (जैसे ई-डिस्ट्रिक्ट) छत्तीसगढ़ भर के नागरिकों को कैसे लाभ पहुंचाते हैं?",
+      "options": [
+        {
+          "en": "By requiring long queues and physical office visits",
+          "hi": "लंबी कतारों और व्यक्तिगत कार्यालय दौरों की आवश्यकता देकर"
+        },
+        {
+          "en": "By enabling convenient online application and tracking from home",
+          "hi": "घर बैठे सुविधाजनक ऑनलाइन आवेदन और ट्रैकिंग की सुविधा देकर"
+        },
+        {
+          "en": "By increasing unnecessary processing steps",
+          "hi": "अनावश्यक प्रसंस्करण चरणों को बढ़ाकर"
+        },
+        {
+          "en": "By limiting services only to late night hours",
+          "hi": "सेवाओं को केवल देर रात के घंटों तक सीमित करके"
+        }
+      ],
+      "correctIndex": 1,
+      "explanationEn": "Digital portals offer transparent, accessible e-governance directly to every citizen's fingertips.",
+      "explanationHi": "डिजिटल पोर्टल हर नागरिक की उंगलियों पर पारदर्शी और सुलभ ई-गवर्नेंस सेवाएं प्रदान करते हैं।"
+    },
+    {
+      "id": 9,
+      "category": "cyber_security",
+      "en": "Why is it important to install regular system and app updates on your devices?",
+      "hi": "अपने उपकरणों पर नियमित सिस्टम और ऐप अपडेट इंस्टॉल करना क्यों महत्वपूर्ण है?",
+      "options": [
+        {
+          "en": "It automatically wipes all your personal photos",
+          "hi": "यह आपके सभी व्यक्तिगत फ़ोटो को स्वचालित रूप से मिटा देता है"
+        },
+        {
+          "en": "Updates patch security vulnerabilities and protect against malware",
+          "hi": "अपडेट सुरक्षा खामियों को ठीक करते हैं और मैलवेयर से बचाते हैं"
+        },
+        {
+          "en": "It permanently disconnects your internet",
+          "hi": "यह आपके इंटरनेट को स्थायी रूप से डिस्कनेक्ट कर देता है"
+        },
+        {
+          "en": "Updates provide zero security improvements",
+          "hi": "अपडेट से सुरक्षा में कोई सुधार नहीं होता है"
+        }
+      ],
+      "correctIndex": 1,
+      "explanationEn": "Software updates close newly discovered security loopholes before cyber threats can exploit them.",
+      "explanationHi": "सॉफ़्टवेयर अपडेट सुरक्षा खामियों को बंद करते हैं जिससे साइबर खतरों से रक्षा होती है।"
+    },
+    {
+      "id": 10,
+      "category": "social_media_security",
+      "en": "What is a recommended practice to maintain privacy on social media platforms?",
+      "hi": "सोशल मीडिया प्लेटफॉर्म पर गोपनीयता बनाए रखने के लिए क्या अनुशंसित अभ्यास है?",
+      "options": [
+        {
+          "en": "Keeping your account public with real-time location broadcast",
+          "hi": "रियल-टाइम लोकेशन प्रसारण के साथ खाते को सार्वजनिक रखना"
+        },
+        {
+          "en": "Accepting connection requests from unknown profiles",
+          "hi": "अज्ञात प्रोफाइल से कनेक्शन अनुरोध स्वीकार करना"
+        },
+        {
+          "en": "Publicly posting bank details and government ID photos",
+          "hi": "सार्वजनिक रूप से बैंक विवरण और पहचान पत्र की तस्वीरें पोस्ट करना"
+        },
+        {
+          "en": "Setting privacy to trusted contacts and limiting personal info",
+          "hi": "गोपनीयता को विश्वसनीय संपर्कों तक सीमित करना और व्यक्तिगत जानकारी सुरक्षित रखना"
+        }
+      ],
+      "correctIndex": 3,
+      "explanationEn": "Restricting profile visibility and keeping personal details private shields you from social engineering.",
+      "explanationHi": "प्रोफ़ाइल दृश्यता को सीमित करना और व्यक्तिगत विवरण को निजी रखना आपको साइबर धोखाधड़ी से बचाता है।"
+    }
+  ]
+}

@@ -1,0 +1,1011 @@
+/* ==========================================================================
+   Chhattisgarh Digital Explorer - Primary Application Stylesheet
+   Matches 8-Panel Reference Specification
+   Design Size: 1920 x 1080 (16:9 Landscape Stage)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Stage Scaler & Viewport
+   -------------------------------------------------------------------------- */
+.stage-viewport {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background-color: #0b1a12;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stage-canvas {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: center center;
+  overflow: hidden;
+  background-color: #F8F3E6;
+  box-shadow: 0 0 80px rgba(0, 0, 0, 0.7);
+}
+
+.game-stage-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   2. Welcome Screen (Panel 1)
+   -------------------------------------------------------------------------- */
+.welcome-screen-stage {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 28%, #FFFDF2 0%, #F8F1DD 45%, #EADBBE 100%);
+}
+
+.welcome-scenic-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.welcome-sun-glow {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 900px;
+  height: 600px;
+  background: radial-gradient(ellipse at center, rgba(255, 245, 190, 0.65) 0%, rgba(245, 230, 180, 0.25) 50%, rgba(245, 230, 180, 0) 75%);
+  filter: blur(40px);
+}
+
+.welcome-hills-svg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60%;
+  pointer-events: none;
+}
+
+/* Botanical Corner Foliage Leaves */
+.corner-foliage {
+  position: absolute;
+  width: 340px;
+  height: 340px;
+  pointer-events: none;
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.85;
+}
+
+.foliage-bottom-left {
+  bottom: -20px;
+  left: -20px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M20,180 C40,110 90,70 180,50 C140,90 100,130 20,180 Z' fill='%232F7A43' opacity='0.75'/%3E%3Cpath d='M10,190 C60,130 110,100 190,90 C150,130 110,160 10,190 Z' fill='%2314452F' opacity='0.85'/%3E%3Cpath d='M0,200 C30,150 70,120 140,110 C100,150 60,170 0,200 Z' fill='%235BA865' opacity='0.7'/%3E%3Cpath d='M40,200 C80,160 130,140 195,140 C150,170 100,190 40,200 Z' fill='%23266436' opacity='0.8'/%3E%3C/svg%3E");
+}
+
+.foliage-bottom-right {
+  bottom: -20px;
+  right: -20px;
+  transform: scaleX(-1);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M20,180 C40,110 90,70 180,50 C140,90 100,130 20,180 Z' fill='%232F7A43' opacity='0.75'/%3E%3Cpath d='M10,190 C60,130 110,100 190,90 C150,130 110,160 10,190 Z' fill='%2314452F' opacity='0.85'/%3E%3Cpath d='M0,200 C30,150 70,120 140,110 C100,150 60,170 0,200 Z' fill='%235BA865' opacity='0.7'/%3E%3Cpath d='M40,200 C80,160 130,140 195,140 C150,170 100,190 40,200 Z' fill='%23266436' opacity='0.8'/%3E%3C/svg%3E");
+}
+
+.welcome-top-bar {
+  position: absolute;
+  top: 36px;
+  left: 45px;
+  z-index: 10;
+}
+
+.welcome-chips-logo {
+  height: 64px;
+  width: auto;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+.welcome-center-content {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-top: -10px;
+}
+
+.title-filigree-divider {
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: center;
+}
+
+.welcome-main-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: var(--font-title);
+  font-weight: 900;
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: var(--color-dark-green);
+  text-shadow:
+    0 2px 0 rgba(243, 217, 139, 0.8),
+    0 4px 12px rgba(20, 69, 47, 0.25);
+}
+
+.title-word-state {
+  font-size: 52px;
+  letter-spacing: 5px;
+}
+
+.title-word-explorer {
+  font-size: 68px;
+  letter-spacing: 4px;
+}
+
+.welcome-subtitle {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 21px;
+  letter-spacing: 7px;
+  color: var(--color-gold-deep);
+  margin-top: 10px;
+  text-transform: uppercase;
+}
+
+.title-bottom-ornament {
+  margin-top: 6px;
+  margin-bottom: 4px;
+}
+
+.welcome-chest-wrap {
+  width: 480px;
+  height: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -15px;
+  animation: chestGentleFloat 4s ease-in-out infinite alternate;
+}
+
+@keyframes chestGentleFloat {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-8px); }
+}
+
+.welcome-action-wrap {
+  margin-top: 5px;
+}
+
+.welcome-start-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 420px;
+  height: 72px;
+  background: linear-gradient(180deg, #1A5439 0%, #14452F 60%, #0E3523 100%);
+  border: 2.5px solid var(--color-gold);
+  border-radius: 9999px;
+  color: #FFFFFF;
+  font-family: var(--font-title);
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  cursor: pointer;
+  box-shadow:
+    0 8px 24px rgba(20, 69, 47, 0.35),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.4);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.welcome-start-btn:hover {
+  background: linear-gradient(180deg, #226947 0%, #1A5439 60%, #12402B 100%);
+  box-shadow:
+    0 12px 32px rgba(201, 162, 74, 0.5),
+    inset 0 1px 3px rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+.welcome-start-btn:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 4px 12px rgba(20, 69, 47, 0.4);
+}
+
+/* --------------------------------------------------------------------------
+   3. Gameplay Screens (Panels 2 to 8)
+   -------------------------------------------------------------------------- */
+.gameplay-viewport {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 40%, #FFFDF5 0%, #F8F2E2 50%, #ECE0C7 100%);
+}
+
+/* --------------------------------------------------------------------------
+   4. Top HUD Overlay
+   -------------------------------------------------------------------------- */
+.game-hud-overlay {
+  position: absolute;
+  top: 24px;
+  left: 45px;
+  right: 45px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.hud-logo-wrap {
+  pointer-events: auto;
+}
+
+.hud-chips-logo {
+  height: 56px;
+  width: auto;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* Center Ribbon Plaque */
+.hud-ribbon-plaque {
+  display: flex;
+  align-items: center;
+  pointer-events: auto;
+  filter: drop-shadow(0 8px 16px rgba(20, 69, 47, 0.25));
+}
+
+.ribbon-tail-left, .ribbon-tail-right {
+  width: 32px;
+  height: 52px;
+  background: #0E3523;
+  clip-path: polygon(100% 0, 100% 100%, 0 50%);
+}
+
+.ribbon-tail-right {
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+.ribbon-center-body {
+  background: linear-gradient(180deg, #1C5B3F 0%, #14452F 60%, #0E3523 100%);
+  border: 2px solid var(--color-gold);
+  border-radius: 4px;
+  padding: 6px 28px;
+  min-width: 340px;
+  text-align: center;
+}
+
+.ribbon-gold-inner-border {
+  border: 1px solid rgba(243, 217, 139, 0.5);
+  border-radius: 2px;
+  padding: 4px 18px;
+}
+
+.ribbon-main-title {
+  font-family: var(--font-title);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  color: #FFF3CD;
+  text-transform: uppercase;
+  margin: 0;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.ribbon-subtitle {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.8px;
+  color: #DDEBE1;
+  margin: 2px 0 0 0;
+}
+
+/* Top-Right Progress Pill */
+.hud-progress-pill {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #FBF6E9;
+  border: 2px solid var(--color-gold);
+  border-radius: 9999px;
+  padding: 8px 24px;
+  box-shadow: 0 4px 12px rgba(20, 69, 47, 0.15);
+}
+
+.progress-pin-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-counter-text {
+  font-family: var(--font-body);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--color-dark-green);
+  letter-spacing: 1px;
+}
+
+/* --------------------------------------------------------------------------
+   5. Moving Camera Rig & Stationary 3D World
+   -------------------------------------------------------------------------- */
+.camera-rig-viewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.camera-layer-transform {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.map-world-perspective-container {
+  position: relative;
+  /* Stationary 3D slight angle */
+  transform: perspective(2400px) rotateX(12deg) rotateZ(-0.5deg);
+  transform-origin: 50% 60%;
+}
+
+.map-world-surface {
+  position: relative;
+}
+
+.map-world-svg {
+  display: block;
+}
+
+/* Compass Rose Widget */
+.compass-rose-widget {
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.18));
+}
+
+/* --------------------------------------------------------------------------
+   6. Checkpoint Animations
+   -------------------------------------------------------------------------- */
+.pulse-ripple-outer {
+  fill: none;
+  stroke: #FDE68A;
+  stroke-width: 2.5;
+  animation: rippleGlow 2.2s infinite ease-out;
+}
+
+.pulse-ripple-inner {
+  fill: none;
+  stroke: #F59E0B;
+  stroke-width: 2;
+  animation: rippleGlow 2.2s infinite 0.7s ease-out;
+}
+
+@keyframes rippleGlow {
+  0% {
+    r: 18px;
+    opacity: 0.9;
+    stroke-width: 3px;
+  }
+  100% {
+    r: 52px;
+    opacity: 0;
+    stroke-width: 0.5px;
+  }
+}
+
+.pulse-ripple-red {
+  animation: redPulse 1.8s infinite ease-in-out;
+}
+
+@keyframes redPulse {
+  0%, 100% { transform: scale(1); opacity: 0.35; }
+  50% { transform: scale(1.3); opacity: 0.65; }
+}
+
+/* --------------------------------------------------------------------------
+   7. Question Panel (Panels 3 & 6)
+   -------------------------------------------------------------------------- */
+.question-panel-card {
+  position: absolute;
+  right: 55px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 620px;
+  max-width: 38vw;
+  background: var(--color-ivory);
+  border: 2.5px solid var(--color-gold);
+  border-radius: 16px;
+  padding: 32px 30px;
+  box-shadow:
+    0 16px 48px rgba(20, 69, 47, 0.2),
+    0 2px 6px rgba(0, 0, 0, 0.08),
+    inset 0 0 0 1px rgba(243, 217, 139, 0.6);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Slide in / out animations */
+.panel-enter-slide {
+  animation: panelSlideIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.panel-exit-slide {
+  animation: panelSlideOut 0.35s ease-in forwards;
+}
+
+@keyframes panelSlideIn {
+  from {
+    opacity: 0;
+    transform: translate(60px, -50%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0px, -50%);
+  }
+}
+
+@keyframes panelSlideOut {
+  from {
+    opacity: 1;
+    transform: translate(0px, -50%);
+  }
+  to {
+    opacity: 0;
+    transform: translate(60px, -50%);
+  }
+}
+
+/* Ornate Corner Flourishes */
+.corner-flourish {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-color: var(--color-gold);
+  border-style: solid;
+  pointer-events: none;
+}
+
+.corner-tl {
+  top: 6px;
+  left: 6px;
+  border-width: 2px 0 0 2px;
+}
+
+.corner-tr {
+  top: 6px;
+  right: 6px;
+  border-width: 2px 2px 0 0;
+}
+
+.corner-bl {
+  bottom: 6px;
+  left: 6px;
+  border-width: 0 0 2px 2px;
+}
+
+.corner-br {
+  bottom: 6px;
+  right: 6px;
+  border-width: 0 2px 2px 0;
+}
+
+/* Question Header Pill: LEVEL 01/10 */
+.question-header-pill {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-dark-green);
+  border: 1.5px solid var(--color-gold);
+  border-radius: 9999px;
+  padding: 6px 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.level-pill-text {
+  font-family: var(--font-title);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+  color: #FFF3CD;
+}
+
+/* Question Title Stack (English + Hindi directly beneath) */
+.question-title-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.question-title-en {
+  font-family: var(--font-body);
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #111827;
+}
+
+.question-prefix {
+  color: var(--color-dark-green);
+  font-weight: 800;
+}
+
+.question-title-hi {
+  font-family: var(--font-hindi);
+  font-size: 21px;
+  font-weight: 500;
+  line-height: 1.45;
+  color: #374151;
+}
+
+.question-prefix-hi {
+  color: var(--color-dark-green);
+  font-weight: 700;
+}
+
+/* Options List (A - D) */
+.question-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.question-option-btn {
+  width: 100%;
+  min-height: 68px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 18px;
+  border-radius: 14px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  position: relative;
+  outline: none;
+}
+
+/* Option Default State */
+.option-default {
+  background: #F5EEDD;
+  border: 1.5px solid #DFCFA8;
+  color: #1F2937;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.option-default:hover, .option-default:focus-visible {
+  background: #FFFDF8;
+  border-color: var(--color-gold);
+  box-shadow: 0 6px 16px rgba(201, 162, 74, 0.28);
+  transform: translateY(-1px);
+}
+
+.option-default:active {
+  transform: translateY(1px);
+}
+
+/* Option Selected Correct: Solid Emerald Green Fill */
+.option-correct {
+  background: #15803D !important;
+  border: 2px solid #86EFAC !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 6px 20px rgba(21, 128, 61, 0.4) !important;
+  transform: scale(1.01);
+}
+
+.option-correct .option-letter-badge {
+  background: #FFFFFF !important;
+  color: #15803D !important;
+}
+
+.option-correct .option-text-en,
+.option-correct .option-text-hi {
+  color: #FFFFFF !important;
+}
+
+/* Option Selected Wrong: Solid Red Fill */
+.option-wrong {
+  background: #C0392B !important;
+  border: 2px solid #FCA5A5 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 6px 20px rgba(192, 57, 43, 0.4) !important;
+  animation: shakeWrong 0.4s ease-in-out;
+}
+
+.option-wrong .option-letter-badge {
+  background: #FFFFFF !important;
+  color: #C0392B !important;
+}
+
+.option-wrong .option-text-en,
+.option-wrong .option-text-hi {
+  color: #FFFFFF !important;
+}
+
+@keyframes shakeWrong {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+/* Option Letter Badge Circle (A, B, C, D) */
+.option-letter-badge {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  background: var(--color-dark-green);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-title);
+  font-size: 18px;
+  font-weight: 800;
+  transition: all 0.15s ease;
+}
+
+/* Two-Line Text Stack Inside Option Button */
+.option-text-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex-grow: 1;
+}
+
+.option-text-en {
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.option-text-hi {
+  font-family: var(--font-hindi);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.35;
+  opacity: 0.88;
+}
+
+/* --------------------------------------------------------------------------
+   8. Feedback Toast (Panel 4)
+   -------------------------------------------------------------------------- */
+.feedback-toast-widget {
+  position: absolute;
+  top: 110px;
+  left: 55px;
+  width: 310px;
+  height: 88px;
+  background: var(--color-ivory);
+  border: 2px solid var(--color-gold);
+  border-radius: 14px;
+  box-shadow: 0 12px 32px rgba(20, 69, 47, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 20px;
+  z-index: 120;
+  pointer-events: none;
+}
+
+.toast-slide-down {
+  animation: toastSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes toastSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.toast-icon-wrap {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toast-text-stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.toast-title-hi {
+  font-family: var(--font-hindi);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--color-dark-green);
+  margin: 0;
+}
+
+.toast-subtitle-en {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-dark-green);
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* Toast Sparkles */
+.toast-sparkle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #F59E0B;
+  clip-path: polygon(50% 0%, 65% 35%, 100% 50%, 65% 65%, 50% 100%, 35% 65%, 0% 50%, 35% 35%);
+  animation: sparkleTwinkle 1s infinite alternate;
+}
+
+.sparkle-1 { top: 8px; right: 24px; animation-delay: 0.1s; }
+.sparkle-2 { bottom: 12px; right: 40px; animation-delay: 0.4s; }
+.sparkle-3 { top: 38px; right: 12px; animation-delay: 0.7s; }
+
+@keyframes sparkleTwinkle {
+  0% { transform: scale(0.5) rotate(0deg); opacity: 0.3; }
+  100% { transform: scale(1.3) rotate(45deg); opacity: 1; }
+}
+
+/* --------------------------------------------------------------------------
+   9. Game Over Panel (Panel 7)
+   -------------------------------------------------------------------------- */
+.game-over-panel-overlay {
+  position: absolute;
+  left: 90px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 110;
+  animation: panelSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.game-over-card {
+  width: 480px;
+  background: var(--color-ivory);
+  border: 2.5px solid var(--color-gold);
+  border-radius: 16px;
+  padding: 44px 36px 36px 36px;
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.25),
+    inset 0 0 0 1px rgba(243, 217, 139, 0.6);
+  position: relative;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.game-over-x-badge {
+  position: absolute;
+  top: -36px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 4px 10px rgba(192, 57, 43, 0.4));
+}
+
+.game-over-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.game-over-title-en {
+  font-family: var(--font-title);
+  font-size: 38px;
+  font-weight: 900;
+  color: var(--color-error-red);
+  letter-spacing: 2px;
+  margin: 0;
+}
+
+.game-over-title-hi {
+  font-family: var(--font-hindi);
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--color-error-red);
+  margin-top: 4px;
+}
+
+.game-over-alert-box {
+  margin: 18px 0 26px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.game-over-oops-text {
+  font-family: var(--font-hindi);
+  font-size: 21px;
+  font-weight: 700;
+  color: var(--color-error-red);
+}
+
+.game-over-msg-line1 {
+  font-family: var(--font-hindi);
+  font-size: 17px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.game-over-msg-line2 {
+  font-family: var(--font-hindi);
+  font-size: 16px;
+  font-weight: 500;
+  color: #4B5563;
+}
+
+/* --------------------------------------------------------------------------
+   10. Victory Panel (Panel 8)
+   -------------------------------------------------------------------------- */
+.victory-panel-overlay {
+  position: absolute;
+  left: 70px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 110;
+  animation: panelSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.victory-card {
+  width: 540px;
+  background: var(--color-ivory);
+  border: 2.5px solid var(--color-gold);
+  border-radius: 16px;
+  padding: 30px 36px 36px 36px;
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.25),
+    inset 0 0 0 1px rgba(243, 217, 139, 0.6);
+  position: relative;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.victory-trophy-wrap {
+  width: 360px;
+  height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -10px;
+}
+
+.victory-text-stack {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.victory-pre-title {
+  font-family: var(--font-title);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: var(--color-dark-green);
+  text-transform: uppercase;
+}
+
+.victory-main-title {
+  font-family: var(--font-title);
+  font-size: 38px;
+  font-weight: 900;
+  color: var(--color-dark-green);
+  letter-spacing: 3px;
+  margin-top: 4px;
+  text-shadow: 0 2px 4px rgba(201, 162, 74, 0.3);
+}
+
+.victory-score-pill {
+  margin: 14px 0 24px 0;
+  background: #F3EAD3;
+  border: 1.5px solid var(--color-gold);
+  border-radius: 9999px;
+  padding: 8px 22px;
+}
+
+.victory-score-text {
+  font-family: var(--font-title);
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--color-gold-deep);
+}
+
+/* Action Button: PLAY AGAIN */
+.game-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 320px;
+  height: 64px;
+  background: linear-gradient(180deg, #1A5439 0%, #14452F 60%, #0E3523 100%);
+  border: 2px solid var(--color-gold);
+  border-radius: 9999px;
+  color: #FFFFFF;
+  font-family: var(--font-title);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  cursor: pointer;
+  box-shadow:
+    0 6px 20px rgba(20, 69, 47, 0.3),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+  transition: all 0.15s ease;
+}
+
+.game-action-btn:hover {
+  background: linear-gradient(180deg, #226947 0%, #1A5439 60%, #12402B 100%);
+  box-shadow: 0 8px 26px rgba(201, 162, 74, 0.45);
+  transform: translateY(-2px);
+}
+
+.game-action-btn:active {
+  transform: translateY(1px);
+}
+
+.btn-refresh-icon {
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   11. Chest & Sparkle Keyframe Effects
+   -------------------------------------------------------------------------- */
+.chest-light-rays {
+  transform-origin: 250px 210px;
+  animation: raysRotate 16s linear infinite;
+}
+
+@keyframes raysRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.chest-core-pulse {
+  animation: corePulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes corePulse {
+  0% { transform: scale(0.92); opacity: 0.7; }
+  100% { transform: scale(1.08); opacity: 1; }
+}
+
+.sparkle-star {
+  animation: sparkleTwinkle 2s infinite ease-in-out alternate;
+}
+
+.sparkle-delay-1 { animation-delay: 0.5s; }
+.sparkle-delay-2 { animation-delay: 1.0s; }
+.sparkle-delay-3 { animation-delay: 1.5s; }
