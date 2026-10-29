@@ -1,0 +1,4 @@
+# Server-side deploy files run under bash/nginx on Linux: keep LF even on Windows checkouts
+*.sh text eol=lf
+*.awk text eol=lf
+deploy/nginx/*.conf text eol=lf

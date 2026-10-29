@@ -8,11 +8,10 @@
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
+/* Width and height come from the layout (1280×720, or 504 wide in portrait) */
 .stage {
   position: relative;
   flex: none;
-  width: 1280px;
-  height: 720px;
   overflow: hidden;
   background: #e6dcc0;
   font-family: Outfit, 'Noto Sans Devanagari', system-ui, sans-serif;
@@ -42,12 +41,19 @@
   transform-origin: 0 0;
   z-index: 1;
 }
+/* Fade the terrain's edges into the blurred backdrop so no hard line shows when the camera is near a side */
 .world img {
   position: absolute;
   left: 0;
   top: 0;
   width: 1628px;
   height: 2288px;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent),
+    linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent),
+    linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent);
+  mask-composite: intersect;
 }
 .world .overlay,
 .world svg {
@@ -106,6 +112,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.hdr-title {
+  min-width: 0;
 }
 .hdr .ti {
   font: 700 19px 'Noto Sans Devanagari', sans-serif;
@@ -170,6 +179,31 @@
   color: var(--amd);
   min-width: 48px;
   text-align: right;
+}
+/* The one mistake allowed per game: a full heart until it's used */
+.lives {
+  display: flex;
+}
+.lives svg {
+  width: 18px;
+  height: 18px;
+}
+.lives path {
+  fill: var(--bad);
+  stroke: #7d2a1c;
+  stroke-width: 1.3;
+  transition: fill 0.35s, stroke 0.35s;
+}
+.lives.used path {
+  fill: transparent;
+  stroke: rgba(107, 88, 57, 0.45);
+}
+.lives.used svg {
+  animation: heart-lost 0.55s;
+}
+@keyframes heart-lost {
+  30% { transform: scale(1.4); }
+  65% { transform: scale(0.8); }
 }
 .tools {
   display: flex;
@@ -271,6 +305,18 @@
   letter-spacing: 1.4px;
   color: var(--tx2);
 }
+/* Letter-spacing breaks the Devanagari headline stroke, so Hindi labels drop it */
+.chip[lang='hi'],
+.pos[lang='hi'] {
+  font-family: 'Noto Sans Devanagari', Outfit, sans-serif;
+  letter-spacing: 0;
+}
+.chip[lang='hi'] {
+  font-size: 12px;
+}
+.pos[lang='hi'] {
+  font-size: 13px;
+}
 .qt {
   font: 600 21px/1.36 Outfit, 'Noto Sans Devanagari', sans-serif;
   color: #33290f;
@@ -343,6 +389,38 @@
 }
 .fb.bad {
   color: var(--bad);
+}
+.why {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(47, 125, 95, 0.1);
+  border: 1px solid rgba(47, 125, 95, 0.32);
+  text-align: left;
+}
+.why b {
+  font: 700 15px Outfit, 'Noto Sans Devanagari', sans-serif;
+  color: var(--ok);
+}
+.why span {
+  font: 500 14.5px/1.45 Outfit, 'Noto Sans Devanagari', sans-serif;
+  color: #26473a;
+}
+.next-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+.bt.next {
+  margin-top: 0;
+  padding: 11px 26px;
+  font-size: 16px;
+  box-shadow: 0 6px 0 #5d3a0a, 0 10px 20px rgba(125, 79, 16, 0.25);
+}
+.bt.next:active {
+  box-shadow: 0 2px 0 #5d3a0a;
 }
 
 /* ---------- intro ---------- */
@@ -538,24 +616,198 @@
 .finale p {
   font: 500 16px 'Noto Sans Devanagari', Outfit, sans-serif;
   color: var(--tx2);
-  margin: 9px 0 18px;
+  margin: 9px 0 12px;
+}
+.finale .score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 20px;
+  font: 600 14.5px Outfit, 'Noto Sans Devanagari', sans-serif;
+  color: var(--amd);
+}
+.finale-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
 }
 .finale .bt {
-  margin-top: 0;
+  margin: 0;
   padding: 13px 30px;
   font-size: 17px;
 }
-.toast {
+.over h2 {
+  color: var(--bad);
+}
+.over .answer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: rgba(47, 125, 95, 0.1);
+  border: 1px solid rgba(47, 125, 95, 0.32);
+  text-align: left;
+}
+.over .answer small {
+  font: 700 11px Outfit, 'Noto Sans Devanagari', sans-serif;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ok);
+}
+.over .answer b {
+  font: 700 16px/1.4 Outfit, 'Noto Sans Devanagari', sans-serif;
+  color: #1d4e3b;
+}
+.over .answer span {
+  font: 500 14.5px/1.45 Outfit, 'Noto Sans Devanagari', sans-serif;
+  color: #26473a;
+}
+.stars {
+  display: inline-flex;
+  gap: 4px;
+}
+.stars path {
+  fill: rgba(107, 88, 57, 0.13);
+  stroke: rgba(107, 88, 57, 0.35);
+}
+.stars .on path {
+  fill: #e2b155;
+  stroke: var(--amd);
+}
+
+/* ---------- certificate ---------- */
+.cert-wrap {
   position: absolute;
-  z-index: 10;
-  left: 50%;
-  bottom: 28px;
-  transform: translateX(-50%);
-  padding: 11px 20px;
-  background: rgba(51, 41, 15, 0.93);
-  color: #fff6e2;
-  border-radius: 11px;
-  font: 600 13px Outfit, 'Noto Sans Devanagari', sans-serif;
+  inset: 0;
+  z-index: 12;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  background: rgba(40, 30, 12, 0.5);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  animation: fade-in 0.3s ease-out;
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+}
+.cert {
+  width: 820px;
+  box-sizing: border-box;
+  padding: 14px;
+  border-radius: 10px;
+  background: linear-gradient(160deg, #fffaf0, #f4e6c4);
+  box-shadow: 0 22px 50px rgba(30, 20, 5, 0.45);
+}
+.cert-frame {
+  position: relative;
+  padding: 24px 46px 20px;
+  border: 2px solid var(--am);
+  border-radius: 6px;
+  outline: 1px solid rgba(201, 138, 36, 0.45);
+  outline-offset: -8px;
+  text-align: center;
+}
+.cert-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font: 600 12px 'Noto Sans Devanagari', Outfit, sans-serif;
+  color: var(--tx2);
+}
+.cert-brand .dot {
+  color: var(--am);
+}
+.cert h2 {
+  margin: 10px 0 0;
+  font: 800 46px/1.1 'Noto Sans Devanagari', 'EB Garamond', serif;
+  color: var(--amd);
+}
+.cert-sub {
+  margin-top: 6px;
+  font: 600 13px 'EB Garamond', serif;
+  letter-spacing: 4px;
+  color: var(--am2);
+}
+.cert-certify {
+  margin: 16px 0 4px;
+  font: 500 16px 'Noto Sans Devanagari', Outfit, sans-serif;
+  color: var(--tx2);
+}
+.cert-name input {
+  width: 460px;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 4px 6px 6px;
+  border: 0;
+  border-bottom: 2px solid rgba(125, 79, 16, 0.45);
+  background: transparent;
+  text-align: center;
+  font: 700 28px 'Noto Sans Devanagari', 'EB Garamond', serif;
+  color: #33290f;
+  outline: none;
+  -webkit-user-select: text;
+  user-select: text;
+}
+.cert-name input:focus-visible {
+  border-bottom-color: var(--am);
+  background: rgba(201, 138, 36, 0.08);
+}
+.cert-name input::placeholder {
+  font-size: 17px;
+  font-weight: 500;
+  color: rgba(107, 88, 57, 0.5);
+}
+.cert-body {
+  max-width: 610px;
+  margin: 12px auto 0;
+  font: 500 16px/1.55 'Noto Sans Devanagari', Outfit, sans-serif;
+  color: var(--tx);
+}
+.cert-score {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 12px;
+  font: 600 15px Outfit, 'Noto Sans Devanagari', sans-serif;
+  color: var(--amd);
+}
+.cert-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  font: 500 13px Outfit, 'Noto Sans Devanagari', sans-serif;
+  color: var(--tx2);
+}
+.cert-foot b {
+  font-weight: 700;
+  color: var(--tx);
+}
+.cert-seal {
+  display: flex;
+}
+.cert-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.cert-actions .bt {
+  margin: 0;
+  padding: 12px 28px;
+  font-size: 16px;
+}
+.cert-privacy {
+  margin-right: 6px;
+  font: 500 12.5px Outfit, 'Noto Sans Devanagari', sans-serif;
+  color: #fff3d6;
 }
 
 /* ---------- map overlay (classes and ids inside map-overlay.svg) ---------- */
@@ -598,15 +850,40 @@
 @keyframes bs {
   to { transform: translate(var(--dx), var(--dy)) scale(0.2); opacity: 0; }
 }
+.fail .ring { fill: var(--bad); }
+.fail .nn { fill: #fff8e7; }
+
+/* The destination is a closed treasure chest (the overlay's X mark is not used) */
+#xm { display: none; }
+/* The chest's box includes its hidden light rays (±96 units around the lid line), so 62%
+   down that box is the chest's base: it grows upward from where it stands */
 #ch {
-  transform: scale(0);
+  transform: scale(1);
   transform-box: fill-box;
-  transform-origin: 50% 100%;
+  transform-origin: 50% 62%;
   transition: transform 0.8s cubic-bezier(0.2, 1.6, 0.4, 1);
 }
+svg.ov #ch { transform: scale(2.2); }
 .rev #ch { transform: scale(2); }
-#xm { transition: opacity 0.35s; }
-.rev #xm { opacity: 0; }
+.open #ch {
+  animation: chest-pop 0.65s cubic-bezier(0.2, 1.6, 0.4, 1);
+}
+@keyframes chest-pop {
+  0% { transform: scale(1.75); }
+  45% { transform: scale(2.35); }
+  100% { transform: scale(2); }
+}
+/* Lid flips up and away while the open lid, gold and light fade in */
+.lc {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  transition: opacity 0.3s, transform 0.35s cubic-bezier(0.3, 1.4, 0.5, 1);
+}
+.open .lc { transform: translateY(-10px) scaleY(0.15); }
+.rl,
+.gl,
+.rays,
+.spk { transition: opacity 0.4s 0.12s; }
 .shake {
   animation: sk 0.18s 5;
 }
@@ -637,11 +914,195 @@
   to { opacity: 1; transform: scale(1.15); }
 }
 
+/* ---------- portrait (phones held upright) ---------- */
+.portrait .hdr {
+  height: 100px;
+  flex-wrap: wrap;
+  align-content: center;
+  column-gap: 10px;
+  row-gap: 9px;
+  padding: 8px 12px;
+}
+.portrait .hdr-title {
+  flex: 1;
+}
+.portrait .hdr .ti {
+  font-size: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.portrait .hdr .cp {
+  gap: 5px;
+}
+.portrait .chipl {
+  font-size: 8.5px;
+  padding: 2px 6px;
+  white-space: nowrap;
+}
+.portrait .progress {
+  order: 3;
+  width: 100%;
+  box-sizing: border-box;
+  margin-left: 0;
+  justify-content: center;
+  padding: 5px 14px;
+}
+.portrait .tools {
+  gap: 6px;
+  margin-left: 0;
+}
+.portrait .tb {
+  padding: 9px 10px;
+}
+.portrait .tb .tl {
+  display: none;
+}
+.portrait .card,
+.portrait .intro,
+.portrait .finale {
+  top: auto;
+  bottom: 16px;
+}
+.portrait .intro {
+  transform: none;
+}
+.portrait .intro .orb {
+  display: none;
+}
+.portrait .intro h1 {
+  margin-top: 12px;
+}
+/* Phones show the stage at roughly 0.75×, so body text is a step larger here */
+.portrait .intro .tag {
+  font-size: 15.5px;
+}
+.portrait .intro-note {
+  font-size: 13.5px;
+}
+.portrait .qt {
+  font-size: 23px;
+}
+.portrait .op {
+  font-size: 17.5px;
+  padding: 10px 13px;
+}
+.portrait .why b {
+  font-size: 16px;
+}
+.portrait .why span {
+  font-size: 16px;
+}
+.portrait .finale p,
+.portrait .finale .score {
+  font-size: 16px;
+}
+.portrait .finale {
+  transform: none;
+  animation-name: rise-up;
+}
+@keyframes rise-up {
+  from { opacity: 0; transform: translateY(16px); }
+}
+.portrait .cert {
+  width: 472px;
+  padding: 10px;
+}
+.portrait .cert-frame {
+  padding: 20px 20px 16px;
+}
+.portrait .cert-brand {
+  flex-wrap: wrap;
+  font-size: 11px;
+}
+.portrait .cert h2 {
+  font-size: 38px;
+}
+.portrait .cert-name input {
+  width: 100%;
+  font-size: 24px;
+}
+.portrait .cert-body {
+  font-size: 15px;
+}
+.portrait .cert-foot {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 16px;
+}
+.portrait .cert-seal {
+  order: -1;
+  width: 100%;
+  justify-content: center;
+}
+.portrait .cert-actions {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.portrait .cert-privacy {
+  width: 100%;
+  margin: 0;
+  text-align: center;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  * {
+  /* One near-instant run: infinite animations at 0.01ms would otherwise flicker */
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
-  }
-  .world {
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- printing the certificate ---------- */
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 10mm;
+  }
+  html,
+  body,
+  #root {
+    height: auto;
+    overflow: visible;
+    background: #fff;
+  }
+  .fit {
+    position: static;
+    display: block;
+    padding: 0;
+  }
+  .stage {
+    width: auto !important;
+    height: auto !important;
+    transform: none !important;
+    overflow: visible;
+    background: none;
+  }
+  .stage > :not(.cert-wrap) {
+    display: none !important;
+  }
+  .cert-wrap {
+    position: static;
+    background: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    animation: none;
+  }
+  .cert-actions {
+    display: none;
+  }
+  .cert {
+    width: 100%;
+    box-shadow: none;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .cert-name input {
+    background: none !important;
+  }
+  .cert-name input::placeholder {
+    color: transparent;
   }
 }

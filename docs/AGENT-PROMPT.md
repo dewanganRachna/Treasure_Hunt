@@ -13,7 +13,7 @@ Rebuild the UI of this React app (`dewanganRachna/Treasure_Hunt`, branch `featur
 Supporting files:
 - `docs/reference-prototype.html` — the full working reference
 - `public/map/cg-map-terrain.jpg` — the rendered map background (1924×2704)
-- `docs/map-overlay.svg` — the SVG overlay (route, waypoints, treasure, labels, terrain symbols)
+- `src/assets/map-overlay.svg` — the SVG overlay (route, waypoints, treasure, labels, terrain symbols)
 - `docs/design-spec.json` — geometry, camera, palette and waypoint coordinates as data
 
 ## Keep

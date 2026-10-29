@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="hi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#1a1408" />
+    <title>लॉगिन · Login — छत्तीसगढ़ डिजिटल एक्सप्लोरर</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%23f3e3bb'/%3E%3Cpolygon points='12,3.6 19.8,7.8 19.8,16.2 12,20.4 4.2,16.2 4.2,7.8' fill='none' stroke='%23a86e18' stroke-width='1.8' stroke-linejoin='round'/%3E%3Ccircle cx='12' cy='12' r='3.2' fill='%23c98a24'/%3E%3C/svg%3E" />
+    <!--
+      Admin login for the kiosk. This page is public; everything else under the game's path
+      needs the session cookie that /auth sets after nginx checks the ID and password
+      (see deploy/nginx/treasure_hunt.conf). It is self-contained on purpose: the game's
+      own fonts and scripts are behind the login.
+    -->
+    <style>
+      :root {
+        --am: #c98a24;
+        --amd: #7d4f10;
+        --ok: #2f7d5f;
+        --bad: #b4442f;
+        --tx: #3f3318;
+        --tx2: #6b5839;
+        --line: rgba(107, 88, 57, 0.28);
+        color-scheme: light;
+      }
+      * {
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        min-height: 100dvh;
+        padding: 24px 16px;
+        background: radial-gradient(ellipse at 30% 20%, #f6eed8, #e6dcc0 55%, #cdbb8d);
+        font-family: 'Noto Sans Devanagari', 'Nirmala UI', 'Mangal', Outfit, system-ui, sans-serif;
+        color: var(--tx);
+      }
+      .card {
+        width: 100%;
+        max-width: 420px;
+        padding: 30px 30px 26px;
+        border-radius: 18px;
+        background: rgba(253, 246, 228, 0.92);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        box-shadow: 0 18px 44px rgba(80, 60, 25, 0.22), 0 2px 6px rgba(80, 60, 25, 0.12);
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .logo {
+        flex: none;
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        background: linear-gradient(145deg, #f3e3bb, #e2cd9c);
+        border: 1px solid rgba(107, 88, 57, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      h1 {
+        margin: 0;
+        font-size: 21px;
+        line-height: 1.2;
+        font-weight: 800;
+        color: #33290f;
+      }
+      .sub {
+        margin-top: 2px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        color: var(--amd);
+      }
+      .admin {
+        margin: 22px 0 16px;
+        padding: 9px 12px;
+        border-radius: 10px;
+        background: rgba(201, 138, 36, 0.1);
+        border: 1px solid rgba(201, 138, 36, 0.28);
+        font-size: 13.5px;
+        line-height: 1.5;
+        color: #6b5218;
+      }
+      label {
+        display: block;
+        margin-top: 14px;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--tx2);
+      }
+      label small {
+        font-weight: 500;
+        opacity: 0.8;
+      }
+      .field {
+        position: relative;
+        margin-top: 6px;
+      }
+      input {
+        width: 100%;
+        padding: 13px 14px;
+        border-radius: 12px;
+        border: 1.5px solid var(--line);
+        background: #fffdf6;
+        font: inherit;
+        font-size: 17px;
+        color: #33290f;
+        outline: none;
+      }
+      input:focus-visible {
+        border-color: var(--am);
+        box-shadow: 0 0 0 3px rgba(201, 138, 36, 0.22);
+      }
+      .field input {
+        padding-right: 92px;
+      }
+      .show {
+        position: absolute;
+        top: 50%;
+        right: 8px;
+        transform: translateY(-50%);
+        padding: 7px 10px;
+        border: 0;
+        border-radius: 8px;
+        background: rgba(107, 88, 57, 0.1);
+        font: inherit;
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--tx2);
+        cursor: pointer;
+      }
+      button[type='submit'] {
+        width: 100%;
+        margin-top: 22px;
+        padding: 14px 20px;
+        border: 0;
+        border-radius: 40px;
+        background: linear-gradient(145deg, #d9a53c, var(--amd));
+        color: #fffaf0;
+        font: inherit;
+        font-size: 17px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 6px 0 #5d3a0a, 0 12px 22px rgba(125, 79, 16, 0.25);
+      }
+      button[type='submit']:active {
+        transform: translateY(3px);
+        box-shadow: 0 3px 0 #5d3a0a;
+      }
+      button[type='submit']:disabled {
+        opacity: 0.7;
+        cursor: progress;
+      }
+      button:focus-visible {
+        outline: 3px solid var(--am);
+        outline-offset: 2px;
+      }
+      .msg {
+        min-height: 22px;
+        margin-top: 14px;
+        font-size: 14px;
+        font-weight: 600;
+        text-align: center;
+        color: var(--bad);
+      }
+      .msg.ok {
+        color: var(--ok);
+      }
+      .note {
+        margin-top: 6px;
+        font-size: 12px;
+        text-align: center;
+        color: var(--tx2);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <polygon points="12,2.4 21,7.2 21,16.8 12,21.6 3,16.8 3,7.2" fill="none" stroke="#a86e18" stroke-width="1.6" stroke-linejoin="round" />
+            <circle cx="12" cy="12" r="3.4" fill="#c98a24" />
+          </svg>
+        </div>
+        <div>
+          <h1>छत्तीसगढ़ डिजिटल एक्सप्लोरर</h1>
+          <div class="sub" lang="en">ADMIN LOGIN · प्रशासक लॉगिन</div>
+        </div>
+      </div>
+
+      <p class="admin">
+        यह खेल प्रदर्शनी कियोस्क के लिए है। कियोस्क चालू करने के लिए प्रशासक ID और पासवर्ड डालें।<br />
+        <span lang="en">This game runs on the exhibition kiosks. Enter the admin ID and password to unlock this device.</span>
+      </p>
+
+      <form id="login" novalidate>
+        <label for="user">ID <small lang="en">· Admin ID</small></label>
+        <div class="field">
+          <input id="user" name="user" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required autofocus />
+        </div>
+
+        <label for="pass">पासवर्ड <small lang="en">· Password</small></label>
+        <div class="field">
+          <input id="pass" name="pass" type="password" autocomplete="current-password" required />
+          <button type="button" class="show" id="toggle" aria-controls="pass" aria-pressed="false">दिखाएँ · Show</button>
+        </div>
+
+        <button type="submit" id="submit">लॉगिन करें · Log in</button>
+        <div class="msg" id="msg" role="status" aria-live="polite"></div>
+        <div class="note">यह डिवाइस लॉगिन रहेगा · This device stays logged in</div>
+      </form>
+    </main>
+
+    <script>
+      (function () {
+        // Relative paths, so the page works under any base path (/treasure_hunt/login/ → /treasure_hunt/)
+        var GAME = '../';
+        var AUTH = '../auth';
+        var form = document.getElementById('login');
+        var user = document.getElementById('user');
+        var pass = document.getElementById('pass');
+        var submit = document.getElementById('submit');
+        var msg = document.getElementById('msg');
+        var toggle = document.getElementById('toggle');
+
+        var MESSAGES = {
+          empty: 'ID और पासवर्ड दोनों डालें · Enter both the ID and the password',
+          wrong: 'गलत ID या पासवर्ड · Wrong ID or password',
+          busy: 'बहुत ज़्यादा कोशिशें, एक मिनट बाद फिर कोशिश करें · Too many attempts, try again in a minute',
+          missing: 'लॉगिन केवल सर्वर पर काम करता है · Login only works on the server',
+          offline: 'सर्वर से संपर्क नहीं हो पाया · Could not reach the server',
+          ok: 'लॉगिन सफल, खेल खुल रहा है… · Logged in, opening the game…'
+        };
+
+        function show(text, ok) {
+          msg.textContent = text;
+          msg.className = ok ? 'msg ok' : 'msg';
+        }
+
+        toggle.addEventListener('click', function () {
+          var visible = pass.type === 'text';
+          pass.type = visible ? 'password' : 'text';
+          toggle.setAttribute('aria-pressed', String(!visible));
+          toggle.textContent = visible ? 'दिखाएँ · Show' : 'छिपाएँ · Hide';
+          pass.focus();
+        });
+
+        function basic(id, password) {
+          var bytes = new TextEncoder().encode(id + ':' + password);
+          var bin = '';
+          for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+          return 'Basic ' + btoa(bin);
+        }
+
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var id = user.value.trim();
+          if (!id || !pass.value) {
+            show(MESSAGES.empty);
+            (id ? pass : user).focus();
+            return;
+          }
+          submit.disabled = true;
+          show('');
+          fetch(AUTH, {
+            headers: { Authorization: basic(id, pass.value) },
+            credentials: 'same-origin',
+            cache: 'no-store'
+          })
+            .then(function (r) {
+              // nginx answers a correct login with the tiny file login/ok.txt; anything else
+              // with status 200 (e.g. an HTML page) means the login endpoint isn't set up here
+              return r.ok ? r.text().then(function (body) { return { r: r, body: body.trim() }; }) : { r: r, body: '' };
+            })
+            .then(function (res) {
+              var r = res.r;
+              if (r.ok && res.body === 'ok') {
+                show(MESSAGES.ok, true);
+                location.replace(GAME);
+                return;
+              }
+              submit.disabled = false;
+              if (r.ok) {
+                show(MESSAGES.missing);
+              } else if (r.status === 401 || r.status === 403) {
+                show(MESSAGES.wrong);
+                pass.value = '';
+                pass.focus();
+              } else if (r.status === 429 || r.status === 503) {
+                show(MESSAGES.busy);
+              } else if (r.status === 404) {
+                show(MESSAGES.missing);
+              } else {
+                show(MESSAGES.offline + ' (' + r.status + ')');
+              }
+            })
+            .catch(function () {
+              submit.disabled = false;
+              show(MESSAGES.offline);
+            });
+        });
+      })();
+    </script>
+  </body>
+</html>

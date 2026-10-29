@@ -1,10 +1,5 @@
 import { t } from '../data/i18n';
-
-const THEMES = [
-  { n: '01', label: 't1', name: 'c1' },
-  { n: '02', label: 't2', name: 'c2' },
-  { n: '03', label: 't3', name: 'c3' }
-];
+import { CATEGORY_ROTATION, STOPS_BY_CATEGORY } from '../data/journey';
 
 export default function IntroPanel({ lang, onStart }) {
   return (
@@ -34,12 +29,12 @@ export default function IntroPanel({ lang, onStart }) {
       <div className="tag">{t(lang, 'tag')}</div>
 
       <div className="intro-cards">
-        {THEMES.map((th) => (
-          <div className="c" key={th.n}>
-            <span className="n">{th.n}</span>
+        {CATEGORY_ROTATION.map((id, c) => (
+          <div className="c" key={id}>
+            <span className="n">{String(c + 1).padStart(2, '0')}</span>
             <span className="t">
-              <small>{t(lang, th.label)}</small>
-              <b>{t(lang, th.name)}</b>
+              <small>{t(lang, 'theme', { n: c + 1, list: STOPS_BY_CATEGORY[id].join(', ') })}</small>
+              <b>{t(lang, `cat_${id}`)}</b>
             </span>
           </div>
         ))}

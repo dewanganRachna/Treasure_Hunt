@@ -1,6 +1,6 @@
 /**
- * Interface strings. Questions come from questions.json and are shown in
- * English only when a question provides questionEn / optionsEn.
+ * Interface strings. Question text comes from questions.json (question / questionEn).
+ * Values may be functions of a parameter object, e.g. t(lang, 'stops', { list: '1, 4' }).
  */
 const STRINGS = {
   hi: {
@@ -12,21 +12,42 @@ const STRINGS = {
     fullscreen: 'फ़ुलस्क्रीन',
     eyebrow: 'राज्योत्सव विशेष · डिजिटल खोज अभियान',
     tag: '10 पड़ावों से गुज़रें, सही उत्तर दें और छत्तीसगढ़ का खज़ाना खोजें!',
-    t1: 'विषय 1 · सरगुजा से',
-    t2: 'विषय 2 · मैदानी क्षेत्र',
-    t3: 'विषय 3 · बस्तर तक',
-    c1: 'साइबर सुरक्षा',
-    c2: 'डिजिटल सेवा',
-    c3: 'एआई एक्सप्लोरर',
-    note: 'हर पड़ाव पर एक सवाल · गलत उत्तर पर दोबारा कोशिश कर सकते हैं',
+    theme: ({ n, list }) => `विषय ${n} · पड़ाव ${list}`,
+    cat_cyber_safety: 'साइबर सुरक्षा',
+    cat_digital_seva: 'डिजिटल सेवा',
+    cat_ai_explorer: 'एआई एक्सप्लोरर',
+    note: 'हर पड़ाव पर एक सवाल · पूरे खेल में सिर्फ़ 1 गलती की छूट, दूसरी गलती पर खेल समाप्त',
     start: 'START GAME · शुरू करें',
-    tryAgain: 'फिर कोशिश कीजिए',
+    usedRetry: 'गलत! आपकी एकमात्र छूट इस्तेमाल हो गई — फिर कोशिश करें',
+    wrongFinal: 'गलत उत्तर — खेल समाप्त',
+    lives: ({ n }) => (n > 0 ? '1 गलती की छूट बाकी' : 'कोई छूट बाकी नहीं'),
     correct: 'सही उत्तर ✓',
+    next: 'आगे बढ़ें',
+    openTreasure: 'खज़ाना खोलें',
     won: 'बधाई हो!',
     wonSub: 'सभी दस पड़ाव पूरे हुए',
+    firstTry: ({ n, total }) => `पहली कोशिश में सही: ${n}/${total}`,
+    stars: ({ n }) => `3 में से ${n} सितारे`,
     cert: 'प्रमाण पत्र पाएं →',
     again: 'फिर से खेलें',
-    certToast: 'प्रमाण पत्र स्क्रीन जल्द उपलब्ध होगी'
+    over: 'खेल समाप्त',
+    overSub: 'दूसरा गलत उत्तर',
+    overProgress: ({ n, total }) => `आपने ${total} में से ${n} पड़ाव पार किए`,
+    rightAnswer: 'सही उत्तर था',
+    certTitle: 'प्रमाण पत्र',
+    certSub: 'CERTIFICATE OF ACHIEVEMENT',
+    certCertify: 'यह प्रमाणित किया जाता है कि',
+    certNamePh: 'अपना नाम लिखें (वैकल्पिक)',
+    certNameLabel: 'नाम',
+    certBody: 'ने छत्तीसगढ़ डिजिटल एक्सप्लोरर यात्रा के सभी 10 पड़ाव पूरे करके साइबर सुरक्षा, डिजिटल सेवा और एआई की अच्छी समझ दिखाई है।',
+    certDate: 'दिनांक',
+    certNo: 'प्रमाण पत्र सं.',
+    print: 'प्रिंट करें',
+    close: 'बंद करें',
+    certPrivacy: 'आपका नाम कहीं सेव नहीं होता',
+    errTitle: 'कुछ गड़बड़ हो गई',
+    errBody: 'खेल दोबारा शुरू हो रहा है…',
+    errButton: 'फिर से शुरू करें'
   },
   en: {
     title: 'Chhattisgarh Digital Explorer',
@@ -36,25 +57,50 @@ const STRINGS = {
     restart: 'RESTART',
     fullscreen: 'Fullscreen',
     eyebrow: 'Rajyotsav Special · Digital Discovery Mission',
-    tag: 'Travel 10 waypoints, answer correctly and find the treasure of Chhattisgarh!',
-    t1: 'Theme 1 · from Surguja',
-    t2: 'Theme 2 · the plains',
-    t3: 'Theme 3 · to Bastar',
-    c1: 'Cyber Safety',
-    c2: 'Digital Seva',
-    c3: 'AI Explorer',
-    note: 'One question at each waypoint · wrong answers can be retried',
+    tag: 'Travel 10 stops, answer correctly and find the treasure of Chhattisgarh!',
+    theme: ({ n, list }) => `Theme ${n} · stops ${list}`,
+    cat_cyber_safety: 'Cyber Safety',
+    cat_digital_seva: 'Digital Seva',
+    cat_ai_explorer: 'AI Explorer',
+    note: 'One question at each stop · only 1 wrong answer allowed in the whole game; a second one ends it',
     start: 'START GAME',
-    tryAgain: 'Try again',
+    usedRetry: 'Wrong! That was your one allowed mistake. Try again.',
+    wrongFinal: 'Wrong answer. Game over.',
+    lives: ({ n }) => (n > 0 ? '1 mistake allowed' : 'No mistakes left'),
     correct: 'Correct ✓',
+    next: 'Continue',
+    openTreasure: 'Open the treasure',
     won: 'Congratulations!',
-    wonSub: 'All ten waypoints complete',
+    wonSub: 'All ten stops complete',
+    firstTry: ({ n, total }) => `Right on the first try: ${n}/${total}`,
+    stars: ({ n }) => `${n} of 3 stars`,
     cert: 'Get certificate →',
     again: 'Play again',
-    certToast: 'Certificate screen coming soon'
+    over: 'Game over',
+    overSub: 'That was the second wrong answer',
+    overProgress: ({ n, total }) => `You cleared ${n} of ${total} stops`,
+    rightAnswer: 'The right answer was',
+    certTitle: 'Certificate',
+    certSub: 'CERTIFICATE OF ACHIEVEMENT',
+    certCertify: 'This is to certify that',
+    certNamePh: 'Type your name (optional)',
+    certNameLabel: 'Name',
+    certBody: 'has completed all 10 stops of the Chhattisgarh Digital Explorer journey and shown a good understanding of cyber safety, digital services and AI.',
+    certDate: 'Date',
+    certNo: 'Certificate no.',
+    print: 'Print',
+    close: 'Close',
+    certPrivacy: 'Your name is not saved anywhere',
+    errTitle: 'Something went wrong',
+    errBody: 'The game is restarting…',
+    errButton: 'Restart now'
   }
 };
 
-export function t(lang, key) {
-  return STRINGS[lang]?.[key] ?? STRINGS.hi[key] ?? key;
+export function t(lang, key, params) {
+  const value = STRINGS[lang]?.[key] ?? STRINGS.hi[key] ?? key;
+  return typeof value === 'function' ? value(params ?? {}) : value;
 }
+
+/** Hindi town name in Hindi mode, English otherwise. */
+export const placeName = (lang, waypoint) => (lang === 'hi' ? waypoint.nameHi : waypoint.name);

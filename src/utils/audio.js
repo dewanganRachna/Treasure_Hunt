@@ -48,5 +48,16 @@ export const sound = {
   },
   win() {
     [523, 659, 784, 1047, 1319].forEach((f, i) => tone(f, i * 0.11, 0.4, 'triangle', 0.13));
+  },
+  /** Chinking coins as they spill out of the chest */
+  coins() {
+    for (let i = 0; i < 14; i++) {
+      const at = i * 0.065 + Math.random() * 0.03;
+      tone(2100 + Math.random() * 1500, at, 0.09, 'triangle', 0.05);
+      tone(3300 + Math.random() * 900, at + 0.012, 0.06, 'sine', 0.03);
+    }
+  },
+  gameOver() {
+    [392, 330, 262, 196].forEach((f, i) => tone(f, i * 0.16, 0.34, 'triangle', 0.11));
   }
 };

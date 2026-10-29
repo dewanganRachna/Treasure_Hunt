@@ -1,127 +1,99 @@
 # छत्तीसगढ़ डिजिटल एक्सप्लोरर — Chhattisgarh Digital Explorer
-### Digital Treasure Hunt (CHiPS Rajyotsav Interactive Exhibition Game)
+### Digital Treasure Hunt for the CHiPS Rajyotsav exhibition
 
-An interactive, futuristic web-based exhibition game created for the **CHiPS (Chhattisgarh Infotech Promotion Society) Rajyotsav Exhibition**. Designed for 16:9 public exhibition touchscreens and kiosk terminals.
-
----
-
-## 🌟 Features & Highlights
-
-- **Exhibition Kiosk Interface**: High-tech cyberpunk aesthetic featuring deep navy palettes (`#04091a`), radiant neon cyan glows (`#00f2fe`), golden treasure chests, subtle CRT scanlines, and animated radar sweeps.
-- **Authentic Central Chhattisgarh Map**: Renders real geographic vector boundaries of Chhattisgarh and its 27 districts, with animated glowing pulse-dash routes connecting the three treasure quests across the state.
-- **Interactive Quests**:
-  1. **Cyber Safety (Raipur Hub)** — Online security, passwords, fraud prevention, and digital safety.
-  2. **AI Explorer (Bilaspur Sector)** — Artificial intelligence, voice assistants, and responsible AI.
-  3. **Digital Seva (Bastar Sector)** — Online government portals, DigiLocker, UPI security, and citizen helplines.
-- **Dynamic Question Bank Engine**: Decoupled question bank (`questions.json`) loaded dynamically with session tracking, repeat prevention, 4-option validation, and zero UI dependencies.
-- **Strict Global Shared Retry Rule**: Exactly one retry shared across the entire game (not per question). The first wrong answer provides a dedicated retry chance; the second wrong answer triggers `Game Over`.
-- **Chest Opening & Celebratory Fanfare**: Animated 3D-styled golden chest opening with bursting light beams and confetti effects, concluding with the grand golden trophy achievement screen (`बधाई हो! YOU ARE A CHHATTISGARH DIGITAL EXPLORER`).
-- **Tactile Sound Effects**: Custom zero-dependency audio synthesizer using the Web Audio API with a global mute toggle.
+A touchscreen game for exhibition kiosks. Visitors travel across an illustrated map of Chhattisgarh from Surguja to the treasure at Bastar, answering one question at each of 10 stops about **cyber safety**, **digital services** and **AI**. It plays in Hindi or English and ends with a printable certificate.
 
 ---
 
-## 🎮 Game Flow & Architecture
+## How a game goes
 
-```
-[ Welcome Screen ]
-       │
-       ▼ (Tap "START GAME")
-[ Interactive Chhattisgarh Map ]
-       │
-       ├──► Treasure 1: Cyber Safety (Raipur)
-       │         │
-       │         ├── Wrong? (Retry available) ──► [ Retry Modal ] ──► (Re-attempt same Q)
-       │         ├── Wrong? (Retry consumed)  ──► [ Game Over ] ──► (Play Again Reset)
-       │         └── Correct! ────────────────► [ Chest 1 Unlocked Modal ] (1/3)
-       │
-       ├──► Treasure 2: AI Explorer (Bilaspur)
-       │         │
-       │         └── Correct! ────────────────► [ Chest 2 Unlocked Modal ] (2/3)
-       │
-       └──► Treasure 3: Digital Seva (Bastar)
-                 │
-                 └── Correct! ────────────────► [ Final Victory Modal ] (3/3 Complete)
+1. **Start screen.** The whole state is shown, with the route and a closed treasure chest waiting at Bastar.
+2. **10 stops.** The camera flies to each stop and a question opens:
+   - A right answer turns green and shows a one-line explanation. **Continue** walks the traveller along the trail to the next stop.
+   - **Only one wrong answer is allowed in the whole game.** The first wrong answer empties the heart in the progress bar and the player tries the same question again. A second wrong answer anywhere ends the game: the right answer is shown, the stop turns red, and a Game Over panel says how far they got, with the explanation and **Play again**.
+   - Topics rotate: Cyber Safety at stops 1, 4, 7, 10; Digital Seva at 2, 5, 8; AI Explorer at 3, 6, 9.
+3. **Treasure.** The 10th question is asked at Bastar. Answering it shakes the chest, flips its lid open, and gold coins burst out before the confetti fires.
+4. **Finale.** 3 stars for a perfect run, 2 with the one allowed mistake. From here: **Get certificate** (optional name, printable) or **Play again**.
+
+Kiosk behaviour:
+- 2 minutes without a touch returns to a fresh start screen in Hindi.
+- Answer order is shuffled every game, so the right answer isn't always in the same place.
+- Works offline once loaded: fonts and the map are bundled.
+- On phones held upright it switches to a portrait layout.
+- Respects the system's reduced-motion setting.
+
+## Question bank
+
+All questions live in [src/data/questions.json](src/data/questions.json) (14 cyber safety, 11 AI, 20 digital seva). Each game picks 10 without repeats. A question looks like this:
+
+```json
+{
+  "id": "CS002",
+  "question": "OTP का उपयोग करते समय क्या ध्यान रखना चाहिए?",
+  "questionEn": "What should you keep in mind when using an OTP?",
+  "options": ["…", "…", "…", "…"],
+  "optionsEn": ["…", "…", "…", "…"],
+  "correctAnswer": 2,
+  "difficulty": "easy",
+  "explanation": "OTP आपके Account की चाबी है — …",
+  "explanationEn": "An OTP is the key to your account; …"
+}
 ```
 
-### Dynamic Question Engine Method
+`correctAnswer` is the 0-based index in `options` (the game shuffles them on screen). `questionEn`, `optionsEn` and the explanations are optional, but every current question has them. [src/data/questionService.js](src/data/questionService.js) checks each question has an id, text, exactly 4 options and a valid answer, and has a fallback question per topic if a category is empty.
 
-1. **Storage (`questions.json`)**: All questions reside in a separate JSON file organized under category IDs (`cyber_safety`, `ai_explorer`, `digital_seva`).
-2. **Service (`questionService.js`)**:
-   - `getQuestionsByCategory(categoryId)`: Filters questions by category.
-   - `validateQuestion(q)`: Enforces valid ID, question text, exactly 4 options, and valid `correctAnswer` (0-3).
-   - `getDynamicQuestion(treasureId, usedQuestionIds)`: Filters out questions already played in this session to prevent repetition, picks randomly from remaining candidates, and returns a formatted question object.
-   - Built-in fallback prevents game crashes if question files are empty or misconfigured.
-3. **Retry Preservation**: When a player consumes their 1 shared retry, the active question object is preserved so they re-attempt the exact same question they missed.
+## Running it
 
----
+```bash
+npm install
+npm run dev        # http://localhost:5173
+npm run lint
+npm run build      # production build for /treasure_hunt/ in dist/
+npm run preview    # serves that build at http://localhost:4173/treasure_hunt/
+```
 
-## 🚀 Tech Stack
+The production build is made for the `/treasure_hunt/` path. Use `BASE_PATH=/ npm run build` to build for a site root instead.
 
-- **Framework**: React 19 + Vite
-- **Styling**: Pure Vanilla CSS (custom design system, zero third-party CSS dependencies)
-- **Effects**: `canvas-confetti` + Web Audio API synthesizer
-- **Map & Icons**: Native SVG with authentic GeoJSON-derived Chhattisgarh boundary coordinates
+## Deploying
 
----
+```bash
+npm run deploy
+```
 
-## 🛠️ Getting Started
+This builds the game, uploads it over SSH and adds it to the server's existing nginx at `/treasure_hunt/`, behind an admin login that each kiosk enters once. It needs a `deploy/deploy.env` with the server address. See **[deploy/README.md](deploy/README.md)** for setup, what it changes on the server, rollback and password commands.
 
-### Prerequisites
-
-- Node.js (v18 or higher recommended)
-- npm / pnpm / yarn
-
-### Installation & Running Locally
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/dewanganRachna/Treasure_Hunt.git
-   cd Treasure_Hunt
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Start the local development server:
-   ```bash
-   npm run dev
-   ```
-   Open [http://localhost:5173](http://localhost:5173) in your browser.
-
-4. Build for production:
-   ```bash
-   npm run build
-   ```
-
----
-
-## 📂 Project Structure
+## Project layout
 
 ```
-Treasure_Hunt/
-├── index.html                           # Exhibition kiosk shell with Google Fonts & metadata
-├── src/
-│   ├── components/
-│   │   ├── ChhattisgarhMap.jsx         # Central glowing vector state map & interactive markers
-│   │   ├── Header.jsx                  # Kiosk telemetry header with live HUD & controls
-│   │   ├── WelcomeScreen.jsx           # Welcome hero portal with quest teasers
-│   │   ├── QuizModal.jsx               # Interactive Hindi Devanagari quiz card
-│   │   ├── RetryFeedbackModal.jsx      # Dedicated single shared retry feedback modal
-│   │   ├── GameOverModal.jsx           # Game over screen with play again reset
-│   │   ├── TreasureSuccessModal.jsx    # Animated opening golden chest modal
-│   │   ├── FinalAchievementModal.jsx   # 3/3 Victory celebration with golden trophy
-│   │   └── TreasureChestIcon.jsx       # Custom SVG golden chest (locked / active / unlocked)
-│   ├── data/
-│   │   ├── chhattisgarhMapData.js      # District coordinates, treasure metadata, and routes
-│   │   ├── questions.json              # Dynamic question bank (Cyber Safety, AI, Digital Seva)
-│   │   └── questionService.js          # Dynamic question loader, validator & session tracker
-│   ├── utils/
-│   │   └── audio.js                    # Web Audio API synthesizer for tactile exhibition SFX
-│   ├── App.jsx                         # State machine and gameplay orchestrator
-│   ├── App.css                         # Vanilla CSS component styles & responsive layouts
-│   ├── index.css                       # Core theme tokens, fonts, and animation keyframes
-│   └── main.jsx                        # React root entry point
-└── package.json
+index.html                  page shell
+public/
+  map/cg-map-terrain.jpg    illustrated terrain (1924×2704)
+  login/                    admin login page (public; the game itself needs the login cookie)
+src/
+  App.jsx                   picks the 16:9 or portrait stage and scales it to the screen; language, sound, restart
+  components/
+    Game.jsx                one playthrough: intro → 10 stops → treasure → finale, idle reset
+    ExplorerMap.jsx         terrain + SVG overlay, camera, traveller and trail animation
+    Header.jsx              title, progress dots, language / sound / fullscreen / restart
+    IntroPanel.jsx          start screen
+    QuestionCard.jsx        question, answers, explanation, Continue
+    FinaleBanner.jsx        congratulations + stars
+    GameOverPanel.jsx       shown after the second wrong answer
+    Certificate.jsx         certificate overlay and print layout
+    Stars.jsx, ConfettiCanvas.jsx, ErrorBoundary.jsx
+  data/
+    questions.json          question bank (Hindi + English)
+    questionService.js      validation, random pick without repeats, fallbacks
+    journey.js              10 questions per game, topic rotation, answer shuffling
+    explorerConfig.js       stage layouts, waypoints, camera, timings, mistakes allowed, star thresholds
+    i18n.js                 interface text in Hindi and English
+  assets/map-overlay.svg    route, waypoints and treasure drawn over the terrain
+  utils/audio.js            Web Audio sound effects (no files)
+  utils/motion.js           reduced-motion helpers
+deploy/                     one-command deploy, nginx snippet, server installer
+docs/                       design spec, reference prototype and video, original prompts
 ```
+
+## Tech
+
+React 19 and Vite 8, plain CSS, no UI libraries. Fonts (Outfit, Noto Sans Devanagari, EB Garamond) are self-hosted through Fontsource. Sound effects (including the coin chink) are synthesised with the Web Audio API, and the confetti and gold coins are a small canvas animation.

@@ -26,3 +26,65 @@ body,
 *::after {
   -webkit-tap-highlight-color: transparent;
 }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- error screen (outside the stage) ---------- */
+.err-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: radial-gradient(ellipse at 50% 40%, #f3ead2, #e6dcc0 60%, #d8c9a2);
+  font-family: Outfit, 'Noto Sans Devanagari', system-ui, sans-serif;
+  color: var(--tx);
+  text-align: center;
+}
+.err-card {
+  max-width: 440px;
+  padding: 30px 32px 28px;
+  border-radius: 16px;
+  background: var(--gl);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow: var(--sh);
+}
+.err-card h2 {
+  margin: 12px 0 0;
+  font: 800 28px 'Noto Sans Devanagari', Outfit, sans-serif;
+  color: var(--amd);
+}
+.err-en {
+  margin-top: 4px;
+  font: 700 12px Outfit, sans-serif;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--am2);
+}
+.err-card p {
+  margin: 14px 0 22px;
+  font: 500 15px/1.6 'Noto Sans Devanagari', Outfit, sans-serif;
+  color: var(--tx2);
+}
+.err-card button {
+  padding: 13px 28px;
+  border: 0;
+  border-radius: 40px;
+  background: linear-gradient(145deg, #d9a53c, var(--amd));
+  color: #fffaf0;
+  font: 700 16px Outfit, 'Noto Sans Devanagari', sans-serif;
+  cursor: pointer;
+  box-shadow: 0 6px 0 #5d3a0a;
+}
+.err-card button:focus-visible {
+  outline: 3px solid var(--am);
+  outline-offset: 3px;
+}

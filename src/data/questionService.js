@@ -38,6 +38,8 @@ export function formatQuestion(rawQuestion) {
     questionId: rawQuestion.id,
     question: rawQuestion.question,
     questionEn: rawQuestion.questionEn || '',
+    explanation: rawQuestion.explanation || '',
+    explanationEn: rawQuestion.explanationEn || '',
     difficulty: rawQuestion.difficulty || 'medium',
     options: rawQuestion.options.map((optText, index) => ({
       id: optionLabels[index],
@@ -55,35 +57,62 @@ const DEFAULT_FALLBACKS = {
   cyber_safety: {
     id: 'CS_FALLBACK',
     question: 'अपने Online Accounts को सुरक्षित रखने के लिए क्या करना चाहिए?',
+    questionEn: 'What should you do to keep your online accounts safe?',
     options: [
       'सभी Accounts में एक ही Password रखना',
       'Strong और अलग-अलग Password रखना',
       'Password दूसरों के साथ Share करना',
       'Password को सार्वजनिक रूप से लिखना'
     ],
-    correctAnswer: 1
+    optionsEn: [
+      'Use the same password for every account',
+      'Use strong, different passwords',
+      'Share your password with others',
+      'Write your password in public'
+    ],
+    correctAnswer: 1,
+    explanation: 'अगर एक Password लीक हो जाए, तो अलग-अलग Passwords से बाकी Accounts सुरक्षित रहते हैं।',
+    explanationEn: 'If one password leaks, using different passwords keeps your other accounts safe.'
   },
   ai_explorer: {
     id: 'AI_FALLBACK',
     question: 'AI का Full Form क्या है?',
+    questionEn: 'What is the full form of AI?',
     options: [
       'Automated Internet',
       'Advanced Information',
       'Artificial Intelligence',
       'Automatic Interface'
     ],
-    correctAnswer: 2
+    optionsEn: [
+      'Automated Internet',
+      'Advanced Information',
+      'Artificial Intelligence',
+      'Automatic Interface'
+    ],
+    correctAnswer: 2,
+    explanation: 'AI यानी Artificial Intelligence — ऐसी Technology जो सीखकर इंसानी सोच वाले काम कर सके।',
+    explanationEn: 'AI means Artificial Intelligence: technology that learns to do tasks that usually need human thinking.'
   },
   digital_seva: {
     id: 'DS_FALLBACK',
     question: 'Digital Government Services का मुख्य लाभ क्या है?',
+    questionEn: 'What is the main benefit of digital government services?',
     options: [
       'हर सेवा के लिए अनिवार्य रूप से कार्यालय जाना',
       'घर बैठे सरकारी सेवाओं तक आसान और सुविधाजनक पहुँच',
       'सभी Records खो जाना',
       'Internet बंद हो जाना'
     ],
-    correctAnswer: 1
+    optionsEn: [
+      'Having to visit an office for every service',
+      'Easy, convenient access to government services from home',
+      'All records getting lost',
+      'The internet shutting down'
+    ],
+    correctAnswer: 1,
+    explanation: 'Digital सेवाओं से समय और आने-जाने का खर्च दोनों बचते हैं।',
+    explanationEn: 'Digital services save both time and travel.'
   }
 };
 

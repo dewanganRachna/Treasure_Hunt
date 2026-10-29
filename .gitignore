@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Deploy settings and scratch output
+deploy/deploy.env
+.deploy

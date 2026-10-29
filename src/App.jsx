@@ -1,19 +1,31 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import Game from './components/Game';
-import { STAGE } from './data/explorerConfig';
+import { getLayout } from './data/explorerConfig';
 import { sound } from './utils/audio';
 import './App.css';
 
-const fitScale = () => Math.min(window.innerWidth / STAGE.w, window.innerHeight / STAGE.h);
+/** Layout and scale for the current window, or null while the window has no size yet. */
+const measure = () => {
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  if (!vw || !vh) return null;
+  const layout = getLayout(vw, vh);
+  return { layout, scale: Math.min(vw / layout.w, vh / layout.h) };
+};
 
 export default function App() {
   const [gameKey, setGameKey] = useState(0);
   const [lang, setLang] = useState('hi');
   const [muted, setMuted] = useState(false);
-  const [scale, setScale] = useState(fitScale);
+  const [fit, setFit] = useState(measure);
 
-  useEffect(() => {
-    const onResize = () => setScale(fitScale());
+  useLayoutEffect(() => {
+    const onResize = () => {
+      const next = measure();
+      if (next) setFit((prev) => (prev && prev.layout === next.layout && prev.scale === next.scale ? prev : next));
+    };
+    // The window can get its size between the first render and this effect, with no resize event left to catch it
+    onResize();
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
@@ -42,23 +54,38 @@ export default function App() {
 
   const restart = useCallback(() => setGameKey((k) => k + 1), []);
 
+  // Kiosk idle reset: the next visitor starts in Hindi
+  const idleReset = useCallback(() => {
+    setLang('hi');
+    setGameKey((k) => k + 1);
+  }, []);
+
   // Focusing an element near the edge can scroll the clipped stage sideways; undo it
   const lockScroll = (e) => {
     e.currentTarget.scrollLeft = 0;
     e.currentTarget.scrollTop = 0;
   };
 
+  if (!fit) return <div className="fit" />;
+  const { layout, scale } = fit;
+
   return (
     <div className="fit">
-      <div className="stage" style={{ transform: `scale(${scale})` }} onScroll={lockScroll}>
+      <div
+        className={`stage${layout.portrait ? ' portrait' : ''}`}
+        style={{ width: layout.w, height: layout.h, transform: `scale(${scale})` }}
+        onScroll={lockScroll}
+      >
         <Game
           key={gameKey}
+          layout={layout}
           lang={lang}
           muted={muted}
           onToggleLang={toggleLang}
           onToggleSound={toggleSound}
           onFullscreen={toggleFullscreen}
           onRestart={restart}
+          onIdle={idleReset}
         />
       </div>
     </div>
