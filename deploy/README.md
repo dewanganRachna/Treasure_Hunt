@@ -20,7 +20,7 @@ npm run deploy
    cp deploy/deploy.env.example deploy/deploy.env
    ```
 
-   `deploy/deploy.env` is git-ignored. If the server hosts more than one site, also set `NGINX_SITE` (the file holding the site's `server { }` block, for example `/etc/nginx/sites-available/default`). If that file has several `server` blocks, set `NGINX_SERVER_NAME` to the domain that should serve the game.
+   `deploy/deploy.env` is git-ignored. If the server hosts more than one site, also set `NGINX_SERVER_NAME` to the domain or IP address the kiosks open. The installer then finds the nginx file and `server { }` block whose `server_name` lists it. Set `NGINX_SITE` to the file (for example `/etc/nginx/conf.d/default.conf`) only if several files serve that name.
 
    Once the select-game screen exists, set `LAUNCHER_URL` to its address and deploy again. That adds the **All games** links and sends idle kiosks back to it. The launcher should link to `https://<your-server>/treasure_hunt/`.
 
@@ -168,7 +168,7 @@ Pulling keeps working as before. The trade-off: with write access, anyone who ge
 ## Troubleshooting
 
 - **"belongs to another user"** or npm `EACCES` errors on the server: npm was run with `sudo` once in this folder, which left root-owned files. Run `sudo chown -R "$(id -un):$(id -gn)" .` in the folder, then `npm run deploy -- --local` without `sudo`. The deploy refuses to run under `sudo` for this reason; it asks for `sudo` itself when it installs.
-- **"Several nginx files have server blocks"**: the message lists each file's `listen` and `server_name` lines. Pick the file whose `server_name` is the address the kiosks open (its `listen 443 ssl` block if the site has HTTPS) and set `NGINX_SITE=<that file>` in `deploy/deploy.env`.
+- **"Several nginx files have server blocks"**: the message lists each file's `listen` and `server_name` lines. Set `NGINX_SERVER_NAME` in `deploy/deploy.env` to the address the kiosks open, as it appears in a `server_name` line. If several files list it, also set `NGINX_SITE=<that file>`.
 - **"has several server blocks"**: set `NGINX_SERVER_NAME` to the domain that should serve the game.
 - **The page loads but looks unstyled, or files 404**: the build was made for another path. `npm run deploy` always builds for `URL_PATH`, so redeploy with it.
 - **Login keeps coming back**: the browser isn't keeping the cookie. Check it isn't in incognito/guest mode. On a plain-HTTP site, set `COOKIE_SECURE=no`.

@@ -41,6 +41,19 @@ setting() {
   printf '%s' "${v:-${2:-}}"
 }
 
+KNOWN_KEYS="DEPLOY_HOST DEPLOY_PORT DEPLOY_SSH_KEY URL_PATH APP_DIR NGINX_SITE NGINX_SERVER_NAME KEEP_RELEASES
+  COOKIE_DAYS COOKIE_SECURE PUBLIC_URL LAUNCHER_URL CERT_API_URL REPORT_BRANCH REPORT_REPO REPORT_SSH_KEY REPORT_DIR"
+# Lines of deploy.env that set nothing: the deploy would ignore a mistyped name without a word.
+# Only names are shown, since a value could be a secret.
+ignored_settings() {
+  [[ -f "$ENV_FILE" ]] || return 0
+  tr -d '\r' < "$ENV_FILE" | awk -v known=" $(echo $KNOWN_KEYS) " '
+    /^[[:space:]]*(#|$)/ { next }
+    { eq = index($0, "="); key = substr($0, 1, eq - 1); gsub(/[[:space:]]/, "", key) }
+    eq < 2 || key == "" { printf "line %d is not KEY=value\n", NR; next }
+    index(known, " " key " ") == 0 { printf "line %d sets %s, which is not a setting\n", NR, key }'
+}
+
 DEPLOY=0
 PUSH=1
 for a in "$@"; do
@@ -125,6 +138,9 @@ block() {
     printf '```\n\n'
   } >> "$BODY"
 }
+
+IGNORED="$(ignored_settings)"
+[[ -z "$IGNORED" ]] || check fail "deploy/deploy.env $(echo "$IGNORED" | paste -sd ';' - | sed 's/;/; /g') (a typo?)"
 
 # ---------- deploy output ----------
 if (( DEPLOY )); then
@@ -304,6 +320,7 @@ settings() {
   done
 }
 block "Deploy settings" settings
+[[ -z "$IGNORED" ]] || block "deploy/deploy.env lines that set nothing" printf '%s\n' "$IGNORED"
 
 # ---------- assemble ----------
 {

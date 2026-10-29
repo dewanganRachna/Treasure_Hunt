@@ -36,16 +36,26 @@ const fail = (s) => {
 };
 
 // ---------- settings ----------
+const KNOWN_SETTINGS = new Set([
+  'DEPLOY_HOST', 'DEPLOY_PORT', 'DEPLOY_SSH_KEY', 'URL_PATH', 'APP_DIR', 'NGINX_SITE', 'NGINX_SERVER_NAME',
+  'KEEP_RELEASES', 'COOKIE_DAYS', 'COOKIE_SECURE', 'PUBLIC_URL', 'LAUNCHER_URL', 'CERT_API_URL',
+  'REPORT_BRANCH', 'REPORT_REPO', 'REPORT_SSH_KEY', 'REPORT_DIR'
+]);
+
 function readEnvFile(file) {
   if (!existsSync(file)) return {};
   const out = {};
-  for (const raw of readFileSync(file, 'utf8').split(/\r?\n/)) {
+  // A mistyped line would otherwise be ignored without a word
+  const ignored = (n, why) => console.warn(`${color('1;35')('!!')} ${file}: line ${n} ${why}, so it is ignored.`);
+  readFileSync(file, 'utf8').split(/\r?\n/).forEach((raw, i) => {
     const line = raw.trim();
-    if (!line || line.startsWith('#')) continue;
+    if (!line || line.startsWith('#')) return;
     const eq = line.indexOf('=');
-    if (eq < 1) continue;
-    out[line.slice(0, eq).trim()] = line.slice(eq + 1).trim().replace(/^(['"])(.*)\1$/, '$2');
-  }
+    if (eq < 1) return ignored(i + 1, 'is not KEY=value');
+    const key = line.slice(0, eq).trim();
+    if (!KNOWN_SETTINGS.has(key)) return ignored(i + 1, `sets ${key}, which isn't a setting (a typo?)`);
+    out[key] = line.slice(eq + 1).trim().replace(/^(['"])(.*)\1$/, '$2');
+  });
   return out;
 }
 

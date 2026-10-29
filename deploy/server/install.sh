@@ -25,7 +25,7 @@
 #   URL_PATH           /treasure_hunt            path the game is served under
 #   APP_DIR            /var/www/treasure_hunt    where releases are kept
 #   NGINX_SITE         (auto-detected)           config file holding your server block
-#   NGINX_SERVER_NAME  (none)                    pick the server block by server_name
+#   NGINX_SERVER_NAME  (none)                    pick the site file and server block by server_name
 #   KEEP_RELEASES      5                         older releases are deleted
 #   COOKIE_DAYS        365                       how long a kiosk stays logged in
 #   COOKIE_SECURE      auto                      yes / no / auto (yes when the site has HTTPS)
@@ -191,6 +191,18 @@ ensure_login_limit() {
   fi
 }
 
+# Does a server_name line in this file list NGINX_SERVER_NAME?
+serves_name() {
+  awk -v name="$NGINX_SERVER_NAME" '
+    { line = $0; sub(/#.*/, "", line) }
+    line ~ /(^|[ \t;{])server_name[ \t]/ {
+      sub(/^.*server_name[ \t]+/, "", line); gsub(/;/, " ", line)
+      n = split(line, a, /[ \t]+/)
+      for (i = 1; i <= n; i++) if (a[i] == name) found = 1
+    }
+    END { exit !found }' "$1"
+}
+
 detect_site() {
   local f candidates=()
   for f in "$NGINX_DIR"/sites-enabled/* "$NGINX_DIR"/conf.d/*.conf; do
@@ -202,6 +214,15 @@ detect_site() {
   done
   if [[ ${#candidates[@]} -eq 0 ]] && grep -qE '^[^#]*\bserver[[:space:]]*(\{|$)' "$NGINX_DIR/nginx.conf"; then
     candidates+=("$NGINX_DIR/nginx.conf")
+  fi
+  # NGINX_SERVER_NAME narrows several files down to the ones that serve that name
+  if [[ -n "$NGINX_SERVER_NAME" ]]; then
+    local named=()
+    for f in "${candidates[@]}" "$NGINX_DIR/nginx.conf"; do
+      [[ " ${named[*]} " == *" $f "* ]] && continue
+      serves_name "$f" && named+=("$f")
+    done
+    [[ ${#named[@]} -gt 0 ]] && candidates=("${named[@]}")
   fi
   if [[ ${#candidates[@]} -eq 1 ]]; then printf '%s\n' "${candidates[0]}"; return 0; fi
   if [[ ${#candidates[@]} -eq 0 ]]; then
