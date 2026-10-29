@@ -134,7 +134,8 @@ set_credentials() {
     chmod 644 "$tmp"
   fi
   mv -f "$tmp" "$HTPASSWD"
-  ok "Admin login saved for '$user' in $HTPASSWD (password stored hashed)"
+  # The ID isn't echoed: deploy output can end up in a server report
+  ok "Admin login saved in $HTPASSWD (password stored hashed)"
 }
 
 ensure_session_token() {
@@ -309,6 +310,8 @@ if ! grep -q "$URL_PATH/assets/" "$TARGET/index.html"; then
   die "This build was not made for $URL_PATH/ (its files point elsewhere). Build with BASE_PATH=$URL_PATH/ npm run build."
 fi
 [[ -f "$TARGET/login/index.html" && -f "$TARGET/login/ok.txt" ]] || { rm -rf "$RELEASE"; die "The build has no login page (public/login/)."; }
+# tar keeps the build's owner (the deploying user); the live files should be root's alone
+chown -R root:root "$RELEASE"
 find "$RELEASE" -type d -exec chmod 755 {} +
 find "$RELEASE" -type f -exec chmod 644 {} +
 chmod 755 "$APP_DIR" "$APP_DIR/releases"
