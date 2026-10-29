@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import OptionButton from './OptionButton';
+import FeedbackToast from './FeedbackToast';
 
 const OPTION_LETTERS = ['A', 'B', 'C', 'D'];
 
@@ -15,7 +16,8 @@ export default function QuestionPanel({
   selectedOption = null,
   isLocked = false,
   onSelectOption = () => {},
-  isExiting = false
+  isExiting = false,
+  showFeedback = false
 }) {
   // Keyboard navigation: A-D or 1-4 keys to select option
   useEffect(() => {
@@ -101,6 +103,9 @@ export default function QuestionPanel({
           );
         })}
       </div>
+
+      {/* 4. Correct-Answer Feedback Card immediately below question card */}
+      {showFeedback && <FeedbackToast isVisible={true} />}
     </aside>
   );
 }

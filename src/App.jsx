@@ -5,7 +5,6 @@ import GameplayBackground from './components/GameplayBackground';
 import Hud from './components/Hud';
 import CameraRig from './components/CameraRig';
 import QuestionPanel from './components/QuestionPanel';
-import FeedbackToast from './components/FeedbackToast';
 import GameOverPanel from './components/GameOverPanel';
 import VictoryPanel from './components/VictoryPanel';
 import { sound } from './utils/audio';
@@ -30,7 +29,6 @@ export default function App() {
   // Question Interaction State
   const [selectedOption, setSelectedOption] = useState(null);
   const [isLocked, setIsLocked] = useState(false);
-  const [showFeedbackToast, setShowFeedbackToast] = useState(false);
 
   // Safe timeout tracking for clean unmount & reset
   const timeoutsRef = useRef([]);
@@ -64,7 +62,6 @@ export default function App() {
     setFailedLevel(null);
     setSelectedOption(null);
     setIsLocked(false);
-    setShowFeedbackToast(false);
 
     // Switch to intro (full map overview)
     setStatus('intro');
@@ -86,7 +83,6 @@ export default function App() {
     setFailedLevel(null);
     setSelectedOption(null);
     setIsLocked(false);
-    setShowFeedbackToast(false);
   };
 
   // 3. Handle Option Selection (Panel 3 / 6)
@@ -104,22 +100,21 @@ export default function App() {
       // Correct Answer Flow (Panel 4)
       sound.playCorrect();
 
-      // Show small toast feedback at top-left and mark checkpoint complete
-      setShowFeedbackToast(true);
+      // Mark current checkpoint as completed
       setCompleted((prev) => {
         const next = [...prev];
         next[currentLevel] = true;
         return next;
       });
 
+      // Show feedback card immediately below question card
       setStatus('feedback');
 
-      // Hold feedback for ~900ms then auto-travel to next checkpoint (never requires continue click!)
+      // Hold feedback for ~1000ms then auto-travel to next checkpoint
       addTimeout(() => {
-        setShowFeedbackToast(false);
         setStatus('traveling');
         sound.playTravel();
-      }, 950);
+      }, 1000);
     } else {
       // Wrong Answer Flow (Panel 7)
       sound.playWrong();
@@ -175,7 +170,7 @@ export default function App() {
               onTravelComplete={handleTravelComplete}
             />
 
-            {/* PANEL 3 & 6: Question Panel on Right Side */}
+            {/* PANEL 3 & 6: Question Panel on Right Side with Feedback below */}
             {(status === 'question' || status === 'feedback') && (
               <QuestionPanel
                 levelIndex={currentLevel}
@@ -183,12 +178,10 @@ export default function App() {
                 selectedOption={selectedOption}
                 isLocked={isLocked}
                 onSelectOption={handleSelectOption}
-                isExiting={status === 'feedback'}
+                isExiting={false}
+                showFeedback={status === 'feedback'}
               />
             )}
-
-            {/* PANEL 4: Small Non-Blocking Feedback Toast (Top-Left) */}
-            <FeedbackToast isVisible={showFeedbackToast} />
 
             {/* PANEL 7: Game Over Panel (Left Side on Wrong Answer) */}
             {status === 'gameOver' && (
