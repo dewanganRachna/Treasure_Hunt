@@ -36,7 +36,7 @@
 }
 
 /* --------------------------------------------------------------------------
-   2. Welcome Screen (Panel 1)
+   2. Welcome Screen (Panel 1) - Premium Illustrated Landscape Stage
    -------------------------------------------------------------------------- */
 .welcome-screen-stage {
   width: 100%;
@@ -47,71 +47,37 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at 50% 28%, #FFFDF2 0%, #F8F1DD 45%, #EADBBE 100%);
+  background: radial-gradient(circle at 50% 28%, #FFFDF7 0%, #FAF2DF 48%, #EADBBE 100%);
 }
 
 .welcome-scenic-bg {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
   overflow: hidden;
 }
 
-.welcome-sun-glow {
-  position: absolute;
-  top: 10%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 900px;
-  height: 600px;
-  background: radial-gradient(ellipse at center, rgba(255, 245, 190, 0.65) 0%, rgba(245, 230, 180, 0.25) 50%, rgba(245, 230, 180, 0) 75%);
-  filter: blur(40px);
-}
-
 .welcome-hills-svg {
   position: absolute;
-  bottom: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
-  height: 60%;
+  height: 100%;
   pointer-events: none;
-}
-
-/* Botanical Corner Foliage Leaves */
-.corner-foliage {
-  position: absolute;
-  width: 340px;
-  height: 340px;
-  pointer-events: none;
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: 0.85;
-}
-
-.foliage-bottom-left {
-  bottom: -20px;
-  left: -20px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M20,180 C40,110 90,70 180,50 C140,90 100,130 20,180 Z' fill='%232F7A43' opacity='0.75'/%3E%3Cpath d='M10,190 C60,130 110,100 190,90 C150,130 110,160 10,190 Z' fill='%2314452F' opacity='0.85'/%3E%3Cpath d='M0,200 C30,150 70,120 140,110 C100,150 60,170 0,200 Z' fill='%235BA865' opacity='0.7'/%3E%3Cpath d='M40,200 C80,160 130,140 195,140 C150,170 100,190 40,200 Z' fill='%23266436' opacity='0.8'/%3E%3C/svg%3E");
-}
-
-.foliage-bottom-right {
-  bottom: -20px;
-  right: -20px;
-  transform: scaleX(-1);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M20,180 C40,110 90,70 180,50 C140,90 100,130 20,180 Z' fill='%232F7A43' opacity='0.75'/%3E%3Cpath d='M10,190 C60,130 110,100 190,90 C150,130 110,160 10,190 Z' fill='%2314452F' opacity='0.85'/%3E%3Cpath d='M0,200 C30,150 70,120 140,110 C100,150 60,170 0,200 Z' fill='%235BA865' opacity='0.7'/%3E%3Cpath d='M40,200 C80,160 130,140 195,140 C150,170 100,190 40,200 Z' fill='%23266436' opacity='0.8'/%3E%3C/svg%3E");
 }
 
 .welcome-top-bar {
   position: absolute;
-  top: 36px;
-  left: 45px;
+  top: 38px;
+  left: 48px;
   z-index: 10;
 }
 
 .welcome-chips-logo {
   height: 64px;
   width: auto;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.16));
 }
 
 .welcome-center-content {
@@ -122,13 +88,14 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin-top: -10px;
+  margin-top: -6px;
 }
 
 .title-filigree-divider {
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   display: flex;
   justify-content: center;
+  filter: drop-shadow(0 1px 2px rgba(201, 162, 74, 0.35));
 }
 
 .welcome-main-title {
@@ -137,47 +104,56 @@
   align-items: center;
   font-family: var(--font-title);
   font-weight: 900;
-  line-height: 1.05;
+  line-height: 1.04;
   text-transform: uppercase;
-  color: var(--color-dark-green);
+  color: #11442B;
   text-shadow:
-    0 2px 0 rgba(243, 217, 139, 0.8),
-    0 4px 12px rgba(20, 69, 47, 0.25);
+    0 1px 0 #FCE082,
+    0 2px 0 #D4AF37,
+    0 6px 18px rgba(17, 68, 43, 0.32);
 }
 
 .title-word-state {
-  font-size: 52px;
-  letter-spacing: 5px;
+  font-size: 54px;
+  letter-spacing: 7px;
 }
 
 .title-word-explorer {
-  font-size: 68px;
-  letter-spacing: 4px;
+  font-size: 72px;
+  letter-spacing: 5px;
 }
 
 .welcome-subtitle {
   font-family: var(--font-title);
-  font-weight: 700;
+  font-weight: 800;
   font-size: 21px;
-  letter-spacing: 7px;
-  color: var(--color-gold-deep);
-  margin-top: 10px;
+  letter-spacing: 8.5px;
+  color: #B48528;
+  margin-top: 8px;
+  margin-bottom: 2px;
   text-transform: uppercase;
+  text-shadow:
+    0 1px 2px rgba(255, 255, 255, 0.8),
+    0 2px 8px rgba(180, 133, 40, 0.25);
 }
 
 .title-bottom-ornament {
-  margin-top: 6px;
+  margin-top: 4px;
   margin-bottom: 4px;
+  display: flex;
+  justify-content: center;
+  filter: drop-shadow(0 1px 2px rgba(201, 162, 74, 0.3));
 }
 
 .welcome-chest-wrap {
-  width: 480px;
-  height: 340px;
+  width: 510px;
+  height: 370px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: -15px;
-  animation: chestGentleFloat 4s ease-in-out infinite alternate;
+  margin-top: -8px;
+  margin-bottom: 6px;
+  animation: chestGentleFloat 4.5s ease-in-out infinite alternate;
 }
 
 .chest-illustration-container {
@@ -200,43 +176,87 @@
 }
 
 .welcome-action-wrap {
-  margin-top: 5px;
+  margin-top: 4px;
+  z-index: 10;
 }
 
 .welcome-start-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  width: 420px;
-  height: 72px;
-  background: linear-gradient(180deg, #1A5439 0%, #14452F 60%, #0E3523 100%);
-  border: 2.5px solid var(--color-gold);
+  gap: 18px;
+  width: 430px;
+  height: 74px;
+  padding: 0 32px;
+  background: linear-gradient(180deg, #1B5B3A 0%, #13442A 55%, #0B2B1B 100%);
+  border: 2.5px solid #D4AF37;
   border-radius: 9999px;
   color: #FFFFFF;
   font-family: var(--font-title);
   font-size: 24px;
   font-weight: 800;
-  letter-spacing: 3px;
+  letter-spacing: 3.5px;
   cursor: pointer;
   box-shadow:
-    0 8px 24px rgba(20, 69, 47, 0.35),
-    inset 0 1px 2px rgba(255, 255, 255, 0.3),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.4);
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    0 10px 28px rgba(15, 51, 32, 0.45),
+    0 2px 6px rgba(0, 0, 0, 0.2),
+    inset 0 1.5px 2px rgba(255, 255, 255, 0.35),
+    inset 0 -2.5px 4px rgba(0, 0, 0, 0.45);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.welcome-start-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.22), transparent);
+  transition: left 0.6s ease;
 }
 
 .welcome-start-btn:hover {
-  background: linear-gradient(180deg, #226947 0%, #1A5439 60%, #12402B 100%);
+  background: linear-gradient(180deg, #246E47 0%, #185234 55%, #0E3622 100%);
+  border-color: #FDE68A;
   box-shadow:
-    0 12px 32px rgba(201, 162, 74, 0.5),
-    inset 0 1px 3px rgba(255, 255, 255, 0.4);
-  transform: translateY(-2px);
+    0 14px 36px rgba(212, 175, 55, 0.45),
+    0 4px 12px rgba(15, 51, 32, 0.3),
+    inset 0 1.5px 3px rgba(255, 255, 255, 0.45);
+  transform: translateY(-3px) scale(1.02);
+}
+
+.welcome-start-btn:hover::before {
+  left: 100%;
 }
 
 .welcome-start-btn:active {
-  transform: translateY(1px) scale(0.98);
-  box-shadow: 0 4px 12px rgba(20, 69, 47, 0.4);
+  transform: translateY(2px) scale(0.98);
+  box-shadow: 0 4px 14px rgba(15, 51, 32, 0.4);
+}
+
+.start-btn-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(212, 175, 55, 0.2);
+  border: 1.5px solid rgba(253, 230, 138, 0.6);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.welcome-start-btn:hover .start-btn-icon-wrap {
+  transform: translateX(4px);
+  background: rgba(212, 175, 55, 0.35);
+  border-color: #FDE68A;
+}
+
+.start-btn-chevron {
+  color: #FFFFFF;
 }
 
 /* --------------------------------------------------------------------------
@@ -1012,16 +1032,23 @@
    11. Chest & Sparkle Keyframe Effects
    -------------------------------------------------------------------------- */
 .chest-light-rays {
-  transform-origin: 250px 210px;
-  animation: raysRotate 16s linear infinite;
+  transform-origin: 270px 215px;
+  animation: raysSway 8s ease-in-out infinite alternate;
 }
 
-@keyframes raysRotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+@keyframes raysSway {
+  0% {
+    transform: rotate(-4deg) scale(0.96);
+    opacity: 0.65;
+  }
+  100% {
+    transform: rotate(4deg) scale(1.04);
+    opacity: 0.95;
+  }
 }
 
 .chest-core-pulse {
+  transform-origin: 270px 220px;
   animation: corePulse 3s ease-in-out infinite alternate;
 }
 
@@ -1032,8 +1059,25 @@
 
 .sparkle-star {
   animation: sparkleTwinkle 2s infinite ease-in-out alternate;
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
-.sparkle-delay-1 { animation-delay: 0.5s; }
-.sparkle-delay-2 { animation-delay: 1.0s; }
-.sparkle-delay-3 { animation-delay: 1.5s; }
+@keyframes sparkleTwinkle {
+  0% {
+    transform: scale(0.6) rotate(0deg);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.15) rotate(90deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.6) rotate(180deg);
+    opacity: 0.4;
+  }
+}
+
+.sparkle-delay-1 { animation-delay: 0.4s; }
+.sparkle-delay-2 { animation-delay: 0.8s; }
+.sparkle-delay-3 { animation-delay: 1.2s; }
