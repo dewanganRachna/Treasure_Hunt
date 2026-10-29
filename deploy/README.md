@@ -56,7 +56,7 @@ It runs `nginx -t` before reloading. If nginx rejects anything, every change is 
 
 ## Certificates
 
-When a player wins, the kiosk browser posts their name, `gameName` (`Treasure_Hunt`) and time straight to `CERT_API_URL` (the Rajyotsav certificate API, baked into the build). The finale shows the QR code it returns, and players scan it with their phone to download the PDF.
+When a player wins, the kiosk browser posts their name, `gameName` (`Treasure Hunt`, printed on the certificate) and time straight to `CERT_API_URL` (the Rajyotsav certificate API, baked into the build). The finale shows the QR code it returns, and players scan it with their phone to download the PDF.
 
 - The API allows cross-site calls (`Access-Control-Allow-Origin: *`), so nothing is needed on your server for this.
 - Our login cookie is not sent to the API.

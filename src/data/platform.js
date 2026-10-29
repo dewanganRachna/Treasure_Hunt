@@ -3,8 +3,8 @@
  * here, and the certificate API that a win is reported to.
  */
 
-/** Identifier sent to the certificate API as `gameName`. */
-export const GAME_NAME = 'Treasure_Hunt';
+/** Sent to the certificate API as `gameName`; it is printed on the certificate as written. */
+export const GAME_NAME = 'Treasure Hunt';
 
 /**
  * The select-game screen. Set at build time (VITE_LAUNCHER_URL, filled from LAUNCHER_URL in

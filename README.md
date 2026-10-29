@@ -31,7 +31,7 @@ On a win the game sends one request to the Rajyotsav certificate API (spec: `Raj
 
 ```json
 POST https://cggeomap.cgstate.gov.in/rajyotsav/api/certificate
-{ "username": "Asha Verma", "gameName": "Treasure_Hunt", "timeTaken": "3:42" }
+{ "username": "Asha Verma", "gameName": "Treasure Hunt", "timeTaken": "3:42" }
 ```
 
 - `timeTaken` runs from the name step to the last right answer, as `m:ss`.
