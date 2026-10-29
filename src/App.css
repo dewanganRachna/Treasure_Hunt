@@ -794,6 +794,94 @@ button.back-link {
   cursor: pointer;
 }
 
+/* Topic step after the name: one tap picks the topic and starts the game */
+.topicstep h1 {
+  margin: 8px 0 0;
+  font: 800 28px/1.2 'Noto Sans Devanagari', Outfit, sans-serif;
+  color: #33290f;
+  overflow-wrap: anywhere;
+}
+.topicstep .back-link {
+  margin-bottom: 0;
+}
+.topics {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  margin-top: 18px;
+}
+.topic {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 14px 16px;
+  border: 1.5px solid rgba(201, 138, 36, 0.35);
+  border-radius: 16px;
+  background: rgba(255, 253, 246, 0.95);
+  box-shadow: 0 5px 0 rgba(107, 88, 57, 0.18), 0 10px 22px rgba(80, 60, 25, 0.1);
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.15s, border-color 0.15s;
+}
+.topic:hover {
+  border-color: var(--am);
+}
+.topic:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 rgba(107, 88, 57, 0.18);
+}
+.topic-icon {
+  flex: none;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, #f3e3bb, #e2cd9c);
+  color: var(--amd);
+}
+.topic-text {
+  flex: 1;
+  min-width: 0;
+}
+.topic-text b {
+  display: block;
+  font: 800 20px 'Noto Sans Devanagari', Outfit, sans-serif;
+  color: #33290f;
+}
+.topic-text small {
+  display: block;
+  margin-top: 2px;
+  font: 500 13.5px/1.35 'Noto Sans Devanagari', Outfit, sans-serif;
+  color: var(--tx2);
+}
+.topic-go {
+  flex: none;
+  padding: 7px 12px;
+  border-radius: 20px;
+  background: rgba(201, 138, 36, 0.14);
+  font: 700 12.5px Outfit, 'Noto Sans Devanagari', sans-serif;
+  color: var(--amd);
+  white-space: nowrap;
+}
+.topic-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: rgba(201, 138, 36, 0.14);
+  font: 700 13px 'Noto Sans Devanagari', Outfit, sans-serif;
+  color: var(--amd);
+}
+.intro-cards .n {
+  color: var(--amd);
+}
+
 /* ---------- finale ---------- */
 .finale {
   position: absolute;

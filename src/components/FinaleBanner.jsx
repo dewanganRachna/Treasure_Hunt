@@ -2,16 +2,23 @@ import { starsFor } from '../data/explorerConfig';
 import { t } from '../data/i18n';
 import { LAUNCHER_URL } from '../data/platform';
 import Stars from './Stars';
+import TopicIcon from './TopicIcon';
 
 /**
  * Win panel: score, time, and the certificate from the Rajyotsav API as a QR code to scan.
  * cert: { status: 'loading' | 'ready' | 'error', qrCode? }
  */
-export default function FinaleBanner({ lang, name, firstTry, total, time, cert, onRetry, onPlayAgain }) {
+export default function FinaleBanner({ lang, topic, name, firstTry, total, time, cert, onRetry, onPlayAgain }) {
   return (
     <section className="finale glass" role="dialog" aria-labelledby="finale-title">
       <h2 id="finale-title">{t(lang, 'won')}</h2>
       {name && <div className="who">{name}</div>}
+      {topic && (
+        <div className="topic-pill">
+          <TopicIcon id={topic} size={16} />
+          {t(lang, `cat_${topic}`)}
+        </div>
+      )}
       <div className="en">A CHHATTISGARH DIGITAL EXPLORER</div>
       <div className="score">
         <Stars count={starsFor(firstTry)} lang={lang} size={30} />

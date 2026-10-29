@@ -10,18 +10,18 @@ A touchscreen game for exhibition kiosks. Visitors travel across an illustrated 
 ```
 select-game screen (built separately)
    └─ player taps this game ─► https://<server>/treasure_hunt/   (kiosk logged in once, see deploy/)
-        START → name → 10 stops → win ─► POST Rajyotsav certificate API (from the browser)
+        START → name → topic → 10 stops → win ─► POST Rajyotsav certificate API (from the browser)
                                          ◄── QR code of the PDF certificate, shown on the finale
         "All games" / 2 min idle ─► back to the select-game screen (LAUNCHER_URL)
 ```
 
 ## How a game goes
 
-1. **Start screen.** The whole state is shown, with the route and a closed treasure chest waiting at Bastar. START leads to a **"What's your name?"** step with an on-screen keyboard: the name is printed on the certificate, and the journey only begins once it's typed.
+1. **Start screen.** The whole state is shown, with the route and a closed treasure chest waiting at Bastar. START leads to a **"What's your name?"** step with an on-screen keyboard (the name is printed on the certificate), then to **"choose your topic"**: Cyber Safety, Digital Seva or AI Explorer. One tap on a topic starts the journey.
 2. **10 stops.** The camera flies to each stop and a question opens:
    - A right answer turns green and shows a one-line explanation. **Continue** walks the traveller along the trail to the next stop.
    - **Only one wrong answer is allowed in the whole game.** The first wrong answer empties the heart in the progress bar and the player tries the same question again. A second wrong answer anywhere ends the game: the right answer is shown, the stop turns red, and a Game Over panel says how far they got, with the explanation and **Play again**.
-   - Topics rotate: Cyber Safety at stops 1, 4, 7, 10; Digital Seva at 2, 5, 8; AI Explorer at 3, 6, 9.
+   - All 10 questions come from the chosen topic, with no repeats within a game.
 3. **Treasure.** The 10th question is asked at Bastar. Answering it shakes the chest, flips its lid open, and gold coins burst out before the confetti fires.
 4. **Finale.** The player's name, 3 stars for a perfect run (2 with the one allowed mistake), and the time taken. The **certificate QR code** appears here: scanning it with a phone downloads the PDF. If the certificate service can't be reached, a message and **Try again** button show instead. Then **Play again** (with a fresh, empty name) or **All games**.
 
@@ -52,7 +52,7 @@ Kiosk behaviour:
 
 ## Question bank
 
-All questions live in [src/data/questions.json](src/data/questions.json) (14 cyber safety, 11 AI, 20 digital seva). Each game picks 10 without repeats. A question looks like this:
+All questions live in [src/data/questions.json](src/data/questions.json) (14 cyber safety, 11 AI, 20 digital seva). Each game picks 10 from the player's chosen topic without repeats, so every topic needs at least 10 questions. A question looks like this:
 
 ```json
 {
@@ -115,6 +115,8 @@ src/
     Header.jsx              title, progress dots, language / sound / fullscreen / restart
     IntroPanel.jsx          start screen
     NamePanel.jsx           "What's your name?" step after START
+    TopicPanel.jsx          "choose your topic" step after the name
+    TopicIcon.jsx           icon for each topic
     VirtualKeyboard.jsx     on-screen keyboard for the name
     QuestionCard.jsx        question, answers, explanation, Continue
     FinaleBanner.jsx        congratulations, stars, time and the certificate QR
@@ -123,7 +125,7 @@ src/
   data/
     questions.json          question bank (Hindi + English)
     questionService.js      validation, random pick without repeats, fallbacks
-    journey.js              10 questions per game, topic rotation, answer shuffling
+    journey.js              topics, 10 questions from the chosen topic, answer shuffling
     explorerConfig.js       stage layouts, waypoints, camera, timings, mistakes allowed, star thresholds
     i18n.js                 interface text in Hindi and English
     platform.js             gameName, launcher URL, certificate endpoint

@@ -3,6 +3,7 @@ import Header from './Header';
 import ExplorerMap, { TERRAIN_SRC } from './ExplorerMap';
 import IntroPanel from './IntroPanel';
 import NamePanel from './NamePanel';
+import TopicPanel from './TopicPanel';
 import QuestionCard from './QuestionCard';
 import FinaleBanner from './FinaleBanner';
 import GameOverPanel from './GameOverPanel';
@@ -30,8 +31,10 @@ export default function Game({
   onRestart,
   onIdle
 }) {
-  const [phase, setPhase] = useState('intro'); // 'intro' | 'name' | 'play' | 'finale' | 'over'
-  const [questions] = useState(buildJourneyQuestions);
+  const [phase, setPhase] = useState('intro'); // 'intro' | 'name' | 'topic' | 'play' | 'finale' | 'over'
+  // All 10 questions come from the topic the player picks, so they're built at that moment
+  const [topic, setTopic] = useState(null);
+  const [questions, setQuestions] = useState([]);
   const [cur, setCur] = useState(-1);
   // revealed: index of the right answer, shown when a wrong answer ends the game
   const [card, setCard] = useState({ open: false, index: 0, wrong: [], correct: null, revealed: null });
@@ -225,7 +228,7 @@ export default function Game({
 
       <QuestionCard
         open={card.open}
-        question={phase === 'intro' ? null : questions[card.index]}
+        question={questions.length ? questions[card.index] : null}
         index={card.index}
         wrong={card.wrong}
         correct={card.correct}
@@ -257,12 +260,31 @@ export default function Game({
             sound.tap();
             setPhase('intro');
           }}
-          onGo={start}
+          onGo={() => {
+            sound.tap();
+            setPhase('topic');
+          }}
+        />
+      )}
+      {phase === 'topic' && (
+        <TopicPanel
+          lang={lang}
+          name={playerName.trim()}
+          onBack={() => {
+            sound.tap();
+            setPhase('name');
+          }}
+          onPick={(id) => {
+            setTopic(id);
+            setQuestions(buildJourneyQuestions(id));
+            start();
+          }}
         />
       )}
       {phase === 'finale' && (
         <FinaleBanner
           lang={lang}
+          topic={topic}
           name={playerName.trim()}
           firstTry={firstTry}
           total={questions.length}
