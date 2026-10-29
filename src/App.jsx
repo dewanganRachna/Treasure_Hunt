@@ -18,8 +18,6 @@ export default function App() {
   const [gameKey, setGameKey] = useState(0);
   const [lang, setLang] = useState('hi');
   const [muted, setMuted] = useState(false);
-  // Kept across "Play again" (same player); cleared by the idle reset (next visitor)
-  const [playerName, setPlayerName] = useState('');
   const [fit, setFit] = useState(measure);
 
   useLayoutEffect(() => {
@@ -64,7 +62,6 @@ export default function App() {
       return;
     }
     setLang('hi');
-    setPlayerName('');
     setGameKey((k) => k + 1);
   }, []);
 
@@ -89,8 +86,6 @@ export default function App() {
           layout={layout}
           lang={lang}
           muted={muted}
-          playerName={playerName}
-          onPlayerNameChange={setPlayerName}
           onToggleLang={toggleLang}
           onToggleSound={toggleSound}
           onFullscreen={toggleFullscreen}

@@ -19,6 +19,16 @@ body,
   height: 100%;
   background: #1a1408;
   overflow: hidden;
+  /* Kiosk: no pull-to-refresh or swipe-back */
+  overscroll-behavior: none;
+}
+
+/* Kiosk: no pinch-zoom or panning; taps still work. Images can't be dragged off. */
+.fit {
+  touch-action: none;
+}
+img {
+  -webkit-user-drag: none;
 }
 
 *,

@@ -1,26 +1,8 @@
-import { useRef, useState } from 'react';
 import { t } from '../data/i18n';
 import { CATEGORY_ROTATION, STOPS_BY_CATEGORY } from '../data/journey';
-import { LAUNCHER_URL, NAME_MAX } from '../data/platform';
+import { LAUNCHER_URL } from '../data/platform';
 
-/** Names shorter than this are taken as not typed yet. */
-const NAME_MIN = 2;
-
-export default function IntroPanel({ lang, name, onNameChange, onStart }) {
-  const [hint, setHint] = useState(false);
-  const nameRef = useRef(null);
-
-  // The certificate needs a name, so START asks for one first instead of starting
-  const submit = (e) => {
-    e.preventDefault();
-    if (name.trim().length < NAME_MIN) {
-      setHint(true);
-      nameRef.current?.focus({ preventScroll: true });
-      return;
-    }
-    onStart();
-  };
-
+export default function IntroPanel({ lang, onStart }) {
   return (
     <section className="intro glass" aria-labelledby="intro-title">
       {LAUNCHER_URL && (
@@ -33,6 +15,19 @@ export default function IntroPanel({ lang, name, onNameChange, onStart }) {
           <path d="M3 9.5 12 4l9 5.5M5 10v8M19 10v8M3 20h18M9 10v8M15 10v8" />
         </svg>
         <span>{t(lang, 'eyebrow')}</span>
+      </div>
+
+      <div className="orb" aria-hidden="true">
+        <div className="r1" />
+        <div className="r2" />
+        <div className="core">
+          <svg viewBox="0 0 48 48" width="40" height="40">
+            <rect x="8" y="20" width="32" height="18" rx="3" fill="#c98a24" stroke="#7d4f10" strokeWidth="1.6" />
+            <path d="M8 20q0-9 16-9t16 9z" fill="#e2b155" stroke="#7d4f10" strokeWidth="1.6" />
+            <rect x="20" y="20" width="8" height="18" fill="#f3e3bb" stroke="#7d4f10" strokeWidth="1.2" />
+            <circle cx="24" cy="27" r="2.2" fill="#7d4f10" />
+          </svg>
+        </div>
       </div>
 
       <h1 id="intro-title">{t(lang, 'title')}</h1>
@@ -52,37 +47,9 @@ export default function IntroPanel({ lang, name, onNameChange, onStart }) {
       </div>
 
       <div className="intro-note">{t(lang, 'note')}</div>
-
-      <form className="intro-start" onSubmit={submit} noValidate>
-        <label className="name-field">
-          <span>{t(lang, 'nameLabel')}</span>
-          <input
-            ref={nameRef}
-            type="text"
-            value={name}
-            maxLength={NAME_MAX}
-            autoComplete="off"
-            autoCapitalize="words"
-            spellCheck={false}
-            enterKeyHint="go"
-            placeholder={t(lang, 'namePh')}
-            aria-invalid={hint}
-            aria-describedby={hint ? 'name-hint' : undefined}
-            onChange={(e) => {
-              onNameChange(e.target.value);
-              if (hint) setHint(false);
-            }}
-          />
-        </label>
-        {hint && (
-          <div id="name-hint" className="name-hint" role="alert">
-            {t(lang, 'nameNeeded')}
-          </div>
-        )}
-        <button type="submit" className="bt" autoFocus>
-          {t(lang, 'start')} &nbsp;→
-        </button>
-      </form>
+      <button type="button" className="bt" onClick={onStart} autoFocus>
+        {t(lang, 'start')} &nbsp;→
+      </button>
     </section>
   );
 }

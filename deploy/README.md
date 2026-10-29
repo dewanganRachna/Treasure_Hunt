@@ -8,7 +8,8 @@ npm run deploy
 
 ## What you need
 
-- **Server:** Linux with nginx already running your site, SSH access, and a user that can `sudo`. Node is **not** needed on the server. The server must be able to reach the certificate API over HTTPS (`cggeomap.cgstate.gov.in`), since nginx forwards certificate requests there.
+- **Server:** Linux with nginx already running your site, SSH access, and a user that can `sudo`. Node is **not** needed on the server.
+- **Kiosks:** internet access to `cggeomap.cgstate.gov.in`, because the kiosk browser sends wins to the certificate API itself.
 - **Your computer:** Node 18+ and `ssh`, `scp`, `tar`. These come with Windows 10/11, macOS and Linux.
 
 ## First deploy
@@ -55,13 +56,12 @@ It runs `nginx -t` before reloading. If nginx rejects anything, every change is 
 
 ## Certificates
 
-When a player wins, the game posts their name, `gameName` (`Treasure_Hunt`) and time to `/treasure_hunt/api/certificate`. nginx forwards that to `CERT_API_URL` (the Rajyotsav certificate API), so:
+When a player wins, the kiosk browser posts their name, `gameName` (`Treasure_Hunt`) and time straight to `CERT_API_URL` (the Rajyotsav certificate API, baked into the build). The finale shows the QR code it returns, and players scan it with their phone to download the PDF.
 
-- the browser only ever talks to your server (no CORS setup is needed on the API side);
-- only logged-in kiosks can create certificates;
-- the kiosk session cookie is **not** passed on to the API.
-
-The finale shows the QR code the API returns. Players scan it with their phone to download the PDF.
+- The API allows cross-site calls (`Access-Control-Allow-Origin: *`), so nothing is needed on your server for this.
+- Our login cookie is not sent to the API.
+- The call doesn't go through nginx on purpose: the API's server only offers an old TLS handshake that OpenSSL 3 (newer nginx, Node) refuses, while browsers connect fine.
+- If your site sends a `Content-Security-Policy` header with `connect-src`, add `https://cggeomap.cgstate.gov.in` to it.
 
 ## Everyday commands
 
@@ -87,10 +87,15 @@ or with a build you already have: `sudo bash deploy/server/install.sh dist`.
 
 ## Kiosk setup tips
 
-- Open `https://<your-server>/treasure_hunt/` (or the select-game screen) in Chrome with `--kiosk`. After logging in once it goes straight to the game.
-- Players type their name before starting. On a touch-only Windows kiosk, turn on the touch keyboard for when no keyboard is attached: Settings → Time & language → Typing → Touch keyboard. Android kiosks show their keyboard by themselves.
-- Press the fullscreen button in the game if the browser isn't already fullscreen.
-- After 2 minutes without touches the game goes back to the select-game screen (`LAUNCHER_URL`), or to a fresh Hindi start screen if none is set.
+- **Browser.** Open the select-game screen (or `https://<your-server>/treasure_hunt/`) in Chrome with `--kiosk`, in a normal profile so the login cookie survives restarts (not `--incognito`). After logging in once it goes straight to the game. Useful extra Chrome flags:
+  - `--noerrdialogs --disable-session-crashed-bubble` (no restore prompts after a power cut)
+  - `--overscroll-history-navigation=0` (no swipe-back)
+  - `--disable-pinch` (belt and braces; the game already blocks zoom)
+  - `--disable-features=Translate` (no translate bar over the Hindi text)
+- **Typing names.** The game brings its own on-screen keyboard, so the Windows touch keyboard isn't needed. You can leave its automatic pop-up off.
+- **Windows.** Turn off screen sleep and screen saver, turn off edge-swipe gestures, and start Chrome automatically at login.
+- **Fullscreen.** Press the game's fullscreen button if the browser isn't already fullscreen.
+- **Idle.** After 2 minutes without touches the game goes back to the select-game screen (`LAUNCHER_URL`), or to a fresh Hindi start screen if none is set.
 
 ## Troubleshooting
 
@@ -99,5 +104,4 @@ or with a build you already have: `sudo bash deploy/server/install.sh dist`.
 - **The page loads but looks unstyled, or files 404**: the build was made for another path. `npm run deploy` always builds for `URL_PATH`, so redeploy with it.
 - **Login keeps coming back**: the browser isn't keeping the cookie. Check it isn't in incognito/guest mode. On a plain-HTTP site, set `COOKIE_SECURE=no`.
 - **See what nginx serves:** `curl -I https://<your-server>/treasure_hunt/` should answer `302` to `/treasure_hunt/login/` when not logged in.
-- **"The certificate could not be made"** on the finale: the server can't reach `CERT_API_URL`, or the API is down. Check from the server with `curl -I https://cggeomap.cgstate.gov.in/rajyotsav/api/certificate`, and see `/var/log/nginx/error.log`.
-- **`nginx -t` fails with "host not found in upstream"**: the server can't resolve the certificate API's hostname. Fix DNS on the server, or set `CERT_API_URL` to an address it can reach.
+- **"The certificate could not be made"** on the finale: the kiosk can't reach `CERT_API_URL` (no internet, firewall, or a `Content-Security-Policy` blocking it), or the API is down. Open the browser's developer console on the kiosk to see which.

@@ -54,6 +54,15 @@ if (typeof Node === 'function' && Node.prototype) {
   };
 }
 
+// Kiosk: no long-press/right-click menu, no dragging things off the page, no Ctrl+wheel or
+// Ctrl +/- zoom (pinch-zoom is blocked with touch-action in index.css)
+document.addEventListener('contextmenu', (e) => e.preventDefault())
+document.addEventListener('dragstart', (e) => e.preventDefault())
+window.addEventListener('wheel', (e) => e.ctrlKey && e.preventDefault(), { passive: false })
+window.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && ['+', '-', '=', '0'].includes(e.key)) e.preventDefault()
+})
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ErrorBoundary>

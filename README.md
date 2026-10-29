@@ -10,43 +10,45 @@ A touchscreen game for exhibition kiosks. Visitors travel across an illustrated 
 ```
 select-game screen (built separately)
    └─ player taps this game ─► https://<server>/treasure_hunt/   (kiosk logged in once, see deploy/)
-        name → 10 stops → win ─► POST api/certificate ─► nginx ─► Rajyotsav certificate API
-                                 ◄── QR code of the PDF certificate, shown on the finale
+        START → name → 10 stops → win ─► POST Rajyotsav certificate API (from the browser)
+                                         ◄── QR code of the PDF certificate, shown on the finale
         "All games" / 2 min idle ─► back to the select-game screen (LAUNCHER_URL)
 ```
 
 ## How a game goes
 
-1. **Start screen.** The whole state is shown, with the route and a closed treasure chest waiting at Bastar. The player types their **name** (it's printed on the certificate) and presses START. START without a name points them to the field instead.
+1. **Start screen.** The whole state is shown, with the route and a closed treasure chest waiting at Bastar. START leads to a **"What's your name?"** step with an on-screen keyboard: the name is printed on the certificate, and the journey only begins once it's typed.
 2. **10 stops.** The camera flies to each stop and a question opens:
    - A right answer turns green and shows a one-line explanation. **Continue** walks the traveller along the trail to the next stop.
    - **Only one wrong answer is allowed in the whole game.** The first wrong answer empties the heart in the progress bar and the player tries the same question again. A second wrong answer anywhere ends the game: the right answer is shown, the stop turns red, and a Game Over panel says how far they got, with the explanation and **Play again**.
    - Topics rotate: Cyber Safety at stops 1, 4, 7, 10; Digital Seva at 2, 5, 8; AI Explorer at 3, 6, 9.
 3. **Treasure.** The 10th question is asked at Bastar. Answering it shakes the chest, flips its lid open, and gold coins burst out before the confetti fires.
-4. **Finale.** The player's name, 3 stars for a perfect run (2 with the one allowed mistake), and the time taken. The **certificate QR code** appears here: scanning it with a phone downloads the PDF. If the certificate service can't be reached, a message and **Try again** button show instead. Then **Play again** (keeps the name) or **All games**.
+4. **Finale.** The player's name, 3 stars for a perfect run (2 with the one allowed mistake), and the time taken. The **certificate QR code** appears here: scanning it with a phone downloads the PDF. If the certificate service can't be reached, a message and **Try again** button show instead. Then **Play again** (with a fresh, empty name) or **All games**.
 
 ## Certificate
 
 On a win the game sends one request to the Rajyotsav certificate API (spec: `Rajyotsav_Certificate_API.docx`):
 
 ```json
-POST <base>/api/certificate
+POST https://cggeomap.cgstate.gov.in/rajyotsav/api/certificate
 { "username": "Asha Verma", "gameName": "Treasure_Hunt", "timeTaken": "3:42" }
 ```
 
-- `timeTaken` runs from START to the last right answer, as `m:ss`.
-- The request goes to our own server. nginx forwards it to `CERT_API_URL`, so the browser never calls another site, and only logged-in kiosks can create certificates.
+- `timeTaken` runs from the name step to the last right answer, as `m:ss`.
+- The kiosk's browser calls the API directly; the API allows this (`Access-Control-Allow-Origin: *`). It is **not** routed through our server: the API's server uses an old TLS setup that browsers accept but OpenSSL 3 (Node, newer nginx) refuses.
 - The game shows the `qrCode` the API returns; it never makes its own QR.
 - Exactly one request is made per win (again only from **Try again** after a failure), because each call creates a new PDF.
 - `gameName` and the launcher address are set in [src/data/platform.js](src/data/platform.js).
 
 Kiosk behaviour:
-- 2 minutes without a touch returns to the select-game screen (or, with no launcher set, to a fresh start screen in Hindi with the name cleared).
-- Typing the name needs an on-screen keyboard on touch-only kiosks (Windows touch keyboard or Android's), see [deploy/README.md](deploy/README.md).
-- Answer order is shuffled every game, so the right answer isn't always in the same place.
-- Works offline once loaded: fonts and the map are bundled.
-- On phones held upright it switches to a portrait layout.
-- Respects the system's reduced-motion setting.
+- **Name on an on-screen keyboard.** The name step has its own large keyboard (letters, space, dot, hyphen, delete, clear, start). It capitalises each word ("asha verma" → "Asha Verma"), and the device's own keyboard never opens. A physical keyboard also works.
+- **No leftover names.** Every new game, including Play again and Restart, starts with an empty name, so the next visitor never sees the previous player's name.
+- **Idle return.** 2 minutes without a touch goes back to the select-game screen (or, with no launcher set, to a fresh start screen in Hindi).
+- **Locked down.** No pinch-zoom, pull-to-refresh, long-press menus, dragging images off, or Ctrl-zoom.
+- **Inviting when idle.** START pulses gently.
+- **Fair.** Answer order is shuffled every game, so the right answer isn't always in the same place.
+- **Offline-proof assets.** Fonts and the map are bundled, so the game needs the internet only for the certificate.
+- **Phones and accessibility.** Phones held upright get a portrait layout, and the system's reduced-motion setting is respected.
 
 ## Question bank
 
@@ -80,13 +82,13 @@ npm run preview    # serves that build at http://localhost:4173/treasure_hunt/
 
 The production build is made for the `/treasure_hunt/` path. Use `BASE_PATH=/ npm run build` to build for a site root instead.
 
-Locally, `api/certificate` is answered by a stand-in so testing never creates real certificates. It returns a sample QR after a short delay. Switch it with an environment variable:
+Locally a win calls the real certificate API too, so every won test game creates a real PDF on their server. To test without that, use a local stand-in:
 
-| `CERT_API=` | What answers `api/certificate` in `npm run dev` / `npm run preview` |
+| `CERT_API=` | What a win calls in `npm run dev` / `npm run preview` |
 |---|---|
-| *(unset)* | the stand-in, with a sample QR |
+| *(unset)* | the real Rajyotsav API |
+| `mock` | a local stand-in that returns a sample QR after a short delay |
 | `fail` | the stand-in answering 503, to see the error and **Try again** |
-| `real` | the real Rajyotsav API; each win then creates a real PDF |
 
 `VITE_LAUNCHER_URL=https://…` shows the **All games** links locally.
 
@@ -111,7 +113,9 @@ src/
     Game.jsx                one playthrough: intro → 10 stops → treasure → finale, idle reset
     ExplorerMap.jsx         terrain + SVG overlay, camera, traveller and trail animation
     Header.jsx              title, progress dots, language / sound / fullscreen / restart
-    IntroPanel.jsx          start screen and the player's name
+    IntroPanel.jsx          start screen
+    NamePanel.jsx           "What's your name?" step after START
+    VirtualKeyboard.jsx     on-screen keyboard for the name
     QuestionCard.jsx        question, answers, explanation, Continue
     FinaleBanner.jsx        congratulations, stars, time and the certificate QR
     GameOverPanel.jsx       shown after the second wrong answer

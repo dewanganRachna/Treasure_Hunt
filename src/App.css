@@ -451,11 +451,46 @@
   color: var(--tx2);
   box-shadow: 0 3px 10px rgba(80, 60, 25, 0.08);
 }
+.intro .orb {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  margin: 12px 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.intro .orb .r1,
+.intro .orb .r2 {
+  position: absolute;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(201, 138, 36, 0.45);
+}
+.intro .orb .r1 {
+  inset: 0;
+  animation: spin 26s linear infinite;
+}
+.intro .orb .r2 {
+  inset: 14px;
+  border-style: solid;
+  border-color: rgba(201, 138, 36, 0.22);
+}
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+.intro .orb .core {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: linear-gradient(160deg, #fffaf0, #f1e2bd);
+  border: 1px solid rgba(107, 88, 57, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 22px rgba(125, 79, 16, 0.2), inset 0 2px 8px rgba(255, 255, 255, 0.9);
+}
 .intro h1 {
-  margin: 14px 0 0;
+  margin: 0;
   font: 800 33px/1.14 'Noto Sans Devanagari', Outfit, sans-serif;
   color: #33290f;
 }
@@ -623,6 +658,140 @@ a.bt {
 }
 .back-link:hover {
   background: rgba(201, 138, 36, 0.12);
+}
+
+/* Name step between START and the first question: panel on top, keyboard docked below */
+.namestep {
+  position: absolute;
+  z-index: 8;
+  top: 84px;
+  left: 50%;
+  width: 760px;
+  box-sizing: border-box;
+  padding: 18px 28px 12px;
+  border-radius: 16px;
+  text-align: center;
+  transform: translateX(-50%);
+  animation: name-in 0.4s cubic-bezier(0.2, 1.1, 0.4, 1);
+}
+@keyframes name-in {
+  from { opacity: 0; transform: translate(-50%, 14px); }
+}
+.namestep .back-link {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  margin: 0;
+}
+.namestep h1 {
+  margin: 2px 0 0;
+  font: 800 30px/1.2 'Noto Sans Devanagari', Outfit, sans-serif;
+  color: #33290f;
+}
+.namestep .tag {
+  margin-top: 4px;
+  font: 500 15px 'Noto Sans Devanagari', Outfit, sans-serif;
+  color: var(--tx2);
+}
+.name-row {
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+  margin-top: 14px;
+}
+.namestep .name-field {
+  flex: 1;
+  margin: 0;
+}
+.namestep .name-field input {
+  height: 100%;
+  padding: 12px 18px;
+  font-size: 26px;
+  text-align: center;
+  caret-color: var(--am);
+}
+.namestep .name-field input::placeholder {
+  font-size: 20px;
+}
+.namestep .name-row .bt {
+  margin: 0;
+  padding: 12px 24px;
+  font-size: 17px;
+  white-space: nowrap;
+}
+.namestep .name-hint {
+  min-height: 20px;
+  margin-top: 6px;
+}
+
+/* On-screen keyboard (the device keyboard never opens on a kiosk) */
+.vkb {
+  position: absolute;
+  z-index: 8;
+  left: 50%;
+  bottom: 16px;
+  width: 1000px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 16px;
+  transform: translateX(-50%);
+  animation: name-in 0.45s cubic-bezier(0.2, 1.1, 0.4, 1);
+}
+.vk-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+.vk {
+  flex: 0 0 82px;
+  height: 58px;
+  border: 1px solid rgba(107, 88, 57, 0.25);
+  border-radius: 12px;
+  background: #fffdf6;
+  box-shadow: 0 3px 0 rgba(107, 88, 57, 0.28);
+  font: 700 22px Outfit, 'Noto Sans Devanagari', sans-serif;
+  color: #33290f;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.vk:active {
+  transform: translateY(2px);
+  background: #f3e3bb;
+  box-shadow: 0 1px 0 rgba(107, 88, 57, 0.28);
+}
+.vk.wide {
+  flex-basis: 130px;
+  font-size: 17px;
+}
+.vk.space {
+  flex-basis: 360px;
+  font-size: 16px;
+}
+.vk.muted {
+  color: var(--tx2);
+}
+.vk.done {
+  border-color: transparent;
+  background: linear-gradient(145deg, #d9a53c, var(--amd));
+  color: #fffaf0;
+  box-shadow: 0 3px 0 #5d3a0a;
+}
+
+/* Attract passers-by on the idle start screen */
+.intro > .bt {
+  animation: attract 2.6s ease-in-out infinite;
+}
+@keyframes attract {
+  0%, 100% { box-shadow: 0 8px 0 #5d3a0a, 0 14px 26px rgba(125, 79, 16, 0.3), 0 0 0 0 rgba(201, 138, 36, 0.5); }
+  60% { box-shadow: 0 8px 0 #5d3a0a, 0 14px 26px rgba(125, 79, 16, 0.3), 0 0 0 16px rgba(201, 138, 36, 0); }
+}
+button.back-link {
+  border: 0;
+  background: none;
+  cursor: pointer;
 }
 
 /* ---------- finale ---------- */
@@ -929,6 +1098,9 @@ svg.ov #ch { transform: scale(2.2); }
 .portrait .intro {
   transform: none;
 }
+.portrait .intro .orb {
+  display: none;
+}
 .portrait .intro h1 {
   margin-top: 12px;
 }
@@ -963,6 +1135,53 @@ svg.ov #ch { transform: scale(2.2); }
 @keyframes rise-up {
   from { opacity: 0; transform: translateY(16px); }
 }
+.portrait .namestep {
+  top: 116px;
+  left: 16px;
+  right: 16px;
+  width: auto;
+  padding: 16px 18px 10px;
+  transform: none;
+  animation-name: rise-up;
+}
+.portrait .namestep h1 {
+  margin-top: 26px;
+  font-size: 26px;
+}
+.portrait .name-row {
+  flex-direction: column;
+}
+.portrait .namestep .name-field input {
+  padding: 14px 16px;
+}
+.portrait .vkb {
+  left: 8px;
+  right: 8px;
+  bottom: 12px;
+  width: auto;
+  gap: 7px;
+  padding: 8px;
+  transform: none;
+  animation-name: rise-up;
+}
+.portrait .vk-row {
+  gap: 5px;
+}
+.portrait .vk {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 56px;
+  font-size: 21px;
+}
+.portrait .vk.wide {
+  flex: 1.6 1 0;
+  font-size: 14px;
+}
+.portrait .vk.space {
+  flex: 3 1 0;
+  font-size: 14px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   /* One near-instant run: infinite animations at 0.01ms would otherwise flicker */
   *,

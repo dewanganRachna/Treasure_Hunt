@@ -92,6 +92,8 @@ const cfg = {
   publicUrl: setting('PUBLIC_URL').replace(/\/+$/, ''),
   // Select-game screen: baked into the build for the "All games" button and the idle return
   launcherUrl: setting('LAUNCHER_URL'),
+  // Certificate API the browser posts wins to; baked into the build
+  certApiUrl: setting('CERT_API_URL', 'https://cggeomap.cgstate.gov.in/rajyotsav/api/certificate'),
   // Passed to install.sh on the server
   remoteEnv: {
     URL_PATH: urlPath,
@@ -100,13 +102,13 @@ const cfg = {
     NGINX_SERVER_NAME: setting('NGINX_SERVER_NAME'),
     KEEP_RELEASES: setting('KEEP_RELEASES', '5'),
     COOKIE_DAYS: setting('COOKIE_DAYS', '365'),
-    COOKIE_SECURE: setting('COOKIE_SECURE', 'auto'),
-    CERT_API_URL: setting('CERT_API_URL', 'https://cggeomap.cgstate.gov.in/rajyotsav/api/certificate')
+    COOKIE_SECURE: setting('COOKIE_SECURE', 'auto')
   }
 };
 if (cfg.launcherUrl && !/^(https?:\/\/|\/)/.test(cfg.launcherUrl)) {
   fail(`LAUNCHER_URL must start with http://, https:// or / (got "${cfg.launcherUrl}").`);
 }
+if (!/^https?:\/\//.test(cfg.certApiUrl)) fail(`CERT_API_URL must be an http(s) URL (got "${cfg.certApiUrl}").`);
 
 const local = flags.has('local');
 const dryRun = flags.has('dry-run');
@@ -199,7 +201,10 @@ if (!flags.has('skip-checks')) {
   npm('run', 'lint');
 }
 step(`Building for ${cfg.urlPath}/${cfg.launcherUrl ? ` (launcher: ${cfg.launcherUrl})` : ' (no launcher set)'}`);
-run('npm', ['run', 'build'], { shell: IS_WIN, env: { BASE_PATH: `${cfg.urlPath}/`, VITE_LAUNCHER_URL: cfg.launcherUrl } });
+run('npm', ['run', 'build'], {
+  shell: IS_WIN,
+  env: { BASE_PATH: `${cfg.urlPath}/`, VITE_LAUNCHER_URL: cfg.launcherUrl, VITE_CERT_API_URL: cfg.certApiUrl }
+});
 
 const indexHtml = readFileSync(join(ROOT, 'dist', 'index.html'), 'utf8');
 if (!indexHtml.includes(`${cfg.urlPath}/assets/`)) fail(`dist/index.html does not point at ${cfg.urlPath}/assets/; the build used the wrong base path.`);

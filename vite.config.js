@@ -8,15 +8,13 @@ const DEPLOY_BASE = '/treasure_hunt/'
 const normalizeBase = (path) => `/${path.replace(/^\/+|\/+$/g, '')}/`.replace(/^\/\/$/, '/')
 
 /**
- * The game posts wins to <base>api/certificate. On the server nginx forwards that to the
- * Rajyotsav certificate API; locally these settings decide what answers it:
- *   (default)       a stand-in that returns a sample QR, so testing creates no real certificates
- *   CERT_API=fail   the stand-in answers 503, to try the error and Retry state
- *   CERT_API=real   forward to the real API (each win then creates a real PDF on their server)
+ * On a win the browser posts to the Rajyotsav certificate API (src/data/platform.js).
+ *   (default)       the real API (each win creates a real PDF on their server)
+ *   CERT_API=mock   a local stand-in that returns a sample QR, for testing without real certificates
+ *   CERT_API=fail   the stand-in answers 503, to try the error and Try again state
  */
-const CERT_API = process.env.CERT_API || 'mock'
-const CERT_API_URL = process.env.CERT_API_URL || 'https://cggeomap.cgstate.gov.in/rajyotsav/api/certificate'
-const CERT_PATH = /\/api\/certificate$/
+const CERT_API = process.env.CERT_API || 'real'
+const STAND_IN_PATH = '/__certificate-stand-in'
 
 const SAMPLE_QR =
   'data:image/svg+xml;base64,' +
@@ -28,7 +26,7 @@ const SAMPLE_QR =
 
 function certificateStandIn() {
   const handle = (req, res, next) => {
-    if (!CERT_PATH.test(req.url.split('?')[0])) return next()
+    if (req.url.split('?')[0] !== STAND_IN_PATH) return next()
     let body = ''
     req.on('data', (chunk) => (body += chunk))
     req.on('end', () => {
@@ -66,12 +64,7 @@ function certificateStandIn() {
   }
 }
 
-const realApiProxy = () => {
-  const target = new URL(CERT_API_URL)
-  return {
-    '^.*/api/certificate$': { target: target.origin, changeOrigin: true, rewrite: () => target.pathname }
-  }
-}
+const useStandIn = CERT_API === 'mock' || CERT_API === 'fail'
 
 // https://vite.dev/config/
 export default defineConfig(({ command, isPreview }) => ({
@@ -80,7 +73,6 @@ export default defineConfig(({ command, isPreview }) => ({
     : command === 'build' || isPreview
       ? DEPLOY_BASE
       : '/',
-  plugins: [react(), ...(CERT_API === 'real' ? [] : [certificateStandIn()])],
-  server: CERT_API === 'real' ? { proxy: realApiProxy() } : {},
-  preview: CERT_API === 'real' ? { proxy: realApiProxy() } : {},
+  plugins: [react(), ...(useStandIn ? [certificateStandIn()] : [])],
+  define: useStandIn ? { 'import.meta.env.VITE_CERT_API_URL': JSON.stringify(STAND_IN_PATH) } : {},
 }))

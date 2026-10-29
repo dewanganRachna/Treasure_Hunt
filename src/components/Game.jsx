@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import Header from './Header';
 import ExplorerMap, { TERRAIN_SRC } from './ExplorerMap';
 import IntroPanel from './IntroPanel';
+import NamePanel from './NamePanel';
 import QuestionCard from './QuestionCard';
 import FinaleBanner from './FinaleBanner';
 import GameOverPanel from './GameOverPanel';
@@ -23,15 +24,13 @@ export default function Game({
   layout,
   lang,
   muted,
-  playerName,
-  onPlayerNameChange,
   onToggleLang,
   onToggleSound,
   onFullscreen,
   onRestart,
   onIdle
 }) {
-  const [phase, setPhase] = useState('intro'); // 'intro' | 'play' | 'finale' | 'over'
+  const [phase, setPhase] = useState('intro'); // 'intro' | 'name' | 'play' | 'finale' | 'over'
   const [questions] = useState(buildJourneyQuestions);
   const [cur, setCur] = useState(-1);
   // revealed: index of the right answer, shown when a wrong answer ends the game
@@ -39,6 +38,9 @@ export default function Game({
   const [shake, setShake] = useState(false);
   const [firstTry, setFirstTry] = useState(0);
   const [mistakes, setMistakes] = useState(0);
+  // Lives only as long as this game: Play again and the idle reset start a new Game, so the
+  // next visitor never sees the previous player's name
+  const [playerName, setPlayerName] = useState('');
   const [timeTaken, setTimeTaken] = useState('');
   const [cert, setCert] = useState({ status: 'idle' }); // 'idle' | 'loading' | 'ready' | 'error'
 
@@ -237,7 +239,27 @@ export default function Game({
 
       <ConfettiCanvas ref={confettiRef} w={layout.w} h={layout.h} />
 
-      {phase === 'intro' && <IntroPanel lang={lang} name={playerName} onNameChange={onPlayerNameChange} onStart={start} />}
+      {phase === 'intro' && (
+        <IntroPanel
+          lang={lang}
+          onStart={() => {
+            sound.tap();
+            setPhase('name');
+          }}
+        />
+      )}
+      {phase === 'name' && (
+        <NamePanel
+          lang={lang}
+          name={playerName}
+          onNameChange={setPlayerName}
+          onBack={() => {
+            sound.tap();
+            setPhase('intro');
+          }}
+          onGo={start}
+        />
+      )}
       {phase === 'finale' && (
         <FinaleBanner
           lang={lang}

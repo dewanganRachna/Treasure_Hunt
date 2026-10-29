@@ -21,7 +21,8 @@ export async function requestCertificate({ username, timeTaken }) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, gameName: GAME_NAME, timeTaken }),
-      credentials: 'same-origin',
+      // Another site: send none of our cookies (the kiosk login stays with our server)
+      credentials: 'omit',
       cache: 'no-store',
       signal: abort.signal
     });

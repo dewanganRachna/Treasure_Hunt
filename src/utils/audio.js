@@ -39,6 +39,10 @@ export const sound = {
   tap() {
     tone(520, 0, 0.07, 'triangle', 0.08);
   },
+  /** Soft tick for on-screen keyboard keys */
+  key() {
+    tone(880, 0, 0.035, 'triangle', 0.04);
+  },
   correct() {
     [660, 880, 1175].forEach((f, i) => tone(f, i * 0.08, 0.2, 'sine', 0.12));
   },
