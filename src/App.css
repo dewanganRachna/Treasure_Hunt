@@ -198,6 +198,21 @@
   fill: transparent;
   stroke: rgba(107, 88, 57, 0.45);
 }
+/* Game time: runs from the first flight and stops when the game is won or lost */
+.clock {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding-left: 11px;
+  border-left: 1px solid var(--line);
+  font: 800 15px Outfit;
+  font-variant-numeric: tabular-nums;
+  color: var(--amd);
+}
+.clock svg {
+  width: 16px;
+  height: 16px;
+}
 .lives.used svg {
   animation: heart-lost 0.55s;
 }
@@ -380,23 +395,11 @@ a.tb {
   padding: 5px 10px;
   border-radius: 20px;
 }
-.pos {
-  margin-left: auto;
-  font: 600 11px Outfit;
-  letter-spacing: 1.4px;
-  color: var(--tx2);
-}
 /* Letter-spacing breaks the Devanagari headline stroke, so Hindi labels drop it */
-.chip[lang='hi'],
-.pos[lang='hi'] {
+.chip[lang='hi'] {
   font-family: 'Noto Sans Devanagari', Outfit, sans-serif;
   letter-spacing: 0;
-}
-.chip[lang='hi'] {
   font-size: 12px;
-}
-.pos[lang='hi'] {
-  font-size: 13px;
 }
 .qt {
   font: 600 21px/1.36 Outfit, 'Noto Sans Devanagari', sans-serif;

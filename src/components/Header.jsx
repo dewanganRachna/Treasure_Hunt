@@ -1,6 +1,7 @@
 import { WAYPOINTS } from '../data/explorerConfig';
 import { t } from '../data/i18n';
 import { LAUNCHER_URL } from '../data/platform';
+import GameClock from './GameClock';
 
 const TOTAL = WAYPOINTS.length;
 // Phones such as iPhone have no page fullscreen, so the button would do nothing there
@@ -8,7 +9,7 @@ const canFullscreen = typeof document !== 'undefined' && Boolean(document.fullsc
 
 const HEART = 'M12 20.3s-7.6-4.6-9.2-9.4C1.6 7.3 3.9 4 7.3 4c2 0 3.6 1.1 4.7 2.7C13.1 5.1 14.7 4 16.7 4c3.4 0 5.7 3.3 4.5 6.9-1.6 4.8-9.2 9.4-9.2 9.4z';
 
-export default function Header({ cur, mistakesLeft, lang, muted, onToggleLang, onToggleSound, onFullscreen, onRestart }) {
+export default function Header({ cur, mistakesLeft, clock, lang, muted, onToggleLang, onToggleSound, onFullscreen, onRestart }) {
   return (
     <header className="hdr">
       <div className="hdr-logo" aria-hidden="true">
@@ -25,9 +26,9 @@ export default function Header({ cur, mistakesLeft, lang, muted, onToggleLang, o
         <div className="ti">{t(lang, 'title')}</div>
       </div>
 
-      <div className="progress" role="progressbar" aria-label="Progress" aria-valuemin={0} aria-valuemax={TOTAL} aria-valuenow={Math.max(cur, 0)}>
+      <div className="progress">
         <span className="lbl">PROGRESS</span>
-        <span className="dots">
+        <span className="dots" role="progressbar" aria-label="Progress" aria-valuemin={0} aria-valuemax={TOTAL} aria-valuenow={Math.max(cur, 0)}>
           {Array.from({ length: TOTAL }, (_, m) => (
             <i key={m} className={m < cur ? 'on' : m === cur ? 'cu' : ''} />
           ))}
@@ -38,6 +39,7 @@ export default function Header({ cur, mistakesLeft, lang, muted, onToggleLang, o
             <path d={HEART} />
           </svg>
         </span>
+        <GameClock start={clock.start} end={clock.end} lang={lang} />
       </div>
 
       <div className="tools">

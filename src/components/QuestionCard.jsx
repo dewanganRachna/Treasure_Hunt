@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { WAYPOINTS } from '../data/explorerConfig';
-import { placeName, t } from '../data/i18n';
+import { t } from '../data/i18n';
 
 const LETTERS = 'ABCD';
 
@@ -48,7 +47,6 @@ export default function QuestionCard({ open, arrive, question, index, wrong, cor
             <div className="hd">
               <span className="num">{String(index + 1).padStart(2, '0')}</span>
               <span className="chip" lang={lang}>{t(lang, `cat_${question.categoryId}`)}</span>
-              <span className="pos" lang={lang}>{placeName(lang, WAYPOINTS[index])}</span>
             </div>
             <div className="qt">{useEn ? question.questionEn : question.question}</div>
             <div className="ops" ref={opsRef}>

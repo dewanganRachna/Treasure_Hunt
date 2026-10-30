@@ -46,6 +46,9 @@ export default function Game({
   // next visitor never sees the previous player's name
   const [playerName, setPlayerName] = useState('');
   const [timeTaken, setTimeTaken] = useState('');
+  // The header's game clock, as performance.now() times: start when the first flight begins,
+  // end when the game is won or lost (0 = not yet). The certificate's time comes from it too.
+  const [clock, setClock] = useState({ start: 0, end: 0 });
   const [cert, setCert] = useState({ status: 'idle' }); // 'idle' | 'loading' | 'ready' | 'error'
 
   const mapRef = useRef(null);
@@ -55,7 +58,6 @@ export default function Game({
   const alive = useRef(true);
   const busy = useRef(false);
   const advancing = useRef(false);
-  const startedAt = useRef(0);
 
   useEffect(() => {
     alive.current = true;
@@ -139,7 +141,7 @@ export default function Game({
     if (busy.current) return;
     busy.current = true;
     sound.tap();
-    startedAt.current = performance.now();
+    setClock({ start: performance.now(), end: 0 });
     setPhase('play');
     const map = mapRef.current;
     map.beginJourney();
@@ -184,6 +186,7 @@ export default function Game({
   /** A wrong answer beyond the allowance: show the right one, then the game-over panel. */
   const gameOver = async (j) => {
     busy.current = true;
+    setClock((c) => ({ ...c, end: performance.now() }));
     setCard((c) => ({ ...c, revealed: questions[j].correctIndex }));
     mapRef.current.failAt(j);
     if (!(await wait(TIMING.gameOverReveal))) return;
@@ -217,7 +220,9 @@ export default function Game({
 
     // Won: stop the clock and start making the certificate while the chest opens
     if (j === LAST) {
-      const time = formatDuration(performance.now() - startedAt.current);
+      const end = performance.now();
+      const time = formatDuration(end - clock.start);
+      setClock((c) => ({ ...c, end }));
       setTimeTaken(time);
       makeCertificate(time);
     }
@@ -257,6 +262,7 @@ export default function Game({
       <Header
         cur={cur}
         mistakesLeft={MISTAKES_ALLOWED - mistakes}
+        clock={clock}
         lang={lang}
         muted={muted}
         onToggleLang={onToggleLang}

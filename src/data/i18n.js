@@ -10,6 +10,7 @@ const STRINGS = {
     sound: 'SOUND',
     restart: 'RESTART',
     fullscreen: 'फ़ुलस्क्रीन',
+    clock: 'खेल का समय',
     eyebrow: 'राज्योत्सव विशेष · डिजिटल खोज अभियान',
     tag: 'अपना विषय चुनें, 10 पड़ावों पर सही उत्तर दें और छत्तीसगढ़ का खज़ाना खोजें!',
     topicNo: ({ n }) => `विषय ${n}`,
@@ -70,6 +71,7 @@ const STRINGS = {
     sound: 'SOUND',
     restart: 'RESTART',
     fullscreen: 'Fullscreen',
+    clock: 'Game time',
     eyebrow: 'Rajyotsav Special · Digital Discovery Mission',
     tag: 'Choose a topic, answer correctly at 10 stops and find the treasure of Chhattisgarh!',
     topicNo: ({ n }) => `Topic ${n}`,
@@ -129,6 +131,3 @@ export function t(lang, key, params) {
   const value = STRINGS[lang]?.[key] ?? STRINGS.hi[key] ?? key;
   return typeof value === 'function' ? value(params ?? {}) : value;
 }
-
-/** Hindi town name in Hindi mode, English otherwise. */
-export const placeName = (lang, waypoint) => (lang === 'hi' ? waypoint.nameHi : waypoint.name);

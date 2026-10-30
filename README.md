@@ -18,7 +18,7 @@ Rajyotsav portal home page (cggeomap.cgstate.gov.in/rajyotsav_portal/modules/hom
 ## How a game goes
 
 1. **Start screen.** The whole state is shown, with the route and a closed treasure chest waiting at Bastar. START leads to a **"What's your name?"** step with an on-screen keyboard (the name is printed on the certificate), then to **"choose your topic"**: Cyber Safety, Digital Seva or AI Explorer. One tap on a topic starts the journey.
-2. **10 stops.** The camera flies to each stop. On landing, a ring pulses out of the waypoint, a gold thread runs to the panel, and the question card glides in:
+2. **10 stops.** A game clock in the progress bar starts with the first flight and stops when the game is won or lost. The camera flies to each stop. On landing, a ring pulses out of the waypoint, a gold thread runs to the panel, and the question card glides in, showing the question's number and topic but not the district's name:
    - A right answer turns green and shows a one-line explanation. **Continue** walks the traveller along the trail to the next stop.
    - **Only one wrong answer is allowed in the whole game.** The first wrong answer empties the heart in the progress bar and the player tries the same question again. A second wrong answer anywhere ends the game: the right answer is shown, the stop turns red, and a Game Over panel says how far they got, with the explanation, **Play again** and **Home**.
    - All 10 questions come from the chosen topic, with no repeats within a game.
@@ -34,7 +34,7 @@ POST https://cggeomap.cgstate.gov.in/rajyotsav/api/certificate
 { "username": "Asha Verma", "gameName": "Treasure Hunt", "timeTaken": "3:42" }
 ```
 
-- `timeTaken` runs from the name step to the last right answer, as `m:ss`.
+- `timeTaken` is the game clock in the progress bar, as `m:ss`. It runs from the first flight, right after the topic is picked, to the last right answer.
 - The kiosk's browser calls the API directly; the API allows this (`Access-Control-Allow-Origin: *`). It is **not** routed through our server: the API's server uses an old TLS setup that browsers accept but OpenSSL 3 (Node, newer nginx) refuses.
 - The game shows the `qrCode` the API returns; it never makes its own QR.
 - Exactly one request is made per win (again only from **Try again** after a failure), because each call creates a new PDF.
@@ -123,6 +123,7 @@ src/
     FinaleBanner.jsx        congratulations, stars, time and the certificate QR
     GameOverPanel.jsx       shown after the second wrong answer
     HomeCountdown.jsx       4-minute countdown to the portal's home page on both end panels
+    GameClock.jsx           game time in the progress bar
     Stars.jsx, ConfettiCanvas.jsx, ErrorBoundary.jsx
   data/
     questions.json          question bank (Hindi + English)
