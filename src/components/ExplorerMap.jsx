@@ -197,7 +197,7 @@ export default function ExplorerMap({ ref, layout }) {
       $('#trg')?.classList.toggle('shake', on);
     },
 
-    /** Fade the X and the traveller, and raise the chest. */
+    /** Fade the traveller and the chest: the big chest (TreasureChest) grows out of it. */
     revealTreasure() {
       $('#trg')?.classList.add('rev');
       const pin = $('#pin');
@@ -207,11 +207,7 @@ export default function ExplorerMap({ ref, layout }) {
       }
     },
 
-    openTreasure() {
-      $('#trg')?.classList.add('open');
-    },
-
-    /** Where the chest's mouth is, in stage pixels (for the coin fountain). */
+    /** Where the chest is, in stage pixels (where the big chest grows from). */
     treasurePoint() {
       const chest = $('#ch');
       const stage = worldRef.current?.parentElement;

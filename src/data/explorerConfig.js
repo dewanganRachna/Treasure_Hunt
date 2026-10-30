@@ -116,10 +116,13 @@ export const TIMING = {
   arrivalCardDelay: 180,
   travel: 2300,
   cardClose: 380,
+  // The win: the chest on the map shakes, the big chest grows out of it (reveal, its CSS entrance
+  // is as long), rattles, opens, then the confetti and the win panel follow
   treasureShake: 850,
-  treasureReveal: 600,
-  confettiAfterCoins: 450,
-  bannerDelay: 2600,
+  treasureReveal: 650,
+  chestRattle: 950,
+  confettiAfterCoins: 700,
+  bannerDelay: 2400,
   shake: 420,
   gameOverReveal: 1600,
   idleReset: 120000,

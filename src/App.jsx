@@ -36,7 +36,7 @@ export default function App() {
   }, [lang]);
 
   const toggleLang = () => {
-    sound.tap();
+    sound.toggle();
     setLang((l) => (l === 'hi' ? 'en' : 'hi'));
   };
 
@@ -44,16 +44,20 @@ export default function App() {
     const next = !muted;
     sound.setMuted(next);
     setMuted(next);
-    if (!next) sound.tap();
+    if (!next) sound.soundOn();
   };
 
   const toggleFullscreen = () => {
-    sound.tap();
+    sound.toggle();
     if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
     else document.documentElement.requestFullscreen?.().catch(() => {});
   };
 
-  const restart = useCallback(() => setGameKey((k) => k + 1), []);
+  // RESTART in the header and Play again on the end panels
+  const restart = useCallback(() => {
+    sound.back();
+    setGameKey((k) => k + 1);
+  }, []);
 
   // Kiosk idle reset: back to the Rajyotsav portal's home page
   const idleReset = useCallback(() => window.location.assign(LAUNCHER_URL), []);

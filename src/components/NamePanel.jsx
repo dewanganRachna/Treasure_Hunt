@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { t } from '../data/i18n';
 import { NAME_MAX } from '../data/platform';
+import { sound } from '../utils/audio';
 import VirtualKeyboard from './VirtualKeyboard';
 
 /** Names shorter than this are taken as not typed yet. */
@@ -40,6 +41,7 @@ export default function NamePanel({ lang, name, onNameChange, onBack, onGo }) {
 
   const go = () => {
     if (name.trim().length < NAME_MIN) {
+      sound.wrong();
       setHint(true);
       return;
     }

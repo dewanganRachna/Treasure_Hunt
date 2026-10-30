@@ -8,6 +8,7 @@ import QuestionCard from './QuestionCard';
 import FinaleBanner from './FinaleBanner';
 import GameOverPanel from './GameOverPanel';
 import ConfettiCanvas from './ConfettiCanvas';
+import TreasureChest from './TreasureChest';
 import { MISTAKES_ALLOWED, TIME_LIMIT, TIMING, WAYPOINTS } from '../data/explorerConfig';
 import { buildJourneyQuestions } from '../data/journey';
 import { sound } from '../utils/audio';
@@ -16,6 +17,22 @@ import { motionMs, prefersReducedMotion } from '../utils/motion';
 
 const LAST = WAYPOINTS.length - 1;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+/**
+ * Where the big chest of the win stands, and its size (stage px): in the middle of the map
+ * beside the left column, or just under the header on phones, above the win panel.
+ */
+const placeChest = (L) => {
+  if (L.portrait) {
+    // The win panel takes about the bottom 560px
+    const size = Math.round(Math.min(380, Math.max(260, L.h - L.headerH - 520)));
+    return { x: L.w / 2, y: L.headerH + 10 + size / 2, size };
+  }
+  const areaW = L.w - L.mapLeft;
+  const areaH = L.h - L.headerH;
+  const size = Math.round(Math.min(areaW * 0.8, areaH * 0.98, 600));
+  return { x: Math.round(L.mapLeft + areaW / 2), y: Math.round(L.headerH + areaH / 2 + 4), size };
+};
 
 /**
  * One playthrough. App remounts this (new key) to restart, which also resets
@@ -41,6 +58,10 @@ export default function Game({
   const [card, setCard] = useState({ open: false, arrive: false, index: 0, wrong: [], correct: null, revealed: null });
   const [shake, setShake] = useState(false);
   const [firstTry, setFirstTry] = useState(0);
+  // Answers right on the first try in a row; three or more get a cheer of their own
+  const [streak, setStreak] = useState(0);
+  // The word of praise on a right answer: n picks it, streak is the run it extends
+  const [praise, setPraise] = useState(null);
   const [mistakes, setMistakes] = useState(0);
   // Lives only as long as this game: Play again and the idle reset start a new Game, so the
   // next visitor never sees the previous player's name
@@ -51,9 +72,14 @@ export default function Game({
   // certificate's time is end - start.
   const [clock, setClock] = useState({ start: 0, end: 0 });
   const [cert, setCert] = useState({ status: 'idle' }); // 'idle' | 'loading' | 'ready' | 'error'
+  // The big chest of the win: null until the finale, then its stage ('in' | 'rattle' | 'open')
+  // and where the map's chest is (from), which it grows out of
+  const [chest, setChest] = useState(null);
 
   const mapRef = useRef(null);
   const confettiRef = useRef(null);
+  const chestRef = useRef(null);
+  const lastChestTap = useRef(0);
   const ringRef = useRef(null);
   const threadRef = useRef(null);
   const alive = useRef(true);
@@ -97,7 +123,7 @@ export default function Game({
       busy.current = true;
       setClock((c) => ({ ...c, end: c.start + TIME_LIMIT }));
       setCard((c) => ({ ...c, open: false, arrive: false }));
-      sound.gameOver();
+      sound.timeUp();
       setPhase('timeup');
     }, clock.start + TIME_LIMIT - performance.now());
     return () => clearTimeout(timer);
@@ -112,6 +138,7 @@ export default function Game({
   const openQuestion = (j) => {
     setCur(j);
     setCard({ open: true, arrive: true, index: j, wrong: [], correct: null, revealed: null });
+    setPraise(null);
     busy.current = false;
     advancing.current = false;
     // Drop the entrance class once it has played, so later animations (shake) can't replay it
@@ -151,6 +178,8 @@ export default function Game({
   /** The traveller has landed on waypoint i and the camera has settled. */
   const arriveAt = (i) => {
     mapRef.current.setNode(i, 'cur');
+    sound.arrive();
+    setTimeout(() => alive.current && sound.card(), TIMING.arrivalCardDelay);
     playArrival(i);
     openQuestion(i);
   };
@@ -158,11 +187,13 @@ export default function Game({
   const start = async () => {
     if (busy.current) return;
     busy.current = true;
-    sound.tap();
+    sound.select();
+    sound.start();
     setClock({ start: performance.now(), end: 0 });
     setPhase('play');
     const map = mapRef.current;
     map.beginJourney();
+    sound.whoosh();
     await map.flyTo(0);
     if (!alive.current || timeUp.current) return;
     arriveAt(0);
@@ -170,17 +201,29 @@ export default function Game({
 
   const finale = async () => {
     const map = mapRef.current;
+    const shake = motionMs(TIMING.treasureShake);
+    const reveal = motionMs(TIMING.treasureReveal);
+    const rattle = motionMs(TIMING.chestRattle);
     map.shakeTreasure(true);
-    if (!(await wait(motionMs(TIMING.treasureShake)))) return;
+    sound.drumroll(shake + reveal + rattle);
+    if (!(await wait(shake))) return;
     map.shakeTreasure(false);
+    // The big chest grows out of the one on the map, lands and rattles
+    setChest({ stage: 'in', from: map.treasurePoint() });
     map.revealTreasure();
-    if (!(await wait(motionMs(TIMING.treasureReveal)))) return;
-    // Lid flips open and gold coins burst out, then the confetti cannons
-    map.openTreasure();
+    if (!(await wait(reveal))) return;
+    sound.thud();
+    setChest((c) => ({ ...c, stage: 'rattle' }));
+    if (!(await wait(rattle))) return;
+    // The lid flips open on a heap of gold and coins, diamonds and gems burst out; then the confetti cannons
+    setChest((c) => ({ ...c, stage: 'open' }));
+    sound.creak();
     sound.win();
-    sound.coins();
-    const mouth = map.treasurePoint();
-    if (mouth) confettiRef.current?.coins(mouth.x, mouth.y);
+    sound.shimmer();
+    sound.coins(30);
+    sound.gems(10);
+    const mouth = chestRef.current?.mouth();
+    if (mouth) confettiRef.current?.treasure(mouth.x, mouth.y);
     if (!(await wait(motionMs(TIMING.confettiAfterCoins)))) return;
     confettiRef.current?.celebrate();
     if (!(await wait(motionMs(TIMING.bannerDelay)))) return;
@@ -213,23 +256,33 @@ export default function Game({
     setPhase('over');
   };
 
-  const pick = (m) => {
+  /** Answer m was picked, from button el. */
+  const pick = (m, el) => {
     if (busy.current || !card.open || card.correct !== null || card.wrong.includes(m)) return;
     const j = card.index;
 
     if (m !== questions[j].correctIndex) {
       sound.wrong();
+      setStreak(0);
       setCard((c) => ({ ...c, wrong: [...c.wrong, m] }));
       setShake(true);
       setTimeout(() => alive.current && setShake(false), TIMING.shake);
       if (mistakes >= MISTAKES_ALLOWED) gameOver(j);
-      else setMistakes((n) => n + 1);
+      else {
+        sound.lifeLost();
+        setMistakes((n) => n + 1);
+      }
       return;
     }
 
     busy.current = true;
-    sound.correct();
+    const run = card.wrong.length === 0 ? streak + 1 : 0;
+    sound.correct(j);
+    if (run >= 3) sound.streak();
     if (card.wrong.length === 0) setFirstTry((n) => n + 1);
+    setStreak(run);
+    setPraise({ n: Math.floor(Math.random() * 100), streak: run });
+    confettiRef.current?.burstAt(el);
     setCard((c) => ({ ...c, correct: m }));
     const map = mapRef.current;
     map.setNode(j, 'done');
@@ -260,7 +313,10 @@ export default function Game({
       return;
     }
     const map = mapRef.current;
-    await Promise.all([map.flyTo(j + 1), map.travel(j, prefersReducedMotion() ? 0 : TIMING.travel)]);
+    const travel = prefersReducedMotion() ? 0 : TIMING.travel;
+    sound.whoosh();
+    if (travel) sound.trail(travel);
+    await Promise.all([map.flyTo(j + 1), map.travel(j, travel)]);
     if (!alive.current || timeUp.current) return;
     arriveAt(j + 1);
   };
@@ -271,11 +327,28 @@ export default function Game({
     makeCertificate(timeTaken);
   };
 
+  /** The open chest was tapped: a handful more treasure, at most every 350 ms. */
+  const tapChest = () => {
+    const now = performance.now();
+    if (now - lastChestTap.current < 350) return;
+    lastChestTap.current = now;
+    sound.coins(8);
+    sound.gems(3);
+    const mouth = chestRef.current?.mouth();
+    if (mouth) confettiRef.current?.treasure(mouth.x, mouth.y, true);
+  };
+
   return (
     <>
       <div className="backdrop" />
       <ExplorerMap ref={mapRef} layout={layout} />
       <div className="vignette" />
+      {/* Red edges on a wrong answer, a gold glow on a right one */}
+      {shake && <div className="flash hurt" aria-hidden="true" />}
+      {card.open && card.correct !== null && <div className="flash cheer" key={card.index} aria-hidden="true" />}
+      {chest && (
+        <TreasureChest ref={chestRef} stage={chest.stage} from={chest.from} lang={lang} onTap={tapChest} {...placeChest(layout)} />
+      )}
 
       <Header
         cur={cur}
@@ -298,6 +371,7 @@ export default function Game({
         correct={card.correct}
         revealed={card.revealed}
         shake={shake}
+        praise={praise}
         lang={lang}
         isLast={card.index === LAST}
         onPick={pick}
@@ -313,7 +387,7 @@ export default function Game({
         <IntroPanel
           lang={lang}
           onStart={() => {
-            sound.tap();
+            sound.select();
             setPhase('name');
           }}
         />
@@ -324,11 +398,11 @@ export default function Game({
           name={playerName}
           onNameChange={setPlayerName}
           onBack={() => {
-            sound.tap();
+            sound.back();
             setPhase('intro');
           }}
           onGo={() => {
-            sound.tap();
+            sound.select();
             setPhase('topic');
           }}
         />
@@ -338,7 +412,7 @@ export default function Game({
           lang={lang}
           name={playerName.trim()}
           onBack={() => {
-            sound.tap();
+            sound.back();
             setPhase('name');
           }}
           onPick={(id) => {

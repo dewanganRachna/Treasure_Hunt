@@ -17,13 +17,14 @@ Rajyotsav portal home page (cggeomap.cgstate.gov.in/rajyotsav_portal/modules/hom
 
 ## How a game goes
 
-1. **Start screen.** The whole state is shown, with the route and a closed treasure chest waiting at Bastar. START leads to a **"What's your name?"** step with an on-screen keyboard (the name is printed on the certificate), then to **"choose your topic"**: Cyber Safety, Digital Seva or AI Explorer. One tap on a topic starts the journey.
-2. **10 stops in 3 minutes.** A clock in the progress bar counts down from 3:00, starting with the first flight. It turns red for the last 30 seconds and stops when the game is won or lost. At 0:00 the game ends: any open question closes and a **Time's up** panel says how far they got, with **Play again** and **Home**. The camera flies to each stop. On landing, a ring pulses out of the waypoint, a gold thread runs to the panel, and the question card glides in, showing the question's number and topic but not the district's name:
-   - A right answer turns green and shows a one-line explanation. **Continue** walks the traveller along the trail to the next stop.
-   - **Only one wrong answer is allowed in the whole game.** The first wrong answer empties the heart in the progress bar and the player tries the same question again. A second wrong answer anywhere ends the game: the right answer is shown, the stop turns red, and a Game Over panel says how far they got, with the explanation, **Play again** and **Home**.
+1. **Start screen.** The whole state is shown on its own (no neighbouring states), with the route and a closed treasure chest waiting at Bastar. START leads to a **"What's your name?"** step with an on-screen keyboard (the name is printed on the certificate), then to **"choose your topic"**: Cyber Safety, Digital Seva or AI Explorer. One tap on a topic starts the journey.
+2. **10 stops in 3 minutes.** A clock in the progress bar counts down from 3:00, starting with the first flight. A bell rings at 1:00 and 0:30 left, it turns red for the last 30 seconds, ticks through the last 10, and stops when the game is won or lost. At 0:00 the game ends: any open question closes and a **Time's up** panel says how far they got, with **Play again** and **Home**. The camera flies to each stop. On landing, a ring pulses out of the waypoint, a gold thread runs to the panel, and the question card glides in, showing the question's number and topic but not the district's name:
+   - A right answer turns green, bursts into confetti, gets a word of praise ("शाबाश!", or "4 in a row! 🔥" after three or more right first time), and shows a one-line explanation. **Continue** walks the traveller along the trail to the next stop.
+   - **Only one wrong answer is allowed in the whole game.** The first wrong answer flashes the screen edges red, empties the heart in the progress bar, and the player tries the same question again. A second wrong answer anywhere ends the game: the right answer is shown, the stop turns red, and a Game Over panel says how far they got, with the explanation, **Play again** and **Home**.
    - All 10 questions come from the chosen topic, with no repeats within a game.
-3. **Treasure.** The 10th question is asked at Bastar. Answering it shakes the chest, flips its lid open, and gold coins burst out before the confetti fires.
-4. **Finale.** The player's name, 3 stars for a perfect run (2 with the one allowed mistake), and the time taken. The **certificate QR code** appears here: scanning it with a phone downloads the PDF. If the certificate service can't be reached, a message and **Try again** button show instead. Then **Play again** (with a fresh, empty name) or **Home**. Under them, a countdown from 4:00 shows when the kiosk goes back to the portal's home page by itself.
+3. **Treasure.** The 10th question is asked at Bastar. Answering it shakes the chest on the map to a drum roll, and a big chest grows out of it, rattles with light leaking under the lid, and bursts open: it is heaped with gold coins, diamonds, gems, gold bars and a crown, with a pearl necklace hanging over the front and coins spilled on the ground. Coins, diamonds and gems fountain out of it, then the confetti fires. Tapping the open chest throws out more.
+   - Every action has a sound: buttons, keys, flights, the trail, landing, cards, right and wrong answers, the lost heart, the clock, the chest, the confetti, the stars and the certificate.
+4. **Finale.** Beside the open chest: the player's name, 3 stars for a perfect run (2 with the one allowed mistake), popping in one by one, and the time taken. The **certificate QR code** appears here: scanning it with a phone downloads the PDF. If the certificate service can't be reached, a message and **Try again** button show instead. Then **Play again** (with a fresh, empty name) or **Home**. Under them, a countdown from 4:00 shows when the kiosk goes back to the portal's home page by itself.
 
 ## Certificate
 
@@ -123,8 +124,10 @@ src/
     FinaleBanner.jsx        congratulations, stars, time and the certificate QR
     GameOverPanel.jsx       shown after the second wrong answer
     HomeCountdown.jsx       4-minute countdown to the portal's home page on both end panels
-    GameClock.jsx           3-minute countdown in the progress bar
-    Stars.jsx, ConfettiCanvas.jsx, ErrorBoundary.jsx
+    GameClock.jsx           3-minute countdown in the progress bar, with its bells and ticks
+    TreasureChest.jsx       the big chest of the win, heaped with treasure
+    ConfettiCanvas.jsx      confetti, the treasure fountain and the right-answer bursts
+    Stars.jsx, ErrorBoundary.jsx
   data/
     questions.json          question bank (Hindi + English)
     questionService.js      validation, random pick without repeats, fallbacks
@@ -142,4 +145,4 @@ docs/                       design spec, reference prototype and video, original
 
 ## Tech
 
-React 19 and Vite 8, plain CSS, no UI libraries. Fonts (Outfit, Noto Sans Devanagari, EB Garamond) are self-hosted through Fontsource. Sound effects (including the coin chink) are synthesised with the Web Audio API, and the confetti and gold coins are a small canvas animation.
+React 19 and Vite 8, plain CSS, no UI libraries. Fonts (Outfit, Noto Sans Devanagari, EB Garamond) are self-hosted through Fontsource. Sound effects (including the coin chink, drum roll and bells) are synthesised with the Web Audio API, the confetti and the flying coins, diamonds and gems are a small canvas animation, and the big chest is an SVG drawing animated with CSS.

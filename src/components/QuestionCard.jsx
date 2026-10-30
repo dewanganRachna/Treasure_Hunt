@@ -7,7 +7,7 @@ const LETTERS = 'ABCD';
  * Question card in the left column. Stays mounted so it can fade out with its
  * last question still showing.
  */
-export default function QuestionCard({ open, arrive, question, index, wrong, correct, revealed, shake, lang, isLast, onPick, onContinue }) {
+export default function QuestionCard({ open, arrive, question, index, wrong, correct, revealed, shake, praise, lang, isLast, onPick, onContinue }) {
   const opsRef = useRef(null);
   const nextRef = useRef(null);
   const answered = correct !== null;
@@ -24,6 +24,10 @@ export default function QuestionCard({ open, arrive, question, index, wrong, cor
   useEffect(() => {
     if (open && answered) nextRef.current?.focus({ preventScroll: true });
   }, [open, answered]);
+
+  // A word of praise on a right answer, or the run of first-try answers once it reaches 3
+  const words = t(lang, 'praise');
+  const praiseText = answered && praise ? (praise.streak >= 3 ? t(lang, 'streak', { n: praise.streak }) : words[praise.n % words.length]) : '';
 
   let feedback = '';
   let feedbackClass = '';
@@ -47,6 +51,11 @@ export default function QuestionCard({ open, arrive, question, index, wrong, cor
             <div className="hd">
               <span className="num">{String(index + 1).padStart(2, '0')}</span>
               <span className="chip" lang={lang}>{t(lang, `cat_${question.categoryId}`)}</span>
+              {praiseText && (
+                <span className={`praise${praise.streak >= 3 ? ' run' : ''}`} key={index} aria-hidden="true">
+                  {praiseText}
+                </span>
+              )}
             </div>
             <div className="qt">{useEn ? question.questionEn : question.question}</div>
             <div className="ops" ref={opsRef}>
@@ -61,7 +70,7 @@ export default function QuestionCard({ open, arrive, question, index, wrong, cor
                     onClick={(e) => {
                       // A pointer tap leaves no focus behind; keyboard activation (detail 0) keeps it
                       if (e.detail !== 0) e.currentTarget.blur();
-                      onPick(m);
+                      onPick(m, e.currentTarget);
                     }}
                   >
                     <b>{LETTERS[m]}</b>
