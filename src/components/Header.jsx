@@ -1,5 +1,6 @@
 import { WAYPOINTS } from '../data/explorerConfig';
 import { t } from '../data/i18n';
+import { LAUNCHER_URL } from '../data/platform';
 
 const TOTAL = WAYPOINTS.length;
 // Phones such as iPhone have no page fullscreen, so the button would do nothing there
@@ -68,6 +69,13 @@ export default function Header({ cur, mistakesLeft, lang, muted, onToggleLang, o
           </svg>
           <span className="tl">{t(lang, 'restart')}</span>
         </button>
+        <a className="tb" href={LAUNCHER_URL} aria-label={t(lang, 'exit')}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M10 4H5v16h5" />
+            <path d="M15 8l4 4-4 4M19 12H9" />
+          </svg>
+          <span className="tl">{t(lang, 'exit')}</span>
+        </a>
       </div>
     </header>
   );

@@ -1,5 +1,5 @@
 /**
- * How the game fits into the Rajyotsav exhibition: the select-game launcher that sends players
+ * How the game fits into the Rajyotsav exhibition: the portal home page that sends players
  * here, and the certificate API that a win is reported to.
  */
 
@@ -7,11 +7,12 @@
 export const GAME_NAME = 'Treasure Hunt';
 
 /**
- * The select-game screen. Set at build time (VITE_LAUNCHER_URL, filled from LAUNCHER_URL in
- * deploy/deploy.env). Empty means there is no launcher: no "All games" button, and the idle
- * reset returns to this game's start screen.
+ * The Rajyotsav portal's home page, where players pick a game. EXIT (on every screen), Home and
+ * the countdown on the end panels, and the idle reset all go there. VITE_LAUNCHER_URL overrides
+ * it at build time (deploy sets it from LAUNCHER_URL in deploy/deploy.env).
  */
-export const LAUNCHER_URL = import.meta.env.VITE_LAUNCHER_URL || '';
+export const LAUNCHER_URL =
+  import.meta.env.VITE_LAUNCHER_URL || 'https://cggeomap.cgstate.gov.in/rajyotsav_portal/modules/home/home.html';
 
 /**
  * Rajyotsav certificate API. The browser calls it directly: it allows cross-site requests

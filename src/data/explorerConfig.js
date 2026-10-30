@@ -122,7 +122,9 @@ export const TIMING = {
   bannerDelay: 2600,
   shake: 420,
   gameOverReveal: 1600,
-  idleReset: 120000
+  idleReset: 120000,
+  // The win and game-over panels go to the home page this long after they open, touched or not
+  endToHome: 240000
 };
 
 /** Wrong answers allowed in a whole game; the next one ends it. */

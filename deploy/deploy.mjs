@@ -100,7 +100,7 @@ const cfg = {
   key: values.key ?? setting('DEPLOY_SSH_KEY'),
   urlPath,
   publicUrl: setting('PUBLIC_URL').replace(/\/+$/, ''),
-  // Select-game screen: baked into the build for the "All games" button and the idle return
+  // Home page for EXIT, Home and the returns; empty keeps the Rajyotsav portal built into the game
   launcherUrl: setting('LAUNCHER_URL'),
   // Certificate API the browser posts wins to; baked into the build
   certApiUrl: setting('CERT_API_URL', 'https://cggeomap.cgstate.gov.in/rajyotsav/api/certificate'),
@@ -235,7 +235,7 @@ if (!flags.has('skip-checks')) {
   step('Lint');
   npm('run', 'lint');
 }
-step(`Building for ${cfg.urlPath}/${cfg.launcherUrl ? ` (launcher: ${cfg.launcherUrl})` : ' (no launcher set)'}`);
+step(`Building for ${cfg.urlPath}/${cfg.launcherUrl ? ` (home page: ${cfg.launcherUrl})` : ' (home page: the Rajyotsav portal)'}`);
 run('npm', ['run', 'build'], {
   shell: IS_WIN,
   env: { BASE_PATH: `${cfg.urlPath}/`, VITE_LAUNCHER_URL: cfg.launcherUrl, VITE_CERT_API_URL: cfg.certApiUrl }

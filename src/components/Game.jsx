@@ -64,10 +64,11 @@ export default function Game({
     };
   }, []);
 
-  // Kiosk: return to a fresh Hindi intro after a period without interaction.
-  // Nothing to reset when the intro is already showing in Hindi.
+  // Kiosk: back to the portal's home page after a period without interaction.
+  // Not from the intro in Hindi, which is where a new player starts anyway, nor from the end
+  // panels, which count down to the home page themselves (HomeCountdown).
   useEffect(() => {
-    if (phase === 'intro' && lang === 'hi') return undefined;
+    if ((phase === 'intro' && lang === 'hi') || phase === 'finale' || phase === 'over') return undefined;
     let timer = setTimeout(onIdle, TIMING.idleReset);
     const bump = () => {
       clearTimeout(timer);

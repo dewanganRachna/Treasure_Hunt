@@ -1,6 +1,7 @@
 import { starsFor } from '../data/explorerConfig';
 import { t } from '../data/i18n';
 import { LAUNCHER_URL } from '../data/platform';
+import HomeCountdown from './HomeCountdown';
 import Stars from './Stars';
 import TopicIcon from './TopicIcon';
 
@@ -54,12 +55,11 @@ export default function FinaleBanner({ lang, topic, name, firstTry, total, time,
         <button type="button" className="bt" onClick={onPlayAgain} autoFocus>
           {t(lang, 'again')}
         </button>
-        {LAUNCHER_URL && (
-          <a className="bt o" href={LAUNCHER_URL}>
-            {t(lang, 'allGames')} →
-          </a>
-        )}
+        <a className="bt o" href={LAUNCHER_URL}>
+          {t(lang, 'home')} →
+        </a>
       </div>
+      <HomeCountdown lang={lang} />
     </section>
   );
 }

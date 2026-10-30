@@ -9,7 +9,7 @@ npm run deploy
 ## What you need
 
 - **Server:** Linux with nginx already running your site, SSH access, and a user that can `sudo`. Node is **not** needed on the server, unless you build there (see [Deploying from the server itself](#deploying-from-the-server-itself)).
-- **Kiosks:** internet access to `cggeomap.cgstate.gov.in`, because the kiosk browser sends wins to the certificate API itself.
+- **Kiosks:** internet access to `cggeomap.cgstate.gov.in`, because the kiosk browser opens the Rajyotsav portal there and sends wins to the certificate API itself.
 - **Your computer:** Node 20.19+ or 22.12+ (Vite needs it to build), and `ssh`, `scp`, `tar`. Those three come with Windows 10/11, macOS and Linux.
 
 ## First deploy
@@ -22,7 +22,7 @@ npm run deploy
 
    `deploy/deploy.env` is git-ignored. If the server hosts more than one site, also set `NGINX_SERVER_NAME` to the domain or IP address the kiosks open. The installer then finds the nginx file and `server { }` block whose `server_name` lists it. Set `NGINX_SITE` to the file (for example `/etc/nginx/conf.d/default.conf`) only if several files serve that name.
 
-   Once the select-game screen exists, set `LAUNCHER_URL` to its address and deploy again. That adds the **All games** links and sends idle kiosks back to it. The launcher should link to `https://<your-server>/treasure_hunt/`.
+   EXIT, Home and the idle and end-of-game returns go to the Rajyotsav portal's home page, `https://cggeomap.cgstate.gov.in/rajyotsav_portal/modules/home/home.html`. Set `LAUNCHER_URL` only to send them somewhere else. The portal should link to `https://<your-server>/treasure_hunt/`.
 
 2. Run `npm run deploy`. It runs `npm ci`, the linter and a production build for `/treasure_hunt/`. Then it uploads the build over SSH and runs `deploy/server/install.sh` with `sudo`.
 
@@ -52,7 +52,7 @@ It runs `nginx -t` before reloading. If nginx rejects anything, every change is 
 - Every game file (page, scripts, fonts, map) needs that cookie. Someone who copies the URL to another device gets the login page instead of the game.
 - `/treasure_hunt/logout` logs out the device it's opened on.
 - The kiosk browser must keep cookies between restarts: use a normal Chrome profile with `--kiosk`, not `--incognito`.
-- If the select-game screen is on another site, the redirect to the game still carries the cookie, as long as the kiosk logged in to the game once.
+- The portal is on another site, but its link to the game still carries the cookie, as long as the kiosk logged in to the game once.
 
 ## Certificates
 
@@ -155,7 +155,7 @@ Pulling keeps working as before. The trade-off: with write access, anyone who ge
 
 ## Kiosk setup tips
 
-- **Browser.** Open the select-game screen (or `https://<your-server>/treasure_hunt/`) in Chrome with `--kiosk`, in a normal profile so the login cookie survives restarts (not `--incognito`). After logging in once it goes straight to the game. Useful extra Chrome flags:
+- **Browser.** Open the Rajyotsav portal's home page in Chrome with `--kiosk`, in a normal profile so login cookies survive restarts (not `--incognito`). The portal has its own login page, so log in to the portal once and to the game once. After that, the game opens straight from the portal. Useful extra Chrome flags:
   - `--noerrdialogs --disable-session-crashed-bubble` (no restore prompts after a power cut)
   - `--overscroll-history-navigation=0` (no swipe-back)
   - `--disable-pinch` (belt and braces; the game already blocks zoom)
@@ -163,7 +163,7 @@ Pulling keeps working as before. The trade-off: with write access, anyone who ge
 - **Typing names.** The game brings its own on-screen keyboard, so the Windows touch keyboard isn't needed. You can leave its automatic pop-up off.
 - **Windows.** Turn off screen sleep and screen saver, turn off edge-swipe gestures, and start Chrome automatically at login.
 - **Fullscreen.** Press the game's fullscreen button if the browser isn't already fullscreen.
-- **Idle.** After 2 minutes without touches the game goes back to the select-game screen (`LAUNCHER_URL`), or to a fresh Hindi start screen if none is set.
+- **Back to the portal.** EXIT goes back to the portal's home page from any screen. The win and game-over panels go there by themselves 4 minutes after they open, and other screens after 2 minutes without a touch.
 
 ## Troubleshooting
 

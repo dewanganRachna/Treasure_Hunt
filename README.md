@@ -8,11 +8,11 @@ A touchscreen game for exhibition kiosks. Visitors travel across an illustrated 
 ## Where it fits
 
 ```
-select-game screen (built separately)
+Rajyotsav portal home page (cggeomap.cgstate.gov.in/rajyotsav_portal/modules/home/home.html)
    └─ player taps this game ─► https://<server>/treasure_hunt/   (kiosk logged in once, see deploy/)
         START → name → topic → 10 stops → win ─► POST Rajyotsav certificate API (from the browser)
                                          ◄── QR code of the PDF certificate, shown on the finale
-        "All games" / 2 min idle ─► back to the select-game screen (LAUNCHER_URL)
+        EXIT (any screen) / Home (end panels) / 4 min after the end / 2 min idle ─► back to the portal
 ```
 
 ## How a game goes
@@ -20,10 +20,10 @@ select-game screen (built separately)
 1. **Start screen.** The whole state is shown, with the route and a closed treasure chest waiting at Bastar. START leads to a **"What's your name?"** step with an on-screen keyboard (the name is printed on the certificate), then to **"choose your topic"**: Cyber Safety, Digital Seva or AI Explorer. One tap on a topic starts the journey.
 2. **10 stops.** The camera flies to each stop. On landing, a ring pulses out of the waypoint, a gold thread runs to the panel, and the question card glides in:
    - A right answer turns green and shows a one-line explanation. **Continue** walks the traveller along the trail to the next stop.
-   - **Only one wrong answer is allowed in the whole game.** The first wrong answer empties the heart in the progress bar and the player tries the same question again. A second wrong answer anywhere ends the game: the right answer is shown, the stop turns red, and a Game Over panel says how far they got, with the explanation and **Play again**.
+   - **Only one wrong answer is allowed in the whole game.** The first wrong answer empties the heart in the progress bar and the player tries the same question again. A second wrong answer anywhere ends the game: the right answer is shown, the stop turns red, and a Game Over panel says how far they got, with the explanation, **Play again** and **Home**.
    - All 10 questions come from the chosen topic, with no repeats within a game.
 3. **Treasure.** The 10th question is asked at Bastar. Answering it shakes the chest, flips its lid open, and gold coins burst out before the confetti fires.
-4. **Finale.** The player's name, 3 stars for a perfect run (2 with the one allowed mistake), and the time taken. The **certificate QR code** appears here: scanning it with a phone downloads the PDF. If the certificate service can't be reached, a message and **Try again** button show instead. Then **Play again** (with a fresh, empty name) or **All games**.
+4. **Finale.** The player's name, 3 stars for a perfect run (2 with the one allowed mistake), and the time taken. The **certificate QR code** appears here: scanning it with a phone downloads the PDF. If the certificate service can't be reached, a message and **Try again** button show instead. Then **Play again** (with a fresh, empty name) or **Home**. Under them, a countdown from 4:00 shows when the kiosk goes back to the portal's home page by itself.
 
 ## Certificate
 
@@ -38,12 +38,12 @@ POST https://cggeomap.cgstate.gov.in/rajyotsav/api/certificate
 - The kiosk's browser calls the API directly; the API allows this (`Access-Control-Allow-Origin: *`). It is **not** routed through our server: the API's server uses an old TLS setup that browsers accept but OpenSSL 3 (Node, newer nginx) refuses.
 - The game shows the `qrCode` the API returns; it never makes its own QR.
 - Exactly one request is made per win (again only from **Try again** after a failure), because each call creates a new PDF.
-- `gameName` and the launcher address are set in [src/data/platform.js](src/data/platform.js).
+- `gameName` and the portal's home page address are set in [src/data/platform.js](src/data/platform.js).
 
 Kiosk behaviour:
 - **Name on an on-screen keyboard.** The name step has its own large keyboard (letters, space, dot, hyphen, delete, clear, start). It capitalises each word ("asha verma" → "Asha Verma"), and the device's own keyboard never opens. A physical keyboard also works.
 - **No leftover names.** Every new game, including Play again and Restart, starts with an empty name, so the next visitor never sees the previous player's name.
-- **Idle return.** 2 minutes without a touch goes back to the select-game screen (or, with no launcher set, to a fresh start screen in Hindi).
+- **Back to the portal.** EXIT in the header leaves for the Rajyotsav portal's home page from any screen. The win and game-over panels go there by themselves 4 minutes after they open, touched or not. Other screens go there after 2 minutes without a touch, except the start screen in Hindi, where the next player begins anyway.
 - **Locked down.** No pinch-zoom, pull-to-refresh, long-press menus, dragging images off, or Ctrl-zoom.
 - **Inviting when idle.** START pulses gently.
 - **Fair.** Answer order is shuffled every game, so the right answer isn't always in the same place.
@@ -91,7 +91,7 @@ Locally a win calls the real certificate API too, so every won test game creates
 | `mock` | a local stand-in that returns a sample QR after a short delay |
 | `fail` | the stand-in answering 503, to see the error and **Try again** |
 
-`VITE_LAUNCHER_URL=https://…` shows the **All games** links locally.
+`VITE_LAUNCHER_URL=https://…` sends EXIT, Home and the returns somewhere other than the portal's home page.
 
 ## Deploying
 
@@ -122,6 +122,7 @@ src/
     QuestionCard.jsx        question, answers, explanation, Continue
     FinaleBanner.jsx        congratulations, stars, time and the certificate QR
     GameOverPanel.jsx       shown after the second wrong answer
+    HomeCountdown.jsx       4-minute countdown to the portal's home page on both end panels
     Stars.jsx, ConfettiCanvas.jsx, ErrorBoundary.jsx
   data/
     questions.json          question bank (Hindi + English)
@@ -129,7 +130,7 @@ src/
     journey.js              topics, 10 questions from the chosen topic, answer shuffling
     explorerConfig.js       stage layouts, waypoints, camera, timings, mistakes allowed, star thresholds
     i18n.js                 interface text in Hindi and English
-    platform.js             gameName, launcher URL, certificate endpoint
+    platform.js             gameName, portal home page URL, certificate endpoint
   assets/map-overlay.svg    route, waypoints and treasure drawn over the terrain
   utils/audio.js            Web Audio sound effects (no files)
   utils/motion.js           reduced-motion helpers

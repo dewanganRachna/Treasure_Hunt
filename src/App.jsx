@@ -55,15 +55,8 @@ export default function App() {
 
   const restart = useCallback(() => setGameKey((k) => k + 1), []);
 
-  // Kiosk idle reset: back to the select-game screen if there is one, otherwise a fresh start in Hindi
-  const idleReset = useCallback(() => {
-    if (LAUNCHER_URL) {
-      window.location.assign(LAUNCHER_URL);
-      return;
-    }
-    setLang('hi');
-    setGameKey((k) => k + 1);
-  }, []);
+  // Kiosk idle reset: back to the Rajyotsav portal's home page
+  const idleReset = useCallback(() => window.location.assign(LAUNCHER_URL), []);
 
   // Focusing an element near the edge can scroll the clipped stage sideways; undo it
   const lockScroll = (e) => {

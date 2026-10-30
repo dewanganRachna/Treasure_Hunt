@@ -228,6 +228,10 @@
   background: #fff;
   border-color: var(--am);
 }
+/* EXIT is a link to the portal's home page */
+a.tb {
+  text-decoration: none;
+}
 .tb.off {
   opacity: 0.5;
 }
@@ -793,7 +797,7 @@
     animation: none;
   }
 }
-/* "All games" is a link to the launcher, styled like the buttons */
+/* Home is a link to the portal's home page, styled like the buttons */
 a.bt {
   display: inline-block;
   text-decoration: none;
@@ -1194,6 +1198,11 @@ button.back-link {
   padding: 13px 30px;
   font-size: 17px;
 }
+.finale .home-in {
+  margin: 14px 0 0;
+  font-size: 13.5px;
+  font-variant-numeric: tabular-nums;
+}
 .over h2 {
   color: var(--bad);
 }
@@ -1396,11 +1405,11 @@ svg.ov #ch { transform: scale(2.2); }
 .portrait .intro {
   transform: none;
 }
-.portrait .card {
-  min-height: 0;
-  max-height: calc(100% - 116px);
-  margin: 0;
-}
+.portrait .card {
+  min-height: 0;
+  max-height: calc(100% - 116px);
+  margin: 0;
+}
 .portrait .intro .orb {
   display: none;
 }

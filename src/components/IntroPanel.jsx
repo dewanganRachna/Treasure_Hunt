@@ -1,16 +1,10 @@
 import { t } from '../data/i18n';
 import { CATEGORIES } from '../data/journey';
-import { LAUNCHER_URL } from '../data/platform';
 import TopicIcon from './TopicIcon';
 
 export default function IntroPanel({ lang, onStart }) {
   return (
     <section className="intro glass" aria-labelledby="intro-title">
-      {LAUNCHER_URL && (
-        <a className="back-link" href={LAUNCHER_URL}>
-          ← {t(lang, 'allGames')}
-        </a>
-      )}
       <div className="eyebrow">
         <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#a86e18" strokeWidth="1.7" aria-hidden="true">
           <path d="M3 9.5 12 4l9 5.5M5 10v8M19 10v8M3 20h18M9 10v8M15 10v8" />
