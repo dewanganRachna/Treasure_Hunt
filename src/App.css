@@ -198,7 +198,7 @@
   fill: transparent;
   stroke: rgba(107, 88, 57, 0.45);
 }
-/* Game time: runs from the first flight and stops when the game is won or lost */
+/* Time left: counts down from the first flight and stops when the game is won or lost */
 .clock {
   display: flex;
   align-items: center;
@@ -212,6 +212,13 @@
 .clock svg {
   width: 16px;
   height: 16px;
+}
+.clock.low {
+  color: var(--bad);
+  animation: clock-low 1s ease-in-out infinite;
+}
+@keyframes clock-low {
+  50% { opacity: 0.45; }
 }
 .lives.used svg {
   animation: heart-lost 0.55s;

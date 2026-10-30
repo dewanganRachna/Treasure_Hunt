@@ -130,6 +130,9 @@ export const TIMING = {
 /** Wrong answers allowed in a whole game; the next one ends it. */
 export const MISTAKES_ALLOWED = 1;
 
+/** Time for a whole game, from the first flight; the header counts it down and 0:00 ends the game. */
+export const TIME_LIMIT = 180000;
+
 /** Stars for answers that were right on the first try: a perfect run gets 3, one mistake gets 2 */
 export const STAR_THRESHOLDS = [10, 9]; // ≥10 → 3 stars, ≥9 → 2 stars, otherwise 1
 

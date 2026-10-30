@@ -25,5 +25,6 @@ export default function HomeCountdown({ lang }) {
     return () => clearInterval(tick);
   }, []);
 
-  return <p className="home-in">{t(lang, 'homeIn', { time: formatDuration(left) })}</p>;
+  // Rounded up, so 0:00 shows only as the home page opens
+  return <p className="home-in">{t(lang, 'homeIn', { time: formatDuration(Math.ceil(left / 1000) * 1000) })}</p>;
 }

@@ -1,3 +1,4 @@
+import { TIME_LIMIT } from '../data/explorerConfig';
 import { t } from '../data/i18n';
 import { CATEGORIES } from '../data/journey';
 import TopicIcon from './TopicIcon';
@@ -43,7 +44,7 @@ export default function IntroPanel({ lang, onStart }) {
         ))}
       </div>
 
-      <div className="intro-note">{t(lang, 'note')}</div>
+      <div className="intro-note">{t(lang, 'note', { min: TIME_LIMIT / 60000 })}</div>
       <button type="button" className="bt bt-start" onClick={onStart}>
         <span className="start-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round">

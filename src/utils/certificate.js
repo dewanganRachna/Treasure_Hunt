@@ -2,9 +2,12 @@ import { CERTIFICATE_ENDPOINT, GAME_NAME } from '../data/platform';
 
 const TIMEOUT_MS = 20000;
 
-/** Milliseconds as "m:ss", the format the certificate API expects (105000 → "1:45"). */
+/**
+ * Milliseconds as "m:ss", the format the certificate API expects (105000 → "1:45"). Part-seconds
+ * are dropped, like a stopwatch, so time used plus the header's time left (rounded up) is 3:00.
+ */
 export function formatDuration(ms) {
-  const s = Math.max(0, Math.round(ms / 1000));
+  const s = Math.max(0, Math.floor(ms / 1000));
   return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
 }
 

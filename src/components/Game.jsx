@@ -8,7 +8,7 @@ import QuestionCard from './QuestionCard';
 import FinaleBanner from './FinaleBanner';
 import GameOverPanel from './GameOverPanel';
 import ConfettiCanvas from './ConfettiCanvas';
-import { MISTAKES_ALLOWED, TIMING, WAYPOINTS } from '../data/explorerConfig';
+import { MISTAKES_ALLOWED, TIME_LIMIT, TIMING, WAYPOINTS } from '../data/explorerConfig';
 import { buildJourneyQuestions } from '../data/journey';
 import { sound } from '../utils/audio';
 import { formatDuration, requestCertificate } from '../utils/certificate';
@@ -31,7 +31,7 @@ export default function Game({
   onRestart,
   onIdle
 }) {
-  const [phase, setPhase] = useState('intro'); // 'intro' | 'name' | 'topic' | 'play' | 'finale' | 'over'
+  const [phase, setPhase] = useState('intro'); // 'intro' | 'name' | 'topic' | 'play' | 'finale' | 'over' | 'timeup'
   // All 10 questions come from the topic the player picks, so they're built at that moment
   const [topic, setTopic] = useState(null);
   const [questions, setQuestions] = useState([]);
@@ -46,8 +46,9 @@ export default function Game({
   // next visitor never sees the previous player's name
   const [playerName, setPlayerName] = useState('');
   const [timeTaken, setTimeTaken] = useState('');
-  // The header's game clock, as performance.now() times: start when the first flight begins,
-  // end when the game is won or lost (0 = not yet). The certificate's time comes from it too.
+  // The game clock, as performance.now() times: start when the first flight begins, end when the
+  // game is won or lost (0 = not yet). The header counts TIME_LIMIT down from start, and the
+  // certificate's time is end - start.
   const [clock, setClock] = useState({ start: 0, end: 0 });
   const [cert, setCert] = useState({ status: 'idle' }); // 'idle' | 'loading' | 'ready' | 'error'
 
@@ -58,6 +59,8 @@ export default function Game({
   const alive = useRef(true);
   const busy = useRef(false);
   const advancing = useRef(false);
+  // The time ran out: a flight still under way lands without opening a question
+  const timeUp = useRef(false);
 
   useEffect(() => {
     alive.current = true;
@@ -70,7 +73,7 @@ export default function Game({
   // Not from the intro in Hindi, which is where a new player starts anyway, nor from the end
   // panels, which count down to the home page themselves (HomeCountdown).
   useEffect(() => {
-    if ((phase === 'intro' && lang === 'hi') || phase === 'finale' || phase === 'over') return undefined;
+    if ((phase === 'intro' && lang === 'hi') || phase === 'finale' || phase === 'over' || phase === 'timeup') return undefined;
     let timer = setTimeout(onIdle, TIMING.idleReset);
     const bump = () => {
       clearTimeout(timer);
@@ -84,6 +87,21 @@ export default function Game({
       window.removeEventListener('keydown', bump);
     };
   }, [phase, lang, onIdle]);
+
+  // A whole game has TIME_LIMIT. Running out ends it like a second wrong answer, closing any
+  // open question. Winning or losing first stops the clock, which clears this timer.
+  useEffect(() => {
+    if (!clock.start || clock.end) return undefined;
+    const timer = setTimeout(() => {
+      timeUp.current = true;
+      busy.current = true;
+      setClock((c) => ({ ...c, end: c.start + TIME_LIMIT }));
+      setCard((c) => ({ ...c, open: false, arrive: false }));
+      sound.gameOver();
+      setPhase('timeup');
+    }, clock.start + TIME_LIMIT - performance.now());
+    return () => clearTimeout(timer);
+  }, [clock]);
 
   /** Sleep, then report whether this game is still mounted. */
   const wait = async (ms) => {
@@ -146,7 +164,7 @@ export default function Game({
     const map = mapRef.current;
     map.beginJourney();
     await map.flyTo(0);
-    if (!alive.current) return;
+    if (!alive.current || timeUp.current) return;
     arriveAt(0);
   };
 
@@ -243,7 +261,7 @@ export default function Game({
     }
     const map = mapRef.current;
     await Promise.all([map.flyTo(j + 1), map.travel(j, prefersReducedMotion() ? 0 : TIMING.travel)]);
-    if (!alive.current) return;
+    if (!alive.current || timeUp.current) return;
     arriveAt(j + 1);
   };
 
@@ -343,8 +361,15 @@ export default function Game({
           onPlayAgain={onRestart}
         />
       )}
-      {phase === 'over' && (
-        <GameOverPanel lang={lang} question={questions[card.index]} cleared={card.index} total={questions.length} onPlayAgain={onRestart} />
+      {(phase === 'over' || phase === 'timeup') && (
+        <GameOverPanel
+          lang={lang}
+          timeUp={phase === 'timeup'}
+          question={questions[card.index]}
+          cleared={Math.max(cur, 0)}
+          total={questions.length}
+          onPlayAgain={onRestart}
+        />
       )}
     </>
   );
