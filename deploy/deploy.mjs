@@ -100,7 +100,7 @@ const cfg = {
   key: values.key ?? setting('DEPLOY_SSH_KEY'),
   urlPath,
   publicUrl: setting('PUBLIC_URL').replace(/\/+$/, ''),
-  // Home page for EXIT, Home and the returns; empty keeps the Rajyotsav portal built into the game
+  // Where the HOME buttons and the returns go; empty keeps the portal page built into the game
   launcherUrl: setting('LAUNCHER_URL'),
   // Certificate API the browser posts wins to; baked into the build
   certApiUrl: setting('CERT_API_URL', 'https://cggeomap.cgstate.gov.in/rajyotsav/api/certificate'),

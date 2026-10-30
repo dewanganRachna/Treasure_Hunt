@@ -71,12 +71,12 @@ export default function Header({ cur, mistakesLeft, clock, lang, muted, onToggle
           </svg>
           <span className="tl">{t(lang, 'restart')}</span>
         </button>
-        <a className="tb" href={LAUNCHER_URL} aria-label={t(lang, 'exit')}>
+        <a className="tb" href={LAUNCHER_URL} aria-label={t(lang, 'homeTool')}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M10 4H5v16h5" />
-            <path d="M15 8l4 4-4 4M19 12H9" />
+            <path d="M3.5 11.5 12 4.5l8.5 7" />
+            <path d="M6 10v9.5h12V10M10 19.5v-5.5h4v5.5" />
           </svg>
-          <span className="tl">{t(lang, 'exit')}</span>
+          <span className="tl">{t(lang, 'homeTool')}</span>
         </a>
       </div>
     </header>

@@ -7,9 +7,9 @@
 export const GAME_NAME = 'Treasure Hunt';
 
 /**
- * The Rajyotsav portal's home page, where players pick a game. EXIT (on every screen), Home and
- * the countdown on the end panels, and the idle reset all go there. VITE_LAUNCHER_URL overrides
- * it at build time (deploy sets it from LAUNCHER_URL in deploy/deploy.env).
+ * The Rajyotsav portal's home page, where players pick a game. HOME in the header (every screen),
+ * Home and the countdown on the end panels, and the idle reset all go there. VITE_LAUNCHER_URL
+ * overrides it at build time (deploy sets it from LAUNCHER_URL in deploy/deploy.env).
  */
 export const LAUNCHER_URL =
   import.meta.env.VITE_LAUNCHER_URL || 'https://cggeomap.cgstate.gov.in/rajyotsav_portal/modules/home/home.html';

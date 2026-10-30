@@ -12,7 +12,7 @@ Rajyotsav portal home page (cggeomap.cgstate.gov.in/rajyotsav_portal/modules/hom
    └─ player taps this game ─► https://<server>/treasure_hunt/   (kiosk logged in once, see deploy/)
         START → name → topic → 10 stops → win ─► POST Rajyotsav certificate API (from the browser)
                                          ◄── QR code of the PDF certificate, shown on the finale
-        EXIT (any screen) / Home (end panels) / 4 min after the end / 2 min idle ─► back to the portal
+        HOME (any screen, and on the end panels) / 4 min after the end / 2 min idle ─► back to the portal
 ```
 
 ## How a game goes
@@ -43,7 +43,7 @@ POST https://cggeomap.cgstate.gov.in/rajyotsav/api/certificate
 Kiosk behaviour:
 - **Name on an on-screen keyboard.** The name step has its own large keyboard (letters, space, dot, hyphen, delete, clear, start). It capitalises each word ("asha verma" → "Asha Verma"), and the device's own keyboard never opens. A physical keyboard also works.
 - **No leftover names.** Every new game, including Play again and Restart, starts with an empty name, so the next visitor never sees the previous player's name.
-- **Back to the portal.** EXIT in the header leaves for the Rajyotsav portal's home page from any screen. The win and game-over panels go there by themselves 4 minutes after they open, touched or not. Other screens go there after 2 minutes without a touch, except the start screen in Hindi, where the next player begins anyway.
+- **Back to the portal.** HOME in the header leaves for the Rajyotsav portal's home page from any screen. The win and game-over panels go there by themselves 4 minutes after they open, touched or not. Other screens go there after 2 minutes without a touch, except the start screen in Hindi, where the next player begins anyway.
 - **Locked down.** No pinch-zoom, pull-to-refresh, long-press menus, dragging images off, or Ctrl-zoom.
 - **Inviting when idle.** START pulses gently.
 - **Fair.** Answer order is shuffled every game, so the right answer isn't always in the same place.
@@ -91,7 +91,7 @@ Locally a win calls the real certificate API too, so every won test game creates
 | `mock` | a local stand-in that returns a sample QR after a short delay |
 | `fail` | the stand-in answering 503, to see the error and **Try again** |
 
-`VITE_LAUNCHER_URL=https://…` sends EXIT, Home and the returns somewhere other than the portal's home page.
+`VITE_LAUNCHER_URL=https://…` sends the HOME buttons and the returns somewhere other than the portal's home page.
 
 ## Deploying
 

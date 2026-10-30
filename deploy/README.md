@@ -22,7 +22,7 @@ npm run deploy
 
    `deploy/deploy.env` is git-ignored. If the server hosts more than one site, also set `NGINX_SERVER_NAME` to the domain or IP address the kiosks open. The installer then finds the nginx file and `server { }` block whose `server_name` lists it. Set `NGINX_SITE` to the file (for example `/etc/nginx/conf.d/default.conf`) only if several files serve that name.
 
-   EXIT, Home and the idle and end-of-game returns go to the Rajyotsav portal's home page, `https://cggeomap.cgstate.gov.in/rajyotsav_portal/modules/home/home.html`. Set `LAUNCHER_URL` only to send them somewhere else. The portal should link to `https://<your-server>/treasure_hunt/`.
+   The HOME buttons and the idle and end-of-game returns go to the Rajyotsav portal's home page, `https://cggeomap.cgstate.gov.in/rajyotsav_portal/modules/home/home.html`. Set `LAUNCHER_URL` only to send them somewhere else. The portal should link to `https://<your-server>/treasure_hunt/`.
 
 2. Run `npm run deploy`. It runs `npm ci`, the linter and a production build for `/treasure_hunt/`. Then it uploads the build over SSH and runs `deploy/server/install.sh` with `sudo`.
 
@@ -163,7 +163,7 @@ Pulling keeps working as before. The trade-off: with write access, anyone who ge
 - **Typing names.** The game brings its own on-screen keyboard, so the Windows touch keyboard isn't needed. You can leave its automatic pop-up off.
 - **Windows.** Turn off screen sleep and screen saver, turn off edge-swipe gestures, and start Chrome automatically at login.
 - **Fullscreen.** Press the game's fullscreen button if the browser isn't already fullscreen.
-- **Back to the portal.** EXIT goes back to the portal's home page from any screen. The win and game-over panels go there by themselves 4 minutes after they open, and other screens after 2 minutes without a touch.
+- **Back to the portal.** HOME in the header goes back to the portal's home page from any screen. The win and game-over panels go there by themselves 4 minutes after they open, and other screens after 2 minutes without a touch.
 
 ## Troubleshooting
 
