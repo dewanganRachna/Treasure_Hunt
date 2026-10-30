@@ -114,7 +114,7 @@ src/
   components/
     Game.jsx                one playthrough: intro → 10 stops → treasure → finale, idle reset
     ExplorerMap.jsx         terrain + SVG overlay, camera, traveller and trail animation
-    Header.jsx              title, progress dots, language / sound / fullscreen / restart
+    Header.jsx              CHiPS logo, title, progress dots, language / sound / fullscreen / restart
     IntroPanel.jsx          start screen
     NamePanel.jsx           "What's your name?" step after START
     TopicPanel.jsx          "choose your topic" step after the name

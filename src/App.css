@@ -121,16 +121,15 @@
   border-bottom: 1px solid var(--line);
   box-shadow: 0 2px 14px rgba(80, 60, 25, 0.1);
 }
+/* The CHiPS logo (src/assets/chips-logo.png, 2:1) */
 .hdr-logo {
-  width: 40px;
-  height: 40px;
   flex: none;
-  border-radius: 11px;
-  background: linear-gradient(145deg, #f3e3bb, #e2cd9c);
-  border: 1px solid rgba(107, 88, 57, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
+  width: 84px;
+  height: 42px;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(60, 40, 10, 0.28);
+  user-select: none;
 }
 .hdr-title {
   min-width: 0;
@@ -1599,6 +1598,14 @@ svg.ov #ch { transform: scale(2.2); }
 }
 .portrait .hdr-title {
   flex: 1;
+}
+.portrait .hdr-logo {
+  width: 68px;
+  height: 34px;
+}
+/* The logo already says CHiPS, and the chips must fit beside the buttons */
+.portrait .chips-name {
+  display: none;
 }
 .portrait .hdr .ti {
   font-size: 16px;

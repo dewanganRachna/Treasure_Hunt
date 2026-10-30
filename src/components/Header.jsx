@@ -1,3 +1,4 @@
+import chipsLogo from '../assets/chips-logo.png';
 import { WAYPOINTS } from '../data/explorerConfig';
 import { t } from '../data/i18n';
 import { LAUNCHER_URL } from '../data/platform';
@@ -12,15 +13,13 @@ const HEART = 'M12 20.3s-7.6-4.6-9.2-9.4C1.6 7.3 3.9 4 7.3 4c2 0 3.6 1.1 4.7 2.7
 export default function Header({ cur, mistakesLeft, clock, lang, muted, onToggleLang, onToggleSound, onFullscreen, onRestart }) {
   return (
     <header className="hdr">
-      <div className="hdr-logo" aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="22" height="22">
-          <polygon points="12,2.4 21,7.2 21,16.8 12,21.6 3,16.8 3,7.2" fill="none" stroke="#a86e18" strokeWidth="1.6" strokeLinejoin="round" />
-          <circle cx="12" cy="12" r="3.4" fill="#c98a24" />
-        </svg>
-      </div>
+      <img className="hdr-logo" src={chipsLogo} width="84" height="42" alt="CHiPS" draggable={false} />
       <div className="hdr-title">
         <div className="cp">
-          <span className="chipl">CHiPS · {t(lang, 'gov')}</span>
+          <span className="chipl">
+            <span className="chips-name">CHiPS · </span>
+            {t(lang, 'gov')}
+          </span>
           <span className="chipl g">{t(lang, 'fest')}</span>
         </div>
         <div className="ti">{t(lang, 'title')}</div>
