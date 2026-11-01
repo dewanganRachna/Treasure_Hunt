@@ -413,7 +413,7 @@
         },
         {
           "id": "AI006",
-          "question": "Voice Recognition Technology का उपयोग किसलिए किया जाता है?",
+          "question": "Voice Recognition Technology का उपयोग किस लिए किया जाता है?",
           "questionEn": "What is voice recognition technology used for?",
           "options": [
             "Screen का आकार बदलने के लिए",
@@ -434,7 +434,7 @@
         },
         {
           "id": "AI007",
-          "question": "AI-Based Translation Tool का उपयोग किसलिए किया जाता है?",
+          "question": "AI-Based Translation Tool का उपयोग किस लिए किया जाता है?",
           "questionEn": "What is an AI-based translation tool used for?",
           "options": [
             "एक भाषा के Text को दूसरी भाषा में बदलने के लिए",
@@ -756,7 +756,7 @@
         },
         {
           "id": "DS011",
-          "question": "DigiLocker जैसी Digital Document Service का उपयोग किसलिए किया जाता है?",
+          "question": "DigiLocker जैसी Digital Document Service का उपयोग किस लिए किया जाता है?",
           "questionEn": "What is a digital document service like DigiLocker used for?",
           "options": [
             "उपलब्ध Digital Documents को सुरक्षित रूप से Access और Share करने के लिए",
@@ -777,7 +777,7 @@
         },
         {
           "id": "DS012",
-          "question": "Digital Signature का उपयोग किसलिए किया जा सकता है?",
+          "question": "Digital Signature का उपयोग किस लिए किया जा सकता है?",
           "questionEn": "What can a digital signature be used for?",
           "options": [
             "Mobile का Wallpaper बदलने के लिए",
