@@ -112,7 +112,8 @@
   z-index: 7;
   display: flex;
   align-items: center;
-  gap: 16px;
+  /* Tight enough for the logo and the English title beside the progress bar */
+  gap: 12px;
   padding: 0 18px;
   box-sizing: border-box;
   background: rgba(253, 246, 228, 0.92);
@@ -125,9 +126,9 @@
 .hdr-logo {
   flex: none;
   display: block;
-  width: 84px;
-  height: 42px;
-  border-radius: 6px;
+  width: 64px;
+  height: 32px;
+  border-radius: 5px;
   box-shadow: 0 1px 4px rgba(60, 40, 10, 0.28);
   user-select: none;
 }
@@ -648,50 +649,42 @@ a.tb {
   margin-top: 9px;
   line-height: 1.45;
 }
-.intro-cards {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
+/* The three topics as information, not buttons: plain text between two hairlines */
+.intro-topics {
   margin-top: 14px;
   width: 100%;
+  padding: 10px 0 11px;
+  border-top: 1px dashed var(--line);
+  border-bottom: 1px dashed var(--line);
 }
-.intro-cards .c {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  padding: 8px 14px 8px 10px;
-  border-radius: 13px;
-  background: rgba(255, 253, 246, 0.92);
-  border: 1px solid var(--line);
-  box-shadow: 0 4px 14px rgba(80, 60, 25, 0.1);
+.intro-topics .lbl {
+  font: 500 12.5px 'Noto Sans Devanagari', Outfit, sans-serif;
+  color: var(--tx2);
 }
-.intro-cards .n {
-  width: 31px;
-  height: 31px;
-  flex: none;
-  border-radius: 10px;
-  background: rgba(201, 138, 36, 0.14);
-  border: 1px solid rgba(201, 138, 36, 0.3);
+.intro-topics ul {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
   justify-content: center;
-  font: 800 15px Outfit;
-  color: var(--amd);
+  row-gap: 4px;
 }
-.intro-cards .t {
-  text-align: left;
+.intro-topics li {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font: 600 14px 'Noto Sans Devanagari', Outfit, sans-serif;
+  color: var(--tx);
 }
-.intro-cards .t small {
-  display: block;
-  font: 700 8.5px Outfit, 'Noto Sans Devanagari', sans-serif;
-  letter-spacing: 1.6px;
+.intro-topics li svg {
   color: var(--am2);
-  text-transform: uppercase;
 }
-.intro-cards .t b {
-  display: block;
-  font: 700 14.5px 'Noto Sans Devanagari', Outfit, sans-serif;
-  margin-top: 2px;
+.intro-topics li + li::before {
+  content: '·';
+  margin: 0 9px;
+  font-weight: 800;
+  color: var(--am);
 }
 .intro-note {
   margin-top: 12px;
@@ -1142,9 +1135,6 @@ button.back-link {
   border-radius: 20px;
   background: rgba(201, 138, 36, 0.14);
   font: 700 13px 'Noto Sans Devanagari', Outfit, sans-serif;
-  color: var(--amd);
-}
-.intro-cards .n {
   color: var(--amd);
 }
 
@@ -1599,21 +1589,18 @@ svg.ov #ch { transform: scale(2.2); }
 .portrait .hdr-title {
   flex: 1;
 }
-.portrait .hdr-logo {
-  width: 68px;
-  height: 34px;
-}
-/* The logo already says CHiPS, and the chips must fit beside the buttons */
-.portrait .chips-name {
-  display: none;
-}
 .portrait .hdr .ti {
   font-size: 16px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+/* One row of chips beside the buttons: a chip that doesn't fit (RAJYOTSAV SPECIAL in English)
+   wraps to a second row, which is cut off */
 .portrait .hdr .cp {
   gap: 5px;
+  flex-wrap: wrap;
+  height: 16px;
+  overflow: hidden;
 }
 .portrait .chipl {
   font-size: 8.5px;

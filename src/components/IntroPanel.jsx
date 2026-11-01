@@ -30,18 +30,17 @@ export default function IntroPanel({ lang, onStart }) {
       <div className="en">CHHATTISGARH DIGITAL TREASURE HUNT</div>
       <div className="tag">{t(lang, 'tag')}</div>
 
-      <div className="intro-cards">
-        {CATEGORIES.map((id, c) => (
-          <div className="c" key={id}>
-            <span className="n">
-              <TopicIcon id={id} size={18} />
-            </span>
-            <span className="t">
-              <small>{t(lang, 'topicNo', { n: c + 1 })}</small>
-              <b>{t(lang, `cat_${id}`)}</b>
-            </span>
-          </div>
-        ))}
+      {/* The topics, as plain text: they are picked on the step after the name, not here */}
+      <div className="intro-topics">
+        <div className="lbl">{t(lang, 'topicsNext')}</div>
+        <ul>
+          {CATEGORIES.map((id) => (
+            <li key={id}>
+              <TopicIcon id={id} size={16} />
+              {t(lang, `cat_${id}`)}
+            </li>
+          ))}
+        </ul>
       </div>
 
       <div className="intro-note">{t(lang, 'note', { min: TIME_LIMIT / 60000 })}</div>

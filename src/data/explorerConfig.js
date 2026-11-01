@@ -59,7 +59,7 @@ function landscapeLayout(vw, vh) {
 // Portrait (phones held upright): the stage is one panel wide and as tall as the screen allows
 const PORTRAIT_W = 504;
 const PORTRAIT_HEADER = 100;
-const PORTRAIT_INTRO = 552; // intro panel plus its bottom gap
+const PORTRAIT_INTRO = 500; // intro panel plus its bottom gap (450 in Hindi, 505 in English)
 const PORTRAIT_CARD = 470; // typical question card plus its bottom gap
 const STATE_SHARE_OF_WORLD_H = 0.76; // the state fills about this much of the terrain image's height
 

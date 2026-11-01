@@ -13,13 +13,11 @@ const HEART = 'M12 20.3s-7.6-4.6-9.2-9.4C1.6 7.3 3.9 4 7.3 4c2 0 3.6 1.1 4.7 2.7
 export default function Header({ cur, mistakesLeft, clock, lang, muted, onToggleLang, onToggleSound, onFullscreen, onRestart }) {
   return (
     <header className="hdr">
-      <img className="hdr-logo" src={chipsLogo} width="84" height="42" alt="CHiPS" draggable={false} />
+      <img className="hdr-logo" src={chipsLogo} width="64" height="32" alt="CHiPS" draggable={false} />
       <div className="hdr-title">
         <div className="cp">
-          <span className="chipl">
-            <span className="chips-name">CHiPS · </span>
-            {t(lang, 'gov')}
-          </span>
+          {/* The logo beside it says CHiPS */}
+          <span className="chipl">{t(lang, 'gov')}</span>
           <span className="chipl g">{t(lang, 'fest')}</span>
         </div>
         <div className="ti">{t(lang, 'title')}</div>
